@@ -35,21 +35,24 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Toggle */}
-        <div className="block md:hidden">
+        <div className="md:hidden flex gap-2">
+          <ToggleTheme />
           {!navbarOpen ? (
-            <button
+            <Button
               onClick={() => setNavbarOpen(true)}
-              className="flex items-start justify-start px-3 py-2 border rounded"
+              variant="outline"
+              size="icon"
             >
-              <Bars3Icon className="h-5 w-5 text-foreground" />
-            </button>
+              <Bars3Icon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            </Button>
           ) : (
-            <button
+            <Button
               onClick={() => setNavbarOpen(false)}
-              className="flex items-start justify-start px-3 py-2 border rounded"
+              variant="outline"
+              size="icon"
             >
-              <XMarkIcon className="h-5 w-5 text-foreground" />
-            </button>
+              <XMarkIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            </Button>
           )}
         </div>
       </div>
