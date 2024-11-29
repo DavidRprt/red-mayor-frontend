@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react"
 
-export function useGetHomepageItemsByProveedor(proveedorSlug: string) {
+export function useGetHomepageItems() {
   const [result, setResult] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>("")
 
-  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?filters[categoria][proveedor][slug][$eq]=${proveedorSlug}&filters[homepage][$eq]=true&populate=*`
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?filters[homepage][$eq]=true&populate=*`
 
   useEffect(() => {
     ;(async () => {
       try {
         setLoading(true)
         const res = await fetch(url)
-    
+
         const json = await res.json()
 
         if (!res.ok) {

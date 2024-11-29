@@ -14,7 +14,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     slug,
     descripcion = "Sin descripción",
     precioBase,
-    categoria,
+    subcategoria,
     imagenes,
   } = product
 
@@ -38,7 +38,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </CardContent>
       <CardHeader>
         <CardTitle>{nombreProducto}</CardTitle>
-        <CardDescription>{categoria?.nombreCategoria}</CardDescription>
+        <CardDescription>{subcategoria?.nombreSubcategoria}</CardDescription>
         <p className="text-sm text-gray-500 mt-4">SKU: MTL73LE/A</p>
       </CardHeader>
       <CardFooter>

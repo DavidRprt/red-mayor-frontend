@@ -11,10 +11,10 @@ export type ProductType = {
   }[] // Arreglo de imágenes
   activo: boolean // Si el producto está activo
   homepage: boolean // Si aparece en la homepage
-  categoria: {
+  subcategoria: {
     id: number // ID de la categoría
     slug: string // Slug de la categoría
-    nombreCategoria: string // Nombre de la categoría
+    nombreSubcategoria: string // Nombre de la categoría
   }
   descuentoPorMayor?: {
     cantidadMinima: number // Cantidad mínima para aplicar el descuento

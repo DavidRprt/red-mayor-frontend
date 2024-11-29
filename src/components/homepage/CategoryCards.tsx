@@ -31,7 +31,7 @@ const categories = [
 const CategoryCards = () => {
   return (
     <div className="w-full py-4 sm:py-8 sm:px-24 flex items-center flex-col md:items-start">
-      <h3 className="px-6 text-3xl sm:pb-2">Nuestros Proveedores</h3>
+      <h3 className="px-6 text-3xl sm:pb-2">Nuestras marcas</h3>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 w-full mt-3">
         {categories.map((category) => (

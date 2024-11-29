@@ -7,13 +7,14 @@ import {
   CarouselPrevious,
 } from "../ui/carousel"
 import SkeletonSchema from "../ScheletonSchema"
-import { useGetHomepageItemsByProveedor } from "@/api/useGetHomepageProducts"
+import { useGetHomepageItems } from "@/api/useGetHomepageProducts"
 import ProductCard from "../products/ProductCard"
 import { ProductType } from "@/types/product"
 
 const HomepageProducts = () => {
-  const { result, loading }: ResponseType =
-    useGetHomepageItemsByProveedor("energizer")
+  const { result, loading }: ResponseType = useGetHomepageItems()
+
+  console.log(result)
 
   return (
     <div className="w-full py-4 sm:py-8 sm:px-24 flex items-center flex-col md:items-start">
