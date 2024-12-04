@@ -3,6 +3,7 @@ import localFont from "next/font/local"
 import "./globals.css"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
+import CarouselBanner from "@/components/homepage/CarouselBanner"
 import { ThemeProvider } from "@/components/theme-provider"
 
 const geistSans = localFont({
@@ -38,6 +39,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
+          <CarouselBanner />
           <main className="relative overflow-hidden">{children}</main>
           <Footer />
         </ThemeProvider>

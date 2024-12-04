@@ -38,7 +38,11 @@ const filters = [
   },
 ]
 
-const FilterBox = () => {
+interface FilterBoxProps {
+  onSortChange: (value: string) => void
+}
+
+const FilterBox: React.FC<FilterBoxProps> = ({ onSortChange }) => {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
@@ -53,7 +57,7 @@ const FilterBox = () => {
         >
           {value
             ? filters.find((filter) => filter.value === value)?.label
-            : "Filtrar por"}
+            : "Ordernar por"}
           {open ? (
             <ChevronsUp className="opacity-50" />
           ) : (
@@ -71,7 +75,9 @@ const FilterBox = () => {
                   key={filter.value}
                   value={filter.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
+                    const newValue = currentValue === value ? "" : currentValue
+                    setValue(newValue)
+                    onSortChange(newValue)
                     setOpen(false)
                   }}
                 >
