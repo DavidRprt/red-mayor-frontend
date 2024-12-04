@@ -15,11 +15,17 @@ const Navbar = () => {
   const closeNavbar = () => setNavbarOpen(false)
 
   return (
-    <nav className="mx-auto sticky left-0 right-0 top-0 z-30 bg-background text-foreground">
+    <nav className="mx-auto sticky left-0 right-0 top-0 z-30 bg-background dark text-foreground py-2 sm:py-0">
       <div className="flex px-4 py-2 md:py-4 md:px-6 items-center justify-between">
         {/* Logo */}
         <Link href="/">
-          <Image src="/images/logo-dark.png" alt="Logo" width={120} height={60} />
+          <Image
+            src="/images/logo-dark.png"
+            alt="Logo"
+            width={120}
+            height={60}
+            style={{ height: "auto", width: "auto" }}
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -31,12 +37,10 @@ const Navbar = () => {
         <div className="hidden md:flex gap-4">
           <Button variant="default">Iniciar sesión</Button>
           <Button variant="secondary">Registrarse</Button>
-          <ToggleTheme />
         </div>
 
         {/* Mobile Menu Toggle */}
         <div className="md:hidden flex gap-2">
-          <ToggleTheme />
           {!navbarOpen ? (
             <Button
               onClick={() => setNavbarOpen(true)}
