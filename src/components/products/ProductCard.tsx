@@ -1,5 +1,13 @@
 import Image from "next/image"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card"
+import Link from "next/link"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card"
 import { ProductType } from "@/types/product"
 import { Button } from "../ui/button"
 import { ShoppingCart } from "lucide-react"
@@ -27,14 +35,17 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Card className="sm:w-[280px] pt-3 w-full bg-white">
       <CardContent>
-        <Image
-          src={imageUrl}
-          alt={altText}
-          width={300}
-          height={300}
-          className="rounded-lg"
-          unoptimized={true}
-        />
+        {/* Hacemos la imagen clickeable */}
+        <Link href={`/producto/${slug}`} passHref>
+          <Image
+            src={imageUrl}
+            alt={altText}
+            width={300}
+            height={300}
+            className="rounded-lg cursor-pointer"
+            unoptimized={true}
+          />
+        </Link>
       </CardContent>
       <CardHeader>
         <CardTitle>{nombreProducto}</CardTitle>
@@ -43,7 +54,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </CardHeader>
       <CardFooter>
         <Button className="w-full">
-          <ShoppingCart className="hidden"/> Inicie sesión para ver el precio
+          <ShoppingCart className="hidden" /> Inicie sesión para ver el precio
         </Button>
       </CardFooter>
     </Card>

@@ -42,16 +42,16 @@ const MenuList = () => {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/energizer" title="Energizer">
+              <ListItem href="/categoria/energizer" title="Energizer">
                 Productos confiables para mantener tus dispositivos cargados
                 siempre.
               </ListItem>
-              <ListItem href="/termos" title="Termos">
+              <ListItem href="/categoria/contigo" title="Contigo">
                 Mantén tus bebidas a la temperatura ideal.
               </ListItem>
-              <ListItem href="/electro" title="Pequeños electrodomesticos">
-                Soluciones prácticas para hacer tu rutina más sencilla y
-                eficiente.
+              <ListItem href="/categoria/sharpie" title="Sharpie">
+                Descubre cómo Sharpie transforma lo cotidiano en algo
+                extraordinario.
               </ListItem>
             </ul>
           </NavigationMenuContent>

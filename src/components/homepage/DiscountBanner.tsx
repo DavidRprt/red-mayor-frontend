@@ -3,7 +3,7 @@ import { buttonVariants } from "../ui/button"
 
 const DiscountBanner = () => {
   return (
-    <div className="p-5 sm:p-20 text-center">
+    <section className="p-5 sm:p-20 text-center">
       <h2 className="uppercase font-black text-2xl text-primary">
         Consigue 10% de descuento
       </h2>
@@ -18,7 +18,7 @@ const DiscountBanner = () => {
           Más información
         </Link>
       </div>
-    </div>
+    </section>
   )
 }
 

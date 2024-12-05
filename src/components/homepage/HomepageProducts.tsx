@@ -6,7 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel"
-import SkeletonSchema from "../ScheletonSchema"
+import SkeletonSchema from "../SkeletonSchema"
 import { useGetHomepageItems } from "@/api/useGetHomepageProducts"
 import ProductCard from "../products/ProductCard"
 import { ProductType } from "@/types/product"
@@ -20,8 +20,12 @@ const HomepageProducts = () => {
       <Carousel className="w-full px-6 mt-3">
         <CarouselContent className="md:-ml-4">
           {/* Skeleton mientras carga */}
-          <div className="hidden md:flex gap-3">{loading && <SkeletonSchema grid={4} />}</div>
-          <div className="block md:hidden w-full">{loading && <SkeletonSchema grid={1} />}</div>
+          <div className="hidden md:flex gap-3">
+            {loading && <SkeletonSchema grid={4} />}
+          </div>
+          <div className="block md:hidden w-full">
+            {loading && <SkeletonSchema grid={1} />}
+          </div>
 
           {/* Renderización de productos */}
           {Array.isArray(result) && result.length > 0

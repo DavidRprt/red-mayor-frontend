@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { X } from "lucide-react"
 import { CategoryType } from "@/types/category"
 import { Button } from "../ui/button"
+import { Checkbox } from "../ui/checkbox"
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -126,11 +127,10 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
           {categories.map((category) => (
             <li key={category.id} className="mb-2">
               <label className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  className="form-checkbox"
+                <Checkbox
+                  id={`category-${category.id}`}
                   checked={selectedCategories.includes(category.id)}
-                  onChange={() =>
+                  onCheckedChange={() =>
                     handleCategoryChange(
                       category.id,
                       category.subcategorias
@@ -139,24 +139,27 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
                     )
                   }
                 />
-                <span>{category.nombreCategoria}</span>
+                <span className="text-sm font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  {category.nombreCategoria}
+                </span>
               </label>
               {category.subcategorias && (
-                <ul className="pl-4">
+                <ul className="pl-4 py-3">
                   {category.subcategorias.map((subcategory) => (
                     <li key={subcategory.id}>
                       <label className="flex items-center space-x-2">
-                        <input
-                          type="checkbox"
-                          className="form-checkbox"
+                        <Checkbox
+                          id={`subcategory-${subcategory.id}`}
                           checked={selectedSubcategories.includes(
                             subcategory.id
                           )}
-                          onChange={() =>
+                          onCheckedChange={() =>
                             handleSubcategoryChange(subcategory.id)
                           }
                         />
-                        <span>{subcategory.nombreSubcategoria}</span>
+                        <span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          {subcategory.nombreSubcategoria}
+                        </span>
                       </label>
                     </li>
                   ))}

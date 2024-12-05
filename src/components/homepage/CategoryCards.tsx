@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { AspectRatio } from "@radix-ui/react-aspect-ratio"
 
 const categories = [
   {
@@ -30,7 +31,7 @@ const categories = [
 
 const CategoryCards = () => {
   return (
-    <div className="w-full py-4 sm:py-8 sm:px-24 flex items-center flex-col md:items-start">
+    <section className="w-full py-4 sm:py-8 sm:px-24 flex items-center flex-col md:items-start">
       <h3 className="px-6 text-3xl sm:pb-2">Nuestras marcas</h3>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 w-full mt-3">
@@ -46,14 +47,13 @@ const CategoryCards = () => {
                 alt={category.attributes.name}
                 width={270}
                 height={300}
-                className="rounded-lg transition-transform duration-300 ease-in-out hover:scale-110"
                 priority
               />
             </div>
           </Link>
         ))}
       </div>
-    </div>
+    </section>
   )
 }
 

@@ -5,7 +5,7 @@ import { useGetProviderProducts } from "@/api/useGetProviderProducts"
 import useGetCategories from "@/api/useGetCategories"
 import ProductCard from "@/components/products/ProductCard"
 import { useParams } from "next/navigation"
-import SkeletonSchema from "@/components/ScheletonSchema"
+import SkeletonSchema from "@/components/SkeletonSchema"
 import FilterSidebar from "@/components/products/FilterSidebar"
 import FilterBox from "@/components/products/FilterBox"
 import { Button } from "@/components/ui/button"
@@ -20,14 +20,13 @@ const ProviderPage = () => {
     return <p>Error: Parámetro inválido</p>
   }
 
-
   const { loading, products, error } = useGetProviderProducts(slug)
   const {
     categories,
     loading: categoriesLoading,
     error: categoriesError,
   } = useGetCategories(slug)
-    console.log(products)
+  console.log(products)
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [filters, setFilters] = useState<{
@@ -48,49 +47,49 @@ const ProviderPage = () => {
     []
   )
 
-const sortProducts = useCallback(
-  (productsToSort: ProductType[], sortKey: string): ProductType[] => {
-    if (!productsToSort) return []
+  const sortProducts = useCallback(
+    (productsToSort: ProductType[], sortKey: string): ProductType[] => {
+      if (!productsToSort) return []
 
-    switch (sortKey) {
-      case "cheapest":
-        return [...productsToSort].sort((a, b) => a.precioBase - b.precioBase)
-      case "most_expensive":
-        return [...productsToSort].sort((a, b) => b.precioBase - a.precioBase)
-      case "newest":
-        return [...productsToSort].sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        )
-      case "oldest":
-        return [...productsToSort].sort(
-          (a, b) =>
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        )
-      default:
-        return productsToSort
-    }
-  },
-  []
-)
+      switch (sortKey) {
+        case "cheapest":
+          return [...productsToSort].sort((a, b) => a.precioBase - b.precioBase)
+        case "most_expensive":
+          return [...productsToSort].sort((a, b) => b.precioBase - a.precioBase)
+        case "newest":
+          return [...productsToSort].sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+        case "oldest":
+          return [...productsToSort].sort(
+            (a, b) =>
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          )
+        default:
+          return productsToSort
+      }
+    },
+    []
+  )
 
   // Filtrar productos cuando los filtros o los productos cambian
-useEffect(() => {
-  if (!loading && products) {
-    const filtered = products.filter((product) => {
-      const matchesSubcategory =
-        filters.subcategories.length === 0 ||
-        filters.subcategories.includes(product.subcategoria.id)
-      return matchesSubcategory
-    })
-    setVisibleProducts(sortProducts(filtered, sortValue))
-  }
-}, [filters, products, loading, sortValue, sortProducts])
+  useEffect(() => {
+    if (!loading && products) {
+      const filtered = products.filter((product) => {
+        const matchesSubcategory =
+          filters.subcategories.length === 0 ||
+          filters.subcategories.includes(product.subcategoria.id)
+        return matchesSubcategory
+      })
+      setVisibleProducts(sortProducts(filtered, sortValue))
+    }
+  }, [filters, products, loading, sortValue, sortProducts])
 
   const skeletonCount = loading ? 4 : products?.length || 0
 
   return (
-    <div className="container mx-auto px-4">
+    <section className="container mx-auto px-4 py-8">
       <div className="justify-between items-center hidden sm:flex">
         <h1 className="text-2xl font-bold mb-4 pt-5">
           Productos de {slug.charAt(0).toUpperCase() + slug.slice(1)}
@@ -138,7 +137,7 @@ useEffect(() => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

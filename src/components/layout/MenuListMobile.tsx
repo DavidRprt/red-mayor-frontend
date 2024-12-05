@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button"
 
 const MenuListMobile = () => {
   const navItems = [
-    { href: "/energizer", title: "Energizer" },
-    { href: "/termos", title: "Termos" },
-    { href: "/electro", title: "Pequeños Electrodomésticos" },
+    { href: "/categoria/energizer", title: "Energizer" },
+    { href: "/categoria/contigo", title: "Contigo" },
+    { href: "/categoria/sharpie", title: "Sharpie" },
     { href: "/mas-vendido", title: "Más Vendido" },
     { href: "/sobre-nosotros", title: "Sobre Nosotros" },
   ]
