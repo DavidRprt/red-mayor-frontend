@@ -11,6 +11,7 @@ import {
   Card,
 } from "@/components/ui/card"
 import { Button } from "../ui/button"
+import { ZodErrors } from "@/components/forms/ZodErrors"
 
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -27,7 +28,9 @@ import {
 } from "@/components/ui/select"
 
 const INITIAL_STATE = {
-  data: "HI",
+  data: null,
+  zodErrors: null,
+  message: null,
 }
 
 export function SignupForm() {
@@ -35,6 +38,9 @@ export function SignupForm() {
     registerUserAction,
     INITIAL_STATE
   )
+
+  console.log(formState)
+
   return (
     <div className="w-full max-w-2xl sm:py-0">
       <form action={formAction}>
@@ -58,6 +64,11 @@ export function SignupForm() {
                     type="text"
                     placeholder="Nombre del negocio"
                   />
+                  {formState?.zodErrors?.businessName && (
+                    <p className="text-red-500 text-sm">
+                      {formState.zodErrors.businessName[0]}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="legalName">Razón social</Label>
@@ -67,6 +78,11 @@ export function SignupForm() {
                     type="text"
                     placeholder="Razón social"
                   />
+                  {formState?.zodErrors?.legalName && (
+                    <p className="text-red-500 text-sm">
+                      {formState.zodErrors.legalName[0]}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Correo electrónico</Label>
@@ -76,6 +92,11 @@ export function SignupForm() {
                     type="email"
                     placeholder="nombre@ejemplo.com"
                   />
+                  {formState?.zodErrors?.email && (
+                    <p className="text-red-500 text-sm">
+                      {formState.zodErrors.email[0]}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Teléfono</Label>
@@ -85,6 +106,11 @@ export function SignupForm() {
                     type="text"
                     placeholder="Número de teléfono"
                   />
+                  {formState?.zodErrors?.phone && (
+                    <p className="text-red-500 text-sm">
+                      {formState.zodErrors.phone[0]}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -93,6 +119,11 @@ export function SignupForm() {
                 <div className="space-y-2">
                   <Label htmlFor="cuit">CUIT</Label>
                   <Input id="cuit" name="cuit" type="text" placeholder="CUIT" />
+                  {formState?.zodErrors?.cuit && (
+                    <p className="text-red-500 text-sm">
+                      {formState.zodErrors.cuit[0]}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="userType">Tipo de usuario</Label>
@@ -110,6 +141,11 @@ export function SignupForm() {
                       </SelectItem>
                     </SelectContent>
                   </Select>
+                  {formState?.zodErrors?.userType && (
+                    <p className="text-red-500 text-sm">
+                      {formState.zodErrors.userType[0]}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password">Contraseña</Label>
@@ -119,6 +155,11 @@ export function SignupForm() {
                     type="password"
                     placeholder="Contraseña"
                   />
+                  {formState?.zodErrors?.password && (
+                    <p className="text-red-500 text-sm">
+                      {formState.zodErrors.password[0]}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="confirmPassword">Verificar contraseña</Label>
@@ -128,6 +169,11 @@ export function SignupForm() {
                     type="password"
                     placeholder="Repite tu contraseña"
                   />
+                  {formState?.zodErrors?.confirmPassword && (
+                    <p className="text-red-500 text-sm">
+                      {formState.zodErrors.confirmPassword[0]}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
