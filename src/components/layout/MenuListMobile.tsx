@@ -3,8 +3,10 @@
 import React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
 
 const MenuListMobile = () => {
+  const router = useRouter()
   const navItems = [
     { href: "/categoria/energizer", title: "Energizer" },
     { href: "/categoria/contigo", title: "Contigo" },
@@ -31,10 +33,10 @@ const MenuListMobile = () => {
 
       {/* Botones de sesión */}
       <div className="flex flex-col gap-4">
-        <Button variant="default" className="w-32">
+        <Button variant="default" onClick={() => router.push("/signin")}>
           Iniciar sesión
         </Button>
-        <Button variant="secondary" className="w-32">
+        <Button variant="secondary" onClick={() => router.push("/signup")}>
           Registrarse
         </Button>
       </div>

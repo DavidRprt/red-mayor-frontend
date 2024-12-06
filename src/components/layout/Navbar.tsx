@@ -8,9 +8,11 @@ import { Button } from "@/components/ui/button"
 import MenuList from "./MenuList"
 import MenuListMobile from "./MenuListMobile"
 import ToggleTheme from "./ToogleTheme"
+import { useRouter } from "next/navigation"
 
 const Navbar = () => {
   const [navbarOpen, setNavbarOpen] = React.useState<boolean>(false)
+   const router = useRouter()
 
   const closeNavbar = () => setNavbarOpen(false)
 
@@ -35,8 +37,15 @@ const Navbar = () => {
 
         {/* Buttons */}
         <div className="hidden md:flex gap-4">
-          <Button variant="default">Iniciar sesión</Button>
-          <Button variant="secondary">Registrarse</Button>
+          <Button variant="default" onClick={() => router.push("/signin")}>
+            Iniciar sesión
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => router.push("/signup")}
+          >
+            Registrarse
+          </Button>
         </div>
 
         {/* Mobile Menu Toggle */}

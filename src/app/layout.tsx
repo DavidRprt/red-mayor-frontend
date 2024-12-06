@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
 import CarouselBanner from "@/components/homepage/CarouselBanner"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,6 +42,7 @@ export default function RootLayout({
           <Navbar />
           <CarouselBanner />
           <main className="relative overflow-hidden">{children}</main>
+          <Toaster />
           <Footer />
         </ThemeProvider>
       </body>
