@@ -7,7 +7,7 @@ import {
   CarouselPrevious,
 } from "../ui/carousel"
 import SkeletonSchema from "../SkeletonSchema"
-import { useGetHomepageItems } from "@/api/useGetHomepageProducts"
+import { useGetHomepageItems } from "@/data/services/useGetHomepageProducts"
 import ProductCard from "../products/ProductCard"
 import { ProductType } from "@/types/product"
 

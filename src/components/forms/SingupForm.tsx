@@ -10,14 +10,15 @@ import {
   CardFooter,
   Card,
 } from "@/components/ui/card"
-import { Button } from "../ui/button"
 import { ZodErrors } from "@/components/forms/ZodErrors"
 
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { StrapiErrors } from "./StrapiErrors"
+import { SubmitButton } from "./SubmitButton"
 
 import { useActionState } from "react"
-import { registerUserAction } from "@/app/actions/auth-actions"
+import { registerUserAction } from "@/data/actions/auth-actions"
 
 import {
   Select,
@@ -38,9 +39,7 @@ export function SignupForm() {
     registerUserAction,
     INITIAL_STATE
   )
-
-  console.log(formState)
-
+  console.log("Form State:", formState)
   return (
     <div className="w-full max-w-2xl sm:py-0">
       <form action={formAction}>
@@ -57,30 +56,32 @@ export function SignupForm() {
               {/* Primera columna */}
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="businessName">Nombre del negocio</Label>
+                  <Label htmlFor="username">Nombre del negocio</Label>
                   <Input
-                    id="businessName"
-                    name="businessName"
+                    id="username"
+                    name="username"
                     type="text"
                     placeholder="Nombre del negocio"
+                    defaultValue={formState?.data?.username || ""}
                   />
-                  {formState?.zodErrors?.businessName && (
+                  {formState?.zodErrors?.username && (
                     <p className="text-red-500 text-sm">
-                      {formState.zodErrors.businessName[0]}
+                      {formState.zodErrors.username[0]}
                     </p>
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="legalName">Razón social</Label>
+                  <Label htmlFor="razonSocial">Razón social</Label>
                   <Input
-                    id="legalName"
-                    name="legalName"
+                    id="razonSocial"
+                    name="razonSocial"
                     type="text"
                     placeholder="Razón social"
+                    defaultValue={formState?.data?.razonSocial || ""}
                   />
-                  {formState?.zodErrors?.legalName && (
+                  {formState?.zodErrors?.razonSocial && (
                     <p className="text-red-500 text-sm">
-                      {formState.zodErrors.legalName[0]}
+                      {formState.zodErrors.razonSocial[0]}
                     </p>
                   )}
                 </div>
@@ -91,6 +92,7 @@ export function SignupForm() {
                     name="email"
                     type="email"
                     placeholder="nombre@ejemplo.com"
+                    defaultValue={formState?.data?.email || ""}
                   />
                   {formState?.zodErrors?.email && (
                     <p className="text-red-500 text-sm">
@@ -99,16 +101,17 @@ export function SignupForm() {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Teléfono</Label>
+                  <Label htmlFor="telefono">Teléfono</Label>
                   <Input
-                    id="phone"
-                    name="phone"
+                    id="telefono"
+                    name="telefono"
                     type="text"
                     placeholder="Número de teléfono"
+                    defaultValue={formState?.data?.telefono || ""}
                   />
-                  {formState?.zodErrors?.phone && (
+                  {formState?.zodErrors?.telefono && (
                     <p className="text-red-500 text-sm">
-                      {formState.zodErrors.phone[0]}
+                      {formState.zodErrors.telefono[0]}
                     </p>
                   )}
                 </div>
@@ -118,7 +121,13 @@ export function SignupForm() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="cuit">CUIT</Label>
-                  <Input id="cuit" name="cuit" type="text" placeholder="CUIT" />
+                  <Input
+                    id="cuit"
+                    name="cuit"
+                    type="text"
+                    placeholder="CUIT"
+                    defaultValue={formState?.data?.cuit || ""}
+                  />
                   {formState?.zodErrors?.cuit && (
                     <p className="text-red-500 text-sm">
                       {formState.zodErrors.cuit[0]}
@@ -126,24 +135,30 @@ export function SignupForm() {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="userType">Tipo de usuario</Label>
-                  <Select>
+                  <Label htmlFor="tipoUsuario">Tipo de usuario</Label>
+                  <Select
+                    name="tipoUsuario"
+                    defaultValue={
+                      formState?.data?.tipoUsuario ||
+                      "Persona Física (Monotributo)"
+                    }
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Selecciona un tipo" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="persona_fisica">
+                      <SelectItem value="Persona Física (Monotributo)">
                         Persona Física (Monotributo)
                       </SelectItem>
-                      <SelectItem value="sociedad">Sociedad</SelectItem>
-                      <SelectItem value="responsable_inscripto">
+                      <SelectItem value="Responsable Inscripto">
                         Responsable Inscripto
                       </SelectItem>
+                      <SelectItem value="Sociedad">Sociedad</SelectItem>
                     </SelectContent>
                   </Select>
-                  {formState?.zodErrors?.userType && (
+                  {formState?.zodErrors?.tipoUsuario && (
                     <p className="text-red-500 text-sm">
-                      {formState.zodErrors.userType[0]}
+                      {formState.zodErrors.tipoUsuario[0]}
                     </p>
                   )}
                 </div>
@@ -154,6 +169,7 @@ export function SignupForm() {
                     name="password"
                     type="password"
                     placeholder="Contraseña"
+                    defaultValue={formState?.data?.password || ""}
                   />
                   {formState?.zodErrors?.password && (
                     <p className="text-red-500 text-sm">
@@ -168,6 +184,7 @@ export function SignupForm() {
                     name="confirmPassword"
                     type="password"
                     placeholder="Repite tu contraseña"
+                    defaultValue={formState?.data?.confirmPassword || ""}
                   />
                   {formState?.zodErrors?.confirmPassword && (
                     <p className="text-red-500 text-sm">
@@ -179,9 +196,12 @@ export function SignupForm() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">
-            <Button type="submit" className="w-full">
-              Registrarse
-            </Button>
+            <SubmitButton
+              className="w-full"
+              text="Registrarse"
+              loadingText="Cargando"
+            ></SubmitButton>
+            <StrapiErrors error={formState.strapiErrors} />
           </CardFooter>
         </Card>
         <div className="mt-4 text-center text-sm">
