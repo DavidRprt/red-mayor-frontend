@@ -2,6 +2,7 @@
 import { z } from "zod"
 import { cookies } from "next/headers"
 import { registerUserService } from "../services/authService"
+import { createUserDetailsService } from "../services/authService"
 import { StrapiErrors } from "@/components/forms/StrapiErrors"
 import { redirect } from "next/navigation"
 
@@ -35,7 +36,6 @@ function validarCUIT(cuit: string): boolean {
 
   return checkDigit === digits[10]
 }
-
 
 const schemaRegister = z.object({
   username: z
@@ -101,11 +101,11 @@ export async function registerUserAction(prevState: any, formData: FormData) {
   }
 
   const additionalFields = {
-    razonSocial: formData.get("razonSocial"),
-    telefono: formData.get("telefono"),
-    cuit: formData.get("cuit"),
-    tipoUsuario: formData.get("tipoUsuario"),
-    confirmPassword: formData.get("confirmPassword"),
+    razonSocial: (formData.get("razonSocial") as string) ?? "",
+    telefono: (formData.get("telefono") as string) ?? "",
+    cuit: (formData.get("cuit") as string) ?? "",
+    tipoUsuario: (formData.get("tipoUsuario") as string) ?? "",
+    confirmPassword: (formData.get("confirmPassword") as string) ?? "",
   }
 
   const validatedFields = schemaRegister
@@ -130,55 +130,50 @@ export async function registerUserAction(prevState: any, formData: FormData) {
         ...validatedAdditionalFields.error?.flatten().fieldErrors,
       },
       strapiErrors: null,
-      data: { ...strapiFields, ...additionalFields }, 
+      data: { ...strapiFields, ...additionalFields },
       message: "Missing Fields. Failed to Register.",
     }
   }
 
-    if (strapiFields.password !== additionalFields.confirmPassword) {
-      return {
-        ...prevState,
-        zodErrors: {
-          confirmPassword: ["Las contraseñas no coinciden"],
-        },
-        strapiErrors: null,
-        data: { ...strapiFields, ...additionalFields },
-        message: "Las contraseñas no coinciden.",
-      }
-    }
-
-  const responseData = await registerUserService(validatedFields.data)
-
-
-  if (!responseData) {
+  if (strapiFields.password !== additionalFields.confirmPassword) {
     return {
       ...prevState,
+      zodErrors: {
+        confirmPassword: ["Las contraseñas no coinciden"],
+      },
       strapiErrors: null,
-      zodErrors: null,
-      data: { ...strapiFields, ...additionalFields }, 
-      message: "Ha habido un problema",
+      data: { ...strapiFields, ...additionalFields },
+      message: "Las contraseñas no coinciden.",
     }
   }
 
-  if (responseData.error) {
-  console.log(responseData.error);
-  return {
-    ...prevState,
-    strapiErrors: {
-      message: responseData.error.message,
-      name: responseData.error.name || "Error",
-      status: responseData.error.status?.toString() || null,
-    },
-    zodErrors: null,
-    data: { ...strapiFields, ...additionalFields },
-    message: "Hubo un fallo en el registro",
-  };
-}
+  const responseData = await registerUserService(validatedFields.data)
 
+  if (!responseData || responseData.error) {
+    return {
+      ...prevState,
+      strapiErrors: {
+        message: responseData?.error?.message || "Unknown Error",
+        name: responseData?.error?.name || "Error",
+        status: responseData?.error?.status?.toString() || null,
+      },
+      zodErrors: null,
+      data: { ...strapiFields, ...additionalFields },
+      message: "Hubo un fallo en el registro",
+    }
+  }
+
+  // Crear el registro en userDetails con el ID del usuario
+  await createUserDetailsService({
+    user: responseData.user.id, 
+    razonSocial: additionalFields.razonSocial,
+    telefono: additionalFields.telefono,
+    CUIT: additionalFields.cuit,
+    tipoUsuario: additionalFields.tipoUsuario,
+  })
 
   const cookieStore = await cookies()
   cookieStore.set("jwt", responseData.jwt, config)
 
   redirect("/")
 }
-

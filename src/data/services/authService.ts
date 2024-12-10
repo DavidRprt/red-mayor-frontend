@@ -11,6 +11,14 @@ interface LoginUserProps {
   password: string
 }
 
+interface UserDetailsProps {
+  user: number
+  razonSocial: string
+  telefono: string
+  CUIT: string
+  tipoUsuario: string
+}
+
 const baseUrl = getStrapiURL()
 
 export async function registerUserService(userData: RegisterUserProps) {
@@ -47,5 +55,33 @@ export async function loginUserService(userData: LoginUserProps) {
   } catch (error) {
     console.error("Login Service Error:", error)
     throw error
+  }
+}
+
+export async function createUserDetailsService(userDetails: UserDetailsProps) {
+  const url = new URL("/api/user-detalles", baseUrl)
+
+  console.log("HEREEEE")
+
+  console.log(userDetails)
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: userDetails }),
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      console.error("UserDetails Service Error:", errorData)
+      return null
+    }
+
+    return response.json()
+  } catch (error) {
+    console.error("UserDetails Service Error:", error)
+    return null
   }
 }
