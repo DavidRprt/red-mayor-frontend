@@ -2,9 +2,10 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 import { cn } from "@/lib/utils"
-
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -15,9 +16,14 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 
+import { Button } from "@/components/ui/button"
+
 
 
 const MenuList = () => {
+  const router = useRouter()
+
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -56,13 +62,15 @@ const MenuList = () => {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
           <Link href="/mas-vendido" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Mas vendido
+              Más vendido
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
           <Link href="/sobre-nosotros" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -70,6 +78,10 @@ const MenuList = () => {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
+
+        {/* Mostrar Logout si el usuario está logueado */}
+    
+        
       </NavigationMenuList>
     </NavigationMenu>
   )
@@ -99,6 +111,7 @@ const ListItem = React.forwardRef<
     </li>
   )
 })
+
 ListItem.displayName = "ListItem"
 
 export default MenuList

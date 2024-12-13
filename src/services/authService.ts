@@ -61,9 +61,7 @@ export async function loginUserService(userData: LoginUserProps) {
 export async function createUserDetailsService(userDetails: UserDetailsProps) {
   const url = new URL("/api/user-detalles", baseUrl)
 
-  console.log("HEREEEE")
 
-  console.log(userDetails)
   try {
     const response = await fetch(url, {
       method: "POST",

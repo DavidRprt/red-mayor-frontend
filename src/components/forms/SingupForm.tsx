@@ -39,7 +39,6 @@ export function SignupForm() {
     registerUserAction,
     INITIAL_STATE
   )
-  console.log("Form State:", formState)
   return (
     <div className="w-full max-w-2xl sm:py-0">
       <form action={formAction}>

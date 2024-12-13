@@ -38,7 +38,7 @@ export function ContactForm() {
   // Manejador de envío
   const onSubmit = (values: ContactFormValues) => {
     console.log("Valores enviados:", values)
-    // Aquí puedes enviar los valores a tu API o backend
+ 
   }
 
   return (

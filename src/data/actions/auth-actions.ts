@@ -1,8 +1,9 @@
 "use server"
 import { z } from "zod"
 import { cookies } from "next/headers"
-import { registerUserService } from "../services/authService"
-import { createUserDetailsService } from "../services/authService"
+import { registerUserService } from "../../services/authService"
+import { createUserDetailsService } from "../../services/authService"
+import { loginUserService } from "../../services/authService"
 import { StrapiErrors } from "@/components/forms/StrapiErrors"
 import { redirect } from "next/navigation"
 
@@ -11,6 +12,14 @@ const config = {
   path: "/",
   domain: process.env.HOST ?? "localhost",
   httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+}
+
+const nonSecureConfig = {
+  maxAge: 60 * 60 * 24 * 7,
+  path: "/",
+  domain: process.env.HOST ?? "localhost",
+  httpOnly: false,
   secure: process.env.NODE_ENV === "production",
 }
 
@@ -93,6 +102,25 @@ const schemaRegister = z.object({
   }),
 })
 
+const schemaLogin = z.object({
+  identifier: z
+    .string()
+    .min(3, {
+      message: "Identifier must have at least 3 characters",
+    })
+    .max(100, {
+      message: "Please enter a valid username or email address",
+    }),
+  password: z
+    .string()
+    .min(6, {
+      message: "Password must have at least 6 characters",
+    })
+    .max(100, {
+      message: "Password must be between 6 and 100 characters",
+    }),
+})
+
 export async function registerUserAction(prevState: any, formData: FormData) {
   const strapiFields = {
     username: formData.get("username"),
@@ -165,7 +193,7 @@ export async function registerUserAction(prevState: any, formData: FormData) {
 
   // Crear el registro en userDetails con el ID del usuario
   await createUserDetailsService({
-    user: responseData.user.id, 
+    user: responseData.user.id,
     razonSocial: additionalFields.razonSocial,
     telefono: additionalFields.telefono,
     CUIT: additionalFields.cuit,
@@ -173,7 +201,61 @@ export async function registerUserAction(prevState: any, formData: FormData) {
   })
 
   const cookieStore = await cookies()
+
+  // Cookie segura para el token de autenticación
   cookieStore.set("jwt", responseData.jwt, config)
+
+  // Cookie no segura con el nombre de usuario
+  cookieStore.set("username", responseData.user.username, nonSecureConfig)
+
+  // Cookie no segura con una bandera de autenticación
+  cookieStore.set("isLoggedIn", "true", nonSecureConfig)
+
+  redirect("/")
+}
+
+export async function loginUserAction(prevState: any, formData: FormData) {
+  const validatedFields = schemaLogin.safeParse({
+    identifier: formData.get("identifier"),
+    password: formData.get("password"),
+  })
+
+  if (!validatedFields.success) {
+    return {
+      ...prevState,
+      zodErrors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Login.",
+    }
+  }
+
+  const responseData = await loginUserService(validatedFields.data)
+
+  if (!responseData) {
+    return {
+      ...prevState,
+      strapiErrors: responseData?.error,
+      zodErrors: null,
+      message: "Ops! Something went wrong. Please try again.",
+    }
+  }
+
+  if (responseData.error) {
+    return {
+      ...prevState,
+      strapiErrors: responseData.error,
+      zodErrors: null,
+      message: "Failed to Login.",
+    }
+  }
+
+  console.log(responseData, "responseData")
+
+  const cookieStore = await cookies()
+
+  // Establecer cookies
+  cookieStore.set("jwt", responseData.jwt, config)
+  cookieStore.set("username", responseData.user.username, nonSecureConfig)
+  cookieStore.set("isLoggedIn", "true", nonSecureConfig)
 
   redirect("/")
 }

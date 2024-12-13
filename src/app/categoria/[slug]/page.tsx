@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useState, useEffect, useCallback } from "react"
-import { useGetProviderProducts } from "@/api/useGetProviderProducts"
-import useGetCategories from "@/api/useGetCategories"
+import { useGetProviderProducts } from "@/services/useGetProviderProducts"
+import useGetCategories from "@/services/useGetCategories"
 import ProductCard from "@/components/products/ProductCard"
 import { useParams } from "next/navigation"
 import SkeletonSchema from "@/components/SkeletonSchema"
@@ -26,7 +26,6 @@ const ProviderPage = () => {
     loading: categoriesLoading,
     error: categoriesError,
   } = useGetCategories(slug)
-  console.log(products)
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [filters, setFilters] = useState<{
