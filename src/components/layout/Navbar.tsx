@@ -7,7 +7,6 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid"
 import { Button } from "@/components/ui/button"
 import MenuList from "./MenuList"
 import MenuListMobile from "./MenuListMobile"
-import ToggleTheme from "./ToogleTheme"
 import AuthButtons from "./AuthButtons"
 import { useState } from "react"
 
