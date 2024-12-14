@@ -6,7 +6,7 @@ import {
   CarouselPrevious,
 } from "../ui/carousel"
 import SkeletonSchema from "../SkeletonSchema"
-import { useGetProductsBySubcategory } from "@/api/useGetProductsBySubcategory"
+import { useGetProductsBySubcategory } from "@/services/useGetProductsBySubcategory"
 import ProductCard from "../products/ProductCard"
 import { ProductType } from "@/types/product"
 

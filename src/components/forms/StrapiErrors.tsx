@@ -11,6 +11,9 @@ export function StrapiErrors({ error }: { readonly error: StrapiErrorsProps }) {
     if (message === "Email or Username are already taken") {
       return "El correo o el nombre de negocio ya están en uso"
     }
+    else if (message === "Invalid identifier or password") {
+      return "Identificador o contraseña inválidos"
+    }
     return message
   }
 

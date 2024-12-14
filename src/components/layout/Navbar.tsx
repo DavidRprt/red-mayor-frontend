@@ -8,46 +8,11 @@ import { Button } from "@/components/ui/button"
 import MenuList from "./MenuList"
 import MenuListMobile from "./MenuListMobile"
 import ToggleTheme from "./ToogleTheme"
-import { useRouter } from "next/navigation"
-import { useState, useEffect } from "react"
-import type { AppProps } from "next/app"
+import AuthButtons from "./AuthButtons"
+import { useState } from "react"
 
 const Navbar = () => {
-  const [navbarOpen, setNavbarOpen] = React.useState<boolean>(false)
-  const [username, setUsername] = useState<string | null>(null)
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
-  const router = useRouter()
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("/api/logout", { method: "GET" })
-
-      if (response.ok) {
-        setUsername(null)
-        setIsLoggedIn(false)
-        router.refresh()
-      } else {
-        console.error("Error al cerrar sesión:", response.statusText)
-      }
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error)
-    }
-  }
-
-  const getCookie = (name: string) => {
-    const value = `; ${document.cookie}`
-    const parts = value.split(`; ${name}=`)
-    if (parts.length === 2) return parts.pop()?.split(";").shift() || null
-    return null
-  }
-
-  useEffect(() => {
-    const user = getCookie("username")
-    const loggedIn = getCookie("isLoggedIn") === "true"
-
-    setUsername(user)
-    setIsLoggedIn(loggedIn)
-  }, [])
+  const [navbarOpen, setNavbarOpen] = useState<boolean>(false)
 
   const closeNavbar = () => setNavbarOpen(false)
 
@@ -70,29 +35,10 @@ const Navbar = () => {
           <MenuList />
         </div>
 
-        {/* Buttons */}
-        {!isLoggedIn && (
-          <div className="hidden md:flex gap-4">
-            <Button variant="default" onClick={() => router.push("/signin")}>
-              Iniciar sesión
-            </Button>
-            <Button variant="secondary" onClick={() => router.push("/signup")}>
-              Registrarse
-            </Button>
-          </div>
-        )}
-
-        {isLoggedIn && (
-          <div>
-            <Button variant="outline" disabled>
-              {username}
-            </Button>
-
-            <Button variant="destructive" onClick={handleLogout}>
-              Logout
-            </Button>
-          </div>
-        )}
+        {/* Auth Buttons */}
+        <div className="hidden sm:block">
+          <AuthButtons />
+        </div>
 
         {/* Mobile Menu Toggle */}
         <div className="md:hidden flex gap-2">

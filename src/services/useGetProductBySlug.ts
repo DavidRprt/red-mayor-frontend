@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { ProductType } from "../types/product" 
+import { ProductType } from "../types/product"
 
 export function useGetProductBySlug(productSlug: string) {
   const [product, setProduct] = useState<ProductType | null>(null)
@@ -20,7 +20,7 @@ export function useGetProductBySlug(productSlug: string) {
         }
 
         if (json.data?.length > 0) {
-          setProduct(json.data[0]) 
+          setProduct(json.data[0])
         } else {
           setProduct(null)
         }

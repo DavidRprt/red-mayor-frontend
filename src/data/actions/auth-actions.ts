@@ -6,6 +6,7 @@ import { createUserDetailsService } from "../../services/authService"
 import { loginUserService } from "../../services/authService"
 import { StrapiErrors } from "@/components/forms/StrapiErrors"
 import { redirect } from "next/navigation"
+import { useAuthStore } from "@/store/authStore"
 
 const config = {
   maxAge: 60 * 60 * 24 * 7, // 1 week
@@ -15,18 +16,9 @@ const config = {
   secure: process.env.NODE_ENV === "production",
 }
 
-const nonSecureConfig = {
-  maxAge: 60 * 60 * 24 * 7,
-  path: "/",
-  domain: process.env.HOST ?? "localhost",
-  httpOnly: false,
-  secure: process.env.NODE_ENV === "production",
-}
-
 function validarCUIT(cuit: string): boolean {
   // Eliminar guiones del CUIT
   const cleanCUIT = cuit.replace(/-/g, "")
-  console.log(cleanCUIT)
 
   // Verificar que el CUIT tenga exactamente 11 dígitos después de eliminar guiones
   if (!/^\d{11}$/.test(cleanCUIT)) return false
@@ -200,25 +192,14 @@ export async function registerUserAction(prevState: any, formData: FormData) {
     tipoUsuario: additionalFields.tipoUsuario,
   })
 
-  const cookieStore = await cookies()
-
-  // Cookie segura para el token de autenticación
-  cookieStore.set("jwt", responseData.jwt, config)
-
-  // Cookie no segura con el nombre de usuario
-  cookieStore.set("username", responseData.user.username, nonSecureConfig)
-
-  // Cookie no segura con una bandera de autenticación
-  cookieStore.set("isLoggedIn", "true", nonSecureConfig)
-
-  redirect("/")
+  redirect("/signin")
 }
 
 export async function loginUserAction(prevState: any, formData: FormData) {
-  const validatedFields = schemaLogin.safeParse({
-    identifier: formData.get("identifier"),
-    password: formData.get("password"),
-  })
+  const identifier = formData.get("identifier") as string
+  const password = formData.get("password") as string
+
+  const validatedFields = schemaLogin.safeParse({ identifier, password })
 
   if (!validatedFields.success) {
     return {
@@ -230,32 +211,24 @@ export async function loginUserAction(prevState: any, formData: FormData) {
 
   const responseData = await loginUserService(validatedFields.data)
 
-  if (!responseData) {
+  if (!responseData || responseData.error) {
     return {
       ...prevState,
-      strapiErrors: responseData?.error,
-      zodErrors: null,
-      message: "Ops! Something went wrong. Please try again.",
-    }
-  }
-
-  if (responseData.error) {
-    return {
-      ...prevState,
-      strapiErrors: responseData.error,
-      zodErrors: null,
+      strapiErrors: responseData?.error || { message: "Failed to Login." },
       message: "Failed to Login.",
     }
   }
 
-  console.log(responseData, "responseData")
-
   const cookieStore = await cookies()
+  const expiresAt = Date.now() + 60 * 60 * 24 * 7 * 1000 // Expira en 1 semana
 
-  // Establecer cookies
-  cookieStore.set("jwt", responseData.jwt, config)
-  cookieStore.set("username", responseData.user.username, nonSecureConfig)
-  cookieStore.set("isLoggedIn", "true", nonSecureConfig)
+  cookieStore.set("jwt", responseData.jwt, {
+    ...config,
+  })
 
-  redirect("/")
+  return {
+    success: true,
+    username: responseData.user.username,
+    expiresAt,
+  }
 }

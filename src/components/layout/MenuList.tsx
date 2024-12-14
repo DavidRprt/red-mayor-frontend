@@ -23,7 +23,6 @@ import { Button } from "@/components/ui/button"
 const MenuList = () => {
   const router = useRouter()
 
-
   return (
     <NavigationMenu>
       <NavigationMenuList>

@@ -1,19 +1,21 @@
-"use client"
+"use client";
 
-import React from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
+import React from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import AuthButtons from "./AuthButtons";
 
 const MenuListMobile = () => {
-  const router = useRouter()
+  const router = useRouter();
+
   const navItems = [
     { href: "/categoria/energizer", title: "Energizer" },
     { href: "/categoria/contigo", title: "Contigo" },
     { href: "/categoria/sharpie", title: "Sharpie" },
     { href: "/mas-vendido", title: "Más Vendido" },
     { href: "/sobre-nosotros", title: "Sobre Nosotros" },
-  ]
+  ];
 
   return (
     <div className="w-full flex flex-col gap-4 bg-background text-foreground p-4">
@@ -33,15 +35,10 @@ const MenuListMobile = () => {
 
       {/* Botones de sesión */}
       <div className="flex flex-col gap-4">
-        <Button variant="default" onClick={() => router.push("/signin")}>
-          Iniciar sesión
-        </Button>
-        <Button variant="secondary" onClick={() => router.push("/signup")}>
-          Registrarse
-        </Button>
+        <AuthButtons />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MenuListMobile
+export default MenuListMobile;

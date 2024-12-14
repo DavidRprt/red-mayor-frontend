@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -11,6 +13,8 @@ import {
 import { ProductType } from "@/types/product"
 import { Button } from "../ui/button"
 import { ShoppingCart } from "lucide-react"
+import { useAuthStore } from "@/store/authStore"
+import { useRouter } from "next/navigation"
 
 interface ProductCardProps {
   product: ProductType
@@ -25,6 +29,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
     subcategoria,
     imagenes,
   } = product
+  const router = useRouter()
+
+  const { isLoggedIn } = useAuthStore()
 
   const imageUrl = imagenes?.[0]?.url
     ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${imagenes[0].url}`
@@ -35,7 +42,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Card className="sm:w-[280px] pt-3 w-full bg-white">
       <CardContent>
-        {/* Hacemos la imagen clickeable */}
         <Link href={`/producto/${slug}`} passHref>
           <Image
             src={imageUrl}
@@ -53,9 +59,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <p className="text-sm text-gray-500 mt-4">SKU: MTL73LE/A</p>
       </CardHeader>
       <CardFooter>
-        <Button className="w-full">
-          <ShoppingCart className="hidden" /> Inicie sesión para ver el precio
-        </Button>
+        {isLoggedIn ? (
+          <Button className="w-full">
+            ${precioBase} <ShoppingCart className="mr-2" />
+          </Button>
+        ) : (
+          <Button className="w-full" onClick={() => router.push("/signin")}>
+            Inicie sesión para ver el precio
+          </Button>
+        )}
       </CardFooter>
     </Card>
   )
