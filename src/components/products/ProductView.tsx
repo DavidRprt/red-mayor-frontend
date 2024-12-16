@@ -17,7 +17,9 @@ const ProductView = ({ product }: ProductViewProps) => {
   const router = useRouter()
 
   const imageUrl = product.imagenes?.[0]?.url
-    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${product.imagenes[0].url}`
+    ? product.imagenes[0].url.startsWith("http")
+      ? product.imagenes[0].url
+      : `${process.env.NEXT_PUBLIC_API_BASE_URL}${product.imagenes[0].url}`
     : "/placeholder.jpg"
 
   const altText = `Imagen de ${product.nombreProducto || "Producto"}`

@@ -33,9 +33,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   const { isLoggedIn } = useAuthStore()
 
-  const imageUrl = imagenes?.[0]?.url
-    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${imagenes[0].url}`
-    : "/placeholder.jpg"
+ const imageUrl = imagenes?.[0]?.url
+   ? imagenes[0].url.startsWith("http")
+     ? imagenes[0].url
+     : `${process.env.NEXT_PUBLIC_API_BASE_URL}${imagenes[0].url}`
+   : "/placeholder.jpg"
 
   const altText = `Imagen de ${nombreProducto}`
 
