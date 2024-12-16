@@ -3,6 +3,9 @@
 import { Button } from "@/components/ui/button"
 import { useAuthStore } from "@/store/authStore"
 import { useRouter } from "next/navigation"
+import { ShoppingCart } from "lucide-react"
+import { User } from "lucide-react"
+import UserCartButtons from "./UserCartButtons"
 
 const AuthButtons = () => {
   const { username, isLoggedIn, logout } = useAuthStore()
@@ -37,11 +40,16 @@ const AuthButtons = () => {
       )}
 
       {isLoggedIn && (
-        <div className="flex flex-col sm:flex-row w-full gap-4">
-          <Button variant="outline" disabled>
-            {username}
-          </Button>
-          <Button variant="destructive" className="text-white" onClick={handleLogout}>
+        <div className="flex flex-col sm:flex-row w-full items-center justify-center gap-4">
+          <div className="hidden sm:block">
+            <UserCartButtons />
+          </div>
+
+          <Button
+            variant="destructive"
+            className="text-white"
+            onClick={handleLogout}
+          >
             Cerrar sesión
           </Button>
         </div>

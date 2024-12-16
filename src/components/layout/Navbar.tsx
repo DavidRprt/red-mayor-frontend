@@ -9,6 +9,7 @@ import MenuList from "./MenuList"
 import MenuListMobile from "./MenuListMobile"
 import AuthButtons from "./AuthButtons"
 import { useState } from "react"
+import UserCartButtons from "./UserCartButtons"
 
 const Navbar = () => {
   const [navbarOpen, setNavbarOpen] = useState<boolean>(false)
@@ -40,7 +41,8 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Toggle */}
-        <div className="md:hidden flex gap-2">
+        <div className="md:hidden flex gap-2 flex-row">
+          <UserCartButtons />
           {!navbarOpen ? (
             <Button
               onClick={() => setNavbarOpen(true)}
