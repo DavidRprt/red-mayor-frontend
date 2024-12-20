@@ -5,13 +5,13 @@ const apiHost = new URL(apiBaseUrl).hostname
 
 const nextConfig: NextConfig = {
   images: {
-    domains: [apiHost], // Permite cargar imágenes desde el dominio del backend
+    domains: [apiHost, "res.cloudinary.com"], 
   },
   async rewrites() {
     return [
       {
         source: "/admin/:path*",
-        destination: `${apiBaseUrl}/admin/:path*`, // Redirige a la ruta de admin del backend
+        destination: `${apiBaseUrl}/admin/:path*`, 
       },
     ]
   },

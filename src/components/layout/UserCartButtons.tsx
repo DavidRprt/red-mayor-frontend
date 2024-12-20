@@ -29,7 +29,7 @@ const UserCartButtons = () => {
             className="text-white group-hover:text-black"
           />
         </div>
-        <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-[10px] font-medium shadow-md">
+        <span className="absolute -top-2 -right-2 bg-red-700 text-white rounded-full px-2 text-[10px] font-medium shadow-md">
           2
         </span>
       </div>
