@@ -2,9 +2,11 @@
 
 import { useRouter } from "next/navigation"
 import { ShoppingCart, User } from "lucide-react"
+import { useCart } from "@/hooks/useCart"
 
 const UserCartButtons = () => {
   const router = useRouter()
+  const { totalItems } = useCart() 
 
   return (
     <div className="flex flex-row w-full items-center justify-center sm:gap-4">
@@ -29,9 +31,11 @@ const UserCartButtons = () => {
             className="text-white group-hover:text-black"
           />
         </div>
-        <span className="absolute -top-2 -right-2 bg-red-700 text-white rounded-full px-2 text-[10px] font-medium shadow-md">
-          2
-        </span>
+        {totalItems > 0 && ( // Mostrar solo si hay ítems en el carrito
+          <span className="absolute -top-2 -right-2 bg-red-700 text-white rounded-full px-2 text-[10px] font-medium shadow-md">
+            {totalItems}
+          </span>
+        )}
       </div>
     </div>
   )

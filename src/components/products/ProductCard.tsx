@@ -11,10 +11,10 @@ import {
   CardTitle,
 } from "../ui/card"
 import { ProductType } from "@/types/product"
-import { Button } from "../ui/button"
-import { ShoppingCart } from "lucide-react"
+import AddToCart from "./AddToCart"
 import { useAuthStore } from "@/store/authStore"
 import { useRouter } from "next/navigation"
+import { Button } from "../ui/button"
 
 interface ProductCardProps {
   product: ProductType
@@ -96,9 +96,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
       <CardFooter>
         {isLoggedIn ? (
-          <Button className="w-full">
-            ${precioBase} <ShoppingCart className="mr-2" />
-          </Button>
+          <AddToCart product={product} />
         ) : (
           <Button className="w-full" onClick={() => router.push("/signin")}>
             Inicie sesión para ver el precio

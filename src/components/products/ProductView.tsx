@@ -1,11 +1,10 @@
 "use client"
 
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
 import { ProductType } from "@/types/product"
 import { useAuthStore } from "@/store/authStore"
 import ProductDetails from "@/components/products/ProductDetails"
-import { ShoppingCart } from "lucide-react"
+import AddToCart from "@/components/products/AddToCart"
 import { useRouter } from "next/navigation"
 import {
   Carousel,
@@ -14,7 +13,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { Card, CardContent } from "@/components/ui/card"
 
 interface ProductViewProps {
   product: ProductType
@@ -25,7 +23,6 @@ const ProductView = ({ product }: ProductViewProps) => {
     nombreProducto,
     slug,
     descripcion = "Sin descripción",
-    precioBase,
     subcategoria,
     imagenes = [],
     cantidadPorCaja,
@@ -39,13 +36,14 @@ const ProductView = ({ product }: ProductViewProps) => {
   // Cálculo del precio unitario
   const precioUnitario =
     isLoggedIn && cantidadPorCaja
-      ? (precioBase / cantidadPorCaja).toFixed(2)
+      ? (product.precioBase / cantidadPorCaja).toFixed(2)
       : null
 
   return (
-    <div className="px-6 sm:py-16 flex flex-col sm:flex-row sm:px-40 gap-8">
-      <div className="w-full sm:w-[550px] px-12">
-        <Carousel className="w-full">
+    <div className="container mx-auto px-6 py-16 flex flex-col sm:flex-row items-start gap-12">
+      {/* Imagen del Producto */}
+      <div className="w-full sm:w-1/2">
+        <Carousel className="w-full rounded-lg overflow-hidden">
           <CarouselContent>
             {imagenes.length > 0 ? (
               imagenes.map((imagen, index) => (
@@ -66,7 +64,7 @@ const ProductView = ({ product }: ProductViewProps) => {
               ))
             ) : (
               <CarouselItem>
-                <div className="h-[500px] w-[500px] bg-gray-50 flex items-center justify-center">
+                <div className="h-[500px] w-[500px] bg-gray-100 flex items-center justify-center">
                   <Image
                     src="/placeholder.jpg"
                     alt="Imagen por defecto"
@@ -79,49 +77,61 @@ const ProductView = ({ product }: ProductViewProps) => {
             )}
           </CarouselContent>
 
-          {/* Mostrar los botones solo si hay más de una imagen */}
+          {/* Botones de navegación */}
           {imagenes.length > 1 && (
             <>
-              <CarouselPrevious />
-              <CarouselNext />
+              <CarouselPrevious className="absolute left-2 sm:left-4 md:left-8 top-1/2 transform -translate-y-1/2 bg-black text-white rounded-full p-2 hover:bg-gray-800 transition-all" />
+              <CarouselNext className="absolute right-2 sm:right-4 md:right-8 top-1/2 transform -translate-y-1/2 bg-black text-white rounded-full p-2 hover:bg-gray-800 transition-all" />
             </>
           )}
         </Carousel>
       </div>
 
-      <div className="sm:py-6 flex flex-col gap-4 w-full">
-        <h1 className="text-3xl font-bold">{nombreProducto}</h1>
-        <h4 className="text-gray-600">{subcategoria?.nombreSubcategoria}</h4>
-        <p className="text-gray-700">{descripcion}</p>
+      {/* Información del Producto */}
+      <div className="w-full sm:w-1/2 flex flex-col gap-6">
+        <h1 className="text-4xl font-bold text-gray-900">{nombreProducto}</h1>
+        <h4 className="text-lg text-gray-500">
+          {subcategoria?.nombreSubcategoria}
+        </h4>
+        <p className="text-gray-700 text-lg">{descripcion}</p>
 
-        {/* Mostrar precio unitario y descripción por cantidad si estamos logueados */}
+        {/* Precio Unitario y Detalles por Caja */}
         {isLoggedIn && cantidadPorCaja && (
-          <div>
-            <p className="text-sm text-gray-700">
-              Precio Unitario: ${precioUnitario}
+          <div className="bg-gray-100 p-4 rounded-lg shadow">
+            <p className="text-gray-600">
+              <span className="font-semibold">Precio Unitario:</span> $
+              {precioUnitario}
             </p>
             {descripcionCantidad && (
-              <p className="text-sm text-gray-700">{descripcionCantidad}</p>
+              <p className="text-gray-500 text-sm mt-1">
+                {descripcionCantidad}
+              </p>
             )}
           </div>
         )}
-        <p className="text-sm text-gray-700">SKU: {slug}</p>
+        <p className="text-gray-500 text-sm">SKU: {slug}</p>
 
+        {/* Botón AddToCart */}
         {isLoggedIn ? (
-          <Button className="py-3 sm:my-4 sm:w-64 w-full">
-            ${precioBase} <ShoppingCart className="ml-2" />
-          </Button>
+          <AddToCart product={product} />
         ) : (
-          <Button
-            className="py-3 sm:my-4 sm:w-64 w-full"
+          <button
             onClick={() => router.push("/signin")}
+            className="bg-blue-600 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-700 transition-all"
           >
             Inicie sesión para ver el precio
-          </Button>
+          </button>
         )}
 
-        {/* Componente de detalles del producto */}
-        <ProductDetails detalles={detalles} />
+        {/* Detalles Adicionales */}
+        {detalles && (
+          <div className="mt-4">
+            <h2 className="text-xl font-semibold text-gray-900">
+              Detalles del Producto
+            </h2>
+            <ProductDetails detalles={detalles} />
+          </div>
+        )}
       </div>
     </div>
   )
