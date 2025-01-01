@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 export async function GET() {
   const response = NextResponse.redirect("http://localhost:3000")
 
-  // Eliminar cookies estableciendo una fecha de expiración en el pasado
+  // Eliminar cookies 
   response.cookies.set("jwt", "", {
     path: "/",
     domain: ".localhost",

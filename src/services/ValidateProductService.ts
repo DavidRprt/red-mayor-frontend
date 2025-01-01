@@ -7,9 +7,10 @@ export async function validateAndCheckProducts(items: CartItemType[]) {
 
   // Transformar los items para incluir solo 'id' y 'quantity'
   const transformedItems = items.map((item) => ({
-    id: item.product.id,
+    id: item.product.documentId,
     quantity: item.cantidad,
   }))
+
 
   try {
   const response = await fetch(url.href, {
@@ -22,7 +23,6 @@ export async function validateAndCheckProducts(items: CartItemType[]) {
     }),
   })
 
-    console.log("Items enviados:", transformedItems)
 
     const data = await response.json()
     if (!response.ok || data.error) {

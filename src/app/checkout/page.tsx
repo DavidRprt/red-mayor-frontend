@@ -30,62 +30,64 @@ const CheckoutPage = () => {
     username: string
     addresses: Address[]
   } | null>(null)
+  const [selectedAddress, setSelectedAddressAction] = useState<number | null>(
+    null
+  )
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
-const fetchUserDetails = async () => {
-  try {
-    const response = await fetch("/api/get-user-details", {
-      method: "GET",
-    })
+  const fetchUserDetails = async () => {
+    try {
+      const response = await fetch("/api/get-user-details", {
+        method: "GET",
+      })
 
-    if (!response.ok) {
-      const errorData = await response.json()
-      setError(errorData.error || "Error al obtener los datos del usuario.")
-      return
+      if (!response.ok) {
+        const errorData = await response.json()
+        setError(errorData.error || "Error al obtener los datos del usuario.")
+        return
+      }
+
+      const rawData = await response.json()
+      const userData = rawData?.data.data
+
+      if (!userData) {
+        throw new Error("La estructura de datos no es válida")
+      }
+
+      const transformedUserDetails = {
+        type: userData.tipoUsuario || "",
+        cuit: userData.CUIT || "",
+        email: userData.email || "",
+        phone: userData.telefono || "",
+        razonSocial: userData.razonSocial || "",
+        username: userData.username || "",
+        addresses: Array.isArray(userData.direcciones)
+          ? userData.direcciones.map((direccion: any) => ({
+              id: direccion.id || 0,
+              direccion: direccion.direccion || "",
+              ciudad: direccion.ciudad || "",
+              provincia: direccion.provincia || "",
+              codigoPostal: direccion.codigoPostal || "",
+              referencias: direccion.referencias || null,
+            }))
+          : [],
+      }
+
+      setUserDetails(transformedUserDetails)
+      if (transformedUserDetails.addresses.length > 0) {
+        setSelectedAddressAction(
+          transformedUserDetails.addresses[
+            transformedUserDetails.addresses.length - 1
+          ].id
+        )
+      }
+    } catch (err) {
+      console.error("Error al obtener los detalles del usuario:", err)
+      setError("Error al procesar la solicitud.")
     }
-
-    const rawData = await response.json()
-    console.log("Datos crudos del backend:", rawData.data.data)
-
-    // Accede al objeto dentro de data
-    const userData = rawData?.data.data
-
-    if (!userData) {
-      throw new Error("La estructura de datos no es válida")
-    }
-
-    // Transformar los datos del usuario
-    const transformedUserDetails = {
-      type: userData.tipoUsuario || "",
-      cuit: userData.CUIT || "",
-      email: userData.email || "",
-      phone: userData.telefono || "",
-      razonSocial: userData.razonSocial || "",
-      username: userData.username || "",
-      addresses: Array.isArray(userData.direcciones)
-        ? userData.direcciones.map((direccion: any) => ({
-            id: direccion.id || 0,
-            direccion: direccion.direccion || "",
-            ciudad: direccion.ciudad || "",
-            provincia: direccion.provincia || "",
-            codigoPostal: direccion.codigoPostal || "",
-            referencias: direccion.referencias || null,
-          }))
-        : [],
-    }
-
-    console.log("Detalles transformados del usuario:", transformedUserDetails)
-
-    setUserDetails(transformedUserDetails)
-  } catch (err) {
-    console.error("Error al obtener los detalles del usuario:", err)
-    setError("Error al procesar la solicitud.")
   }
-}
-
-
 
   const fetchValidation = async () => {
     if (!items || items.length === 0) {
@@ -94,6 +96,7 @@ const fetchUserDetails = async () => {
     }
 
     try {
+
       const response = await validateAndCheckProducts(items)
 
       if (!response.ok) {
@@ -106,6 +109,7 @@ const fetchUserDetails = async () => {
       const { validatedProducts, totalDiscountedPrice } = response.data
       setValidatedProducts(validatedProducts)
       setTotalPrice(totalDiscountedPrice)
+     
     } catch (err) {
       console.error("Error al validar productos:", err)
       setError("Error al procesar la solicitud.")
@@ -172,11 +176,14 @@ const fetchUserDetails = async () => {
         <BillingDetails
           user={userDetails || defaultUser}
           addresses={userDetails?.addresses || []}
+          selectedAddress={selectedAddress}
+          setSelectedAddressAction={setSelectedAddressAction}
         />
         <OrderSummary
           validatedProducts={validatedProducts}
           items={items}
           totalPrice={totalPrice}
+          selectedAddress={selectedAddress} // Pasar la dirección seleccionada
         />
       </div>
     </div>

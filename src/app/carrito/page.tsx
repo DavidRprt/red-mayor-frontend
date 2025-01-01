@@ -4,6 +4,7 @@ import { useCart } from "@/hooks/useCart"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { XCircle } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const CartPage = () => {
   const {
@@ -48,12 +49,12 @@ const CartPage = () => {
       {items.length === 0 ? (
         <div className="flex flex-col items-center justify-center flex-grow">
           <p className="text-lg text-gray-500">Tu carrito está vacío.</p>
-          <button
+          <Button
             onClick={() => router.push("/")}
             className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition-all"
           >
             Volver a la tienda
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="grid lg:grid-cols-3 gap-8 flex-grow">
@@ -182,12 +183,12 @@ const CartPage = () => {
                 {formatPrice(totalPrice)}
               </span>
             </div>
-            <button
+            <Button
               onClick={handleCheckout}
-              className="w-full bg-green-500 text-white py-2 rounded-lg shadow hover:bg-green-600 transition-all"
+              className="w-full "
             >
               Finalizar Compra
-            </button>
+            </Button>
           </div>
         </div>
       )}

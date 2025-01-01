@@ -1,11 +1,6 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
 import { getStrapiURL } from "@/lib/utils"
-import { jwtDecode } from "jwt-decode"
-
-interface JwtPayload {
-  id: number
-}
 
 export async function POST(req: Request) {
   const cookieStore = await cookies()
@@ -19,50 +14,34 @@ export async function POST(req: Request) {
     )
   }
 
-  let userId: number
-  try {
-    // Decodificar el token para obtener el ID del usuario
-    const decoded: JwtPayload = jwtDecode(authToken)
-    userId = decoded.id
-  } catch (error) {
-    console.error("Error al decodificar el token:", error)
-    return NextResponse.json(
-      { error: "Token inválido o mal formado." },
-      { status: 400 }
-    )
-  }
-
-  const baseUrl = getStrapiURL()
-  const url = new URL("/api/direcciones", baseUrl)
-
   try {
     // Parsear el cuerpo de la solicitud
     const body = await req.json()
+    const { metodoPago, direccion, productos } = body
 
     // Validar campos requeridos
-    const { direccion, ciudad, provincia, codigoPostal, referencias } = body
-    if (!direccion || !ciudad || !provincia || !codigoPostal) {
+    if (!metodoPago || !direccion || !productos || productos.length === 0) {
       return NextResponse.json(
         { error: "Todos los campos requeridos deben completarse." },
         { status: 400 }
       )
     }
 
-    // Enviar solicitud al endpoint de Strapi
+    // URL del endpoint de Strapi
+    const baseUrl = getStrapiURL()
+    const url = new URL("/api/ordenes/create-with-products", baseUrl)
+
+    // Enviar la solicitud al endpoint de Strapi
     const response = await fetch(url.toString(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
       },
       body: JSON.stringify({
-        data: {
-          users_permissions_user: userId,
-          direccion,
-          ciudad,
-          provincia,
-          codigoPostal,
-          referencias,
-        },
+        metodoPago,
+        direccion,
+        productos,
       }),
     })
 
@@ -71,14 +50,14 @@ export async function POST(req: Request) {
       const errorData = await response.json()
       console.error("Error en la API de Strapi:", errorData)
       return NextResponse.json(
-        { error: errorData.message || "Error al crear la dirección." },
+        { error: errorData.message || "Error al crear la orden." },
         { status: response.status }
       )
     }
 
     // Respuesta exitosa
-    const createdAddress = await response.json()
-    return NextResponse.json({ data: createdAddress }, { status: 201 })
+    const createdOrder = await response.json()
+    return NextResponse.json({ data: createdOrder }, { status: 201 })
   } catch (error) {
     console.error("Error al procesar la solicitud:", error)
     return NextResponse.json(

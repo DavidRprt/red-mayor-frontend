@@ -44,29 +44,16 @@ interface BillingDetailsProps {
     username: string
   }
   addresses: Address[]
+  selectedAddress: number | null
+  setSelectedAddressAction: (addressId: number) => void
 }
 
-export const BillingDetails = ({ user, addresses }: BillingDetailsProps) => {
-  const [selectedAddress, setSelectedAddress] = useState<number | null>(null)
-
-  // Función para filtrar direcciones duplicadas
-  const filterUniqueAddresses = (addresses: Address[]) => {
-    const seen = new Set()
-    return addresses.filter((address) => {
-      const key = `${address.direccion}-${address.ciudad}-${
-        address.provincia
-      }-${address.codigoPostal}-${address.referencias || ""}`
-      if (seen.has(key)) {
-        return false
-      }
-      seen.add(key)
-      return true
-    })
-  }
-
-  // Filtra las direcciones al inicio
-  const uniqueAddresses = filterUniqueAddresses(addresses)
-
+export const BillingDetails = ({
+  user,
+  addresses,
+  selectedAddress,
+  setSelectedAddressAction,
+}: BillingDetailsProps) => {
   const formatPhoneNumber = (phone: string) => {
     const cleaned = phone.replace(/\D/g, "")
     const match = cleaned.match(/^(\+?54)?(\d{3})(\d{4})(\d{4})$/)
@@ -76,12 +63,6 @@ export const BillingDetails = ({ user, addresses }: BillingDetailsProps) => {
     return phone
   }
 
-  // Selecciona automáticamente la última dirección única si hay direcciones disponibles
-  useEffect(() => {
-    if (uniqueAddresses.length > 0) {
-      setSelectedAddress(uniqueAddresses[uniqueAddresses.length - 1].id)
-    }
-  }, [uniqueAddresses])
 
   return (
     <div className="col-span-1 bg-gray-50 rounded-lg shadow p-6 space-y-6 w-full">
@@ -145,16 +126,16 @@ export const BillingDetails = ({ user, addresses }: BillingDetailsProps) => {
       </div>
       <div className="mt-4">
         <h3 className="text-lg font-semibold text-gray-800">Direcciones</h3>
-        {uniqueAddresses.length > 0 && (
+        {addresses.length > 0 && (
           <Select
-            onValueChange={(value) => setSelectedAddress(Number(value))}
+            onValueChange={(value) => setSelectedAddressAction(Number(value))}
             value={selectedAddress ? String(selectedAddress) : undefined}
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Selecciona una dirección" />
             </SelectTrigger>
             <SelectContent>
-              {uniqueAddresses.map((address) => (
+              {addresses.map((address) => (
                 <SelectItem key={address.id} value={String(address.id)}>
                   {address.direccion}, {address.ciudad}, {address.provincia}, CP{" "}
                   {address.codigoPostal}
