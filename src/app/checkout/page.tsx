@@ -183,7 +183,7 @@ const CheckoutPage = () => {
           validatedProducts={validatedProducts}
           items={items}
           totalPrice={totalPrice}
-          selectedAddress={selectedAddress} // Pasar la dirección seleccionada
+          selectedAddress={selectedAddress}
         />
       </div>
     </div>

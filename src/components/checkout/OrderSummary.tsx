@@ -1,8 +1,11 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { useState } from "react"
 import { formatPrice } from "@/lib/utils"
 import { Checkbox } from "@/components/ui/checkbox"
+import { useRouter } from "next/navigation"
 
 interface ValidatedProduct {
   id: string
@@ -39,6 +42,7 @@ export const OrderSummary = ({
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
   const handleCheckout = async () => {
     if (!selectedAddress || !paymentMethod) {
@@ -50,12 +54,10 @@ export const OrderSummary = ({
       metodoPago: paymentMethod,
       direccion: selectedAddress,
       productos: validatedProducts.map((product) => ({
-        id: product.id, // ID del producto
-        cantidad: product.stockInOrder, // Cantidad ajustada por disponibilidad
+        id: product.id,
+        cantidad: product.stockInOrder,
       })),
     }
-
-    console.log("Objeto generado:", orderSummary)
 
     try {
       setIsSubmitting(true)
@@ -76,6 +78,9 @@ export const OrderSummary = ({
 
       console.log("Orden creada con éxito")
       setError(null)
+
+      // Redirigir a la página de compra exitosa
+      router.push("/compra-exitosa")
     } catch (error) {
       console.error("Error durante la solicitud:", error)
       setError("Error durante la solicitud.")
@@ -84,7 +89,6 @@ export const OrderSummary = ({
     }
   }
 
-  console.log(items, "HERE")
   return (
     <div className="col-span-2 bg-white rounded-lg shadow p-6 space-y-6 w-full">
       <h2 className="text-xl font-semibold text-gray-800">Tu Pedido</h2>
