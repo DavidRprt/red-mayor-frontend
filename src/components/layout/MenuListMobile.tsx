@@ -10,12 +10,12 @@ const MenuListMobile = () => {
   const router = useRouter();
 
   const navItems = [
-    { href: "/categoria/energizer", title: "Energizer" },
-    { href: "/categoria/contigo", title: "Contigo" },
+    { href: "/productos/productos/categoria/energizer", title: "Energizer" },
+    { href: "/productos/categoria/contigo", title: "Contigo" },
     { href: "/categoria/sharpie", title: "Sharpie" },
-    { href: "/mas-vendido", title: "Más Vendido" },
-    { href: "/sobre-nosotros", title: "Sobre Nosotros" },
-  ];
+    { href: "/productos/ofertas", title: "Ofertas" },
+    { href: "/productos", title: "Todos los productos" },
+  ]
 
   return (
     <div className="w-full flex flex-col gap-4 bg-background text-foreground p-4">

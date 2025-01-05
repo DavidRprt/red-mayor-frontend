@@ -38,7 +38,7 @@ const CategoryCards = () => {
         {categories.map((category) => (
           <Link
             key={category.id}
-            href={`/categoria/${category.attributes.slug}`}
+            href={`/productos/categoria/${category.attributes.slug}`}
             className="relative py-36 px-6 max-w-xs mx-auto overflow-hidden rounded-xl transform transition duration-300 hover:scale-105 shadow-lg border border-gray-300 hover:border-gray-500"
           >
             <div className="relative w-full flex items-center justify-center">

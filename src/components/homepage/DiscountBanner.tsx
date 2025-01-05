@@ -18,7 +18,7 @@ const DiscountBanner = () => {
             Al comprar productos seleccionados en grandes cantidades
           </h3>
           <div className="max-w-md mx-auto flex justify-center md:gap-8 gap-3 mt-5">
-            <Link href="#" className={buttonVariants()}>
+            <Link href="/productos" className={buttonVariants()}>
               Comprar
             </Link>
             <Link href="#" className={buttonVariants({ variant: "outline" })}>

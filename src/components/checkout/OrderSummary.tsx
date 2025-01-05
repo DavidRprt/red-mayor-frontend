@@ -6,6 +6,7 @@ import { useState } from "react"
 import { formatPrice } from "@/lib/utils"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useRouter } from "next/navigation"
+import { useCartStore } from "@/store/cartStore"
 
 interface ValidatedProduct {
   id: string
@@ -75,7 +76,7 @@ export const OrderSummary = ({
         setError(errorData.error || "Error al enviar la orden.")
         return
       }
-
+      useCartStore.getState().clearCart()
       console.log("Orden creada con éxito")
       setError(null)
 

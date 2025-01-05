@@ -47,14 +47,14 @@ const MenuList = () => {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/categoria/energizer" title="Energizer">
+              <ListItem href="/productos/categoria/energizer" title="Energizer">
                 Productos confiables para mantener tus dispositivos cargados
                 siempre.
               </ListItem>
-              <ListItem href="/categoria/contigo" title="Contigo">
+              <ListItem href="/productos/categoria/contigo" title="Contigo">
                 Mantén tus bebidas a la temperatura ideal.
               </ListItem>
-              <ListItem href="/categoria/sharpie" title="Sharpie">
+              <ListItem href="/productos/categoria/sharpie" title="Sharpie">
                 Descubre cómo Sharpie transforma lo cotidiano en algo
                 extraordinario.
               </ListItem>
@@ -63,24 +63,22 @@ const MenuList = () => {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link href="/mas-vendido" legacyBehavior passHref>
+          <Link href="/productos/ofertas" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Más vendido
+              Ofertas
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link href="/sobre-nosotros" legacyBehavior passHref>
+          <Link href="/productos" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Sobre nosotros
+              Todos los productos
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
 
         {/* Mostrar Logout si el usuario está logueado */}
-    
-        
       </NavigationMenuList>
     </NavigationMenu>
   )

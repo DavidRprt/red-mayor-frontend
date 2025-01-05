@@ -63,7 +63,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       )}
 
       <CardContent>
-        <Link href={`/producto/${slug}`} passHref>
+        <Link href={`/productos/${slug}`} passHref>
           <Image
             src={imageUrl}
             alt={altText}
