@@ -9,10 +9,10 @@ import { redirect } from "next/navigation"
 import { useAuthStore } from "@/store/authStore"
 
 const config = {
-  maxAge: 60 * 60 * 24 * 7, // 1 week
-  path: "/",
-  domain: process.env.HOST ?? "localhost",
-  secure: process.env.NODE_ENV === "production",
+  maxAge: 60 * 60 * 24 * 7, // 1 week 
+  path: "/", 
+  domain: process.env.HOST ?? "localhost", 
+  secure: process.env.NODE_ENV === "production", 
 }
 
 function validarCUIT(cuit: string): boolean {
