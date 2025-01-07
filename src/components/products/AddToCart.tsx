@@ -48,6 +48,8 @@ const AddToCart = ({ product }: AddToCartProps) => {
     }
   }
 
+    const isOutOfStock = product.stock === 0
+
   return (
     <div className="flex items-center gap-2">
       <div className="flex items-center border rounded-lg">
@@ -72,8 +74,20 @@ const AddToCart = ({ product }: AddToCartProps) => {
           +
         </button>
       </div>
-      <Button onClick={handleAddToCart} className="flex-1">
-        {formatPrice(product.precioBase)} <ShoppingCart className="ml-2" />
+      <Button
+        onClick={handleAddToCart}
+        disabled={isOutOfStock}
+        className={`flex-1 ${
+          isOutOfStock ? "bg-gray-400 text-gray-700 cursor-not-allowed" : ""
+        }`}
+      >
+        {isOutOfStock ? (
+          "No disponible"
+        ) : (
+          <>
+            {formatPrice(product.precioBase)} <ShoppingCart className="ml-2" />
+          </>
+        )}
       </Button>
     </div>
   )
