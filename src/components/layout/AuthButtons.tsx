@@ -10,21 +10,26 @@ import UserCartButtons from "./UserCartButtons"
 const AuthButtons = () => {
   const { username, isLoggedIn, logout } = useAuthStore()
   const router = useRouter()
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("/api/logout", { method: "GET" })
-
-      if (response.ok) {
-        logout()
-        router.refresh()
-      } else {
-        console.error("Error al cerrar sesión:", response.statusText)
+const handleLogout = async () => {
+  try {
+    const response = await fetch(
+      "https://red-mayor-frontend.onrender.com/api/logout",
+      {
+        method: "GET",
+        credentials: "include", 
       }
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error)
+    )
+
+    if (response.ok) {
+      logout()
+      router.refresh() 
+    } else {
+      console.error("Error al cerrar sesión:", response.statusText)
     }
+  } catch (error) {
+    console.error("Error al cerrar sesión:", error)
   }
+}
 
   return (
     <>
