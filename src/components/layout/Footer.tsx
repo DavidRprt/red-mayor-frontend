@@ -1,6 +1,10 @@
+"use client"
+
+import Link from "next/link"
+
 const Footer = () => {
   return (
-    <footer className="bg-background text-foreground py-6 dark">
+    <footer className="bg-background dark text-foreground py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center">
           {/* Logo y descripción */}
@@ -13,15 +17,24 @@ const Footer = () => {
 
           {/* Links */}
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
-            <a href="#" className="text-muted-foreground hover:text-primary">
+            <Link
+              href="/quienes-somos"
+              className="text-muted-foreground hover:text-primary"
+            >
               Quiénes Somos
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary">
+            </Link>
+            <Link
+              href="/contacto"
+              className="text-muted-foreground hover:text-primary"
+            >
               Contáctanos
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary">
+            </Link>
+            <Link
+              href="/terminos-y-condiciones"
+              className="text-muted-foreground hover:text-primary"
+            >
               Términos y Condiciones
-            </a>
+            </Link>
           </div>
         </div>
 

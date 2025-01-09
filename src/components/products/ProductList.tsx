@@ -59,8 +59,6 @@ const ProductList: React.FC<ProductListProps> = ({
     []
   )
 
-  
-
   const sortProducts = useCallback(
     (productsToSort: ProductType[], sortKey: string): ProductType[] => {
       if (!productsToSort) return []
@@ -168,17 +166,29 @@ const ProductList: React.FC<ProductListProps> = ({
         <FilterBox onSortChange={setSortValue} />
       </div>
 
-      <div className="flex items-center justify-between mb-4 border-b pb-2 gap-2 sm:hidden">
+      <div className="flex flex-col w-full items-start justify-start mb-4 border-b pb-2 gap-4 sm:hidden">
         <h1 className="text-2xl font-bold">Productos</h1>
-        <div className="flex items-center gap-2">
+
+        <div className="flex flex-row items-start justify-start gap-2 w-full">
           <FilterBox onSortChange={setSortValue} />
           <Button
             variant="outline"
-            className="w-[80px]"
+            className="w-full"
             onClick={() => setIsSidebarOpen(true)}
           >
             <SlidersHorizontal /> Filtrar
           </Button>
+        </div>
+
+        <div className="relative w-full">
+          <input
+            type="text"
+            placeholder="Buscar productos..."
+            className="w-full border border-gray-300 px-3 rounded-lg py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Search className="absolute right-3 top-3 w-5 h-5 text-gray-500" />
         </div>
       </div>
 

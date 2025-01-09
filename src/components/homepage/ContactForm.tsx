@@ -41,7 +41,7 @@ export function ContactForm() {
   }
 
   return (
-    <section className="flex-col flex sm:flex-row py-4 sm:py-8 sm:px-24 w-full items-start justify-between bg-slate-200">
+    <section className="flex-col flex sm:flex-row py-4 sm:py-8 sm:px-24 w-full items-start justify-between ">
       <div className="flex flex-col px-6 space-y-4 p-6 max-w-1/2">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
           ¿Tienes alguna pregunta?

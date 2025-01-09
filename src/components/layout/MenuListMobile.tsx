@@ -10,7 +10,7 @@ const MenuListMobile = () => {
   const router = useRouter();
 
   const navItems = [
-    { href: "/productos/productos/categoria/energizer", title: "Energizer" },
+    { href: "/productos/categoria/energizer", title: "Energizer" },
     { href: "/productos/categoria/contigo", title: "Contigo" },
     { href: "/categoria/sharpie", title: "Sharpie" },
     { href: "/productos/ofertas", title: "Ofertas" },
