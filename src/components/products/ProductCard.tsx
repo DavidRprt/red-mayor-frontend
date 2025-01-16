@@ -1,5 +1,3 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -51,7 +49,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       : null
 
   return (
-    <Card className="sm:w-[280px] pt-3 w-full bg-white relative">
+    <Card className="sm:w-[280px] pt-3 w-full bg-white relative flex flex-col min-h-[400px]">
       {/* Descuento en la esquina superior */}
       {descuentoPorMayor?.activo && (
         <div className="absolute top-3 right-3 bg-red-500 text-white rounded-full px-2 py-1 text-xs font-bold text-center">
@@ -62,20 +60,22 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       )}
 
-      <CardContent>
+      <CardContent className="flex-1 flex items-center justify-center">
         <Link href={`/productos/${slug}`} passHref>
           <Image
             src={imageUrl}
             alt={altText}
             width={300}
             height={300}
-            className="rounded-lg cursor-pointer"
+            className="rounded-lg cursor-pointer object-contain"
           />
         </Link>
       </CardContent>
 
-      <CardHeader>
-        <CardTitle>{nombreProducto}</CardTitle>
+      <CardHeader className="mt-2">
+        <CardTitle className="min-h-[60px] text-gray-900">
+          {nombreProducto}
+        </CardTitle>
         <p className="text-sm text-gray-700">
           {subcategoria?.nombreSubcategoria}
         </p>
@@ -98,7 +98,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
         {isLoggedIn ? (
           <AddToCart product={product} />
         ) : (
-          <Button className="w-full" onClick={() => router.push("/signin")}>
+          <Button
+            className="w-full mt-auto"
+            onClick={() => router.push("/signin")}
+          >
             Inicie sesión para ver el precio
           </Button>
         )}

@@ -7,6 +7,8 @@ import { formatPrice } from "@/lib/utils"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useRouter } from "next/navigation"
 import { useCartStore } from "@/store/cartStore"
+import { Textarea } from "@/components/ui/textarea"
+import { CouponInput } from "../products/CouponInput"
 
 interface ValidatedProduct {
   id: string
@@ -26,12 +28,12 @@ interface CartItemType {
   }
   cantidad: number
 }
-
 interface OrderSummaryProps {
   validatedProducts: ValidatedProduct[]
   items: CartItemType[]
   totalPrice: number
   selectedAddress: number | null
+  observaciones: string
 }
 
 export const OrderSummary = ({
@@ -41,6 +43,7 @@ export const OrderSummary = ({
   selectedAddress,
 }: OrderSummaryProps) => {
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null)
+  const [observaciones, setObservaciones] = useState<string>("")
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
@@ -58,8 +61,10 @@ export const OrderSummary = ({
         id: product.id,
         cantidad: product.stockInOrder,
       })),
+      observaciones: observaciones,
     }
 
+    console.log(orderSummary)
     try {
       setIsSubmitting(true)
       const response = await fetch("/api/ordenes/create", {
@@ -172,13 +177,24 @@ export const OrderSummary = ({
           </div>
           <div className="flex items-center space-x-3">
             <Checkbox
-              id="mercadopago"
-              checked={paymentMethod === "MercadoPago"}
-              onCheckedChange={() => setPaymentMethod("MercadoPago")}
+              id="Convenir"
+              checked={paymentMethod === "Convenir"}
+              onCheckedChange={() => setPaymentMethod("Convenir")}
             />
-            <label htmlFor="mercadopago" className="text-gray-700">
-              MercadoPago
+            <label htmlFor="Convenir" className="text-gray-700">
+              A convenir
             </label>
+          </div>
+          <div className="space-y-4 py-4">
+            <h3 className="text-lg font-semibold text-gray-800">
+              Observaciones
+            </h3>
+            <Textarea
+              placeholder="Escribe tus observaciones aquí..."
+              value={observaciones}
+              onChange={(e) => setObservaciones(e.target.value)}
+              className="w-full"
+            />
           </div>
         </div>
         {error && <p className="text-red-500 text-sm font-semibold">{error}</p>}
@@ -189,6 +205,7 @@ export const OrderSummary = ({
           {formatPrice(totalPrice)}
         </p>
       </div>
+
       <Button
         className="w-full"
         onClick={handleCheckout}
@@ -196,6 +213,7 @@ export const OrderSummary = ({
       >
         {isSubmitting ? "Procesando..." : "Continuar la Compra"}
       </Button>
+      <CouponInput />
     </div>
   )
 }
