@@ -5,17 +5,42 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
 interface CouponInputProps {
-  onApply: (couponCode: string) => void
+  onApply: (discountPercentage: number) => void
 }
 
-export const CouponInput = () => {
+export const CouponInput = ({ onApply }: CouponInputProps) => {
   const [couponCode, setCouponCode] = useState<string>("")
+  const [error, setError] = useState<string | null>(null)
 
-  const handleApply = () => {
+  const handleApply = async () => {
     if (couponCode.trim() === "") {
-      return alert("Por favor ingresa un código de descuento válido.")
+      setError("Por favor ingresa un código de descuento válido.")
+      return
     }
-    setCouponCode("") // Limpia el campo después de aplicar
+
+    try {
+      const response = await fetch(`/api/coupons/validate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ codigo: couponCode }),
+      })
+
+      if (!response.ok) {
+        const data = await response.json()
+        setError(data.message || "Cupón no válido.")
+        return
+      }
+
+      const { porcentajeDescuento } = await response.json()
+      onApply(porcentajeDescuento)
+      setCouponCode("") // Limpia el campo
+      setError(null)
+    } catch (error) {
+      console.error("Error al validar el cupón:", error)
+      setError("Hubo un error al validar el cupón. Inténtalo más tarde.")
+    }
   }
 
   return (
@@ -39,6 +64,7 @@ export const CouponInput = () => {
           Aplicar
         </Button>
       </div>
+      {error && <p className="text-red-500 text-sm">{error}</p>}
     </div>
   )
 }

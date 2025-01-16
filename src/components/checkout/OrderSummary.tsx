@@ -33,7 +33,7 @@ interface OrderSummaryProps {
   items: CartItemType[]
   totalPrice: number
   selectedAddress: number | null
-  observaciones: string
+  observaciones?: string
 }
 
 export const OrderSummary = ({
@@ -44,9 +44,21 @@ export const OrderSummary = ({
 }: OrderSummaryProps) => {
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null)
   const [observaciones, setObservaciones] = useState<string>("")
+  const [discountPercentage, setDiscountPercentage] = useState<number>(0)
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
+
+  const handleApplyDiscount = (percentage: number) => {
+    setDiscountPercentage(percentage)
+
+    // Aplicar descuento solo a productos sin descuento
+    validatedProducts.forEach((product) => {
+      if (product.discountedPrice === product.basePrice) {
+        product.discountedPrice = product.basePrice * (1 - percentage / 100)
+      }
+    })
+  }
 
   const handleCheckout = async () => {
     if (!selectedAddress || !paymentMethod) {
@@ -213,7 +225,7 @@ export const OrderSummary = ({
       >
         {isSubmitting ? "Procesando..." : "Continuar la Compra"}
       </Button>
-      <CouponInput />
+      <CouponInput onApply={handleApplyDiscount} />
     </div>
   )
 }
