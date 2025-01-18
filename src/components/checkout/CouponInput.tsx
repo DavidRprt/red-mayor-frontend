@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
 interface CouponInputProps {
-  onApply: (discountPercentage: number) => void
+  onApplyAction: (discountPercentage: number, couponCode: string) => void
+  disabled: boolean // Prop para desactivar el input y botón cuando el cupón esté aplicado
 }
 
-export const CouponInput = ({ onApply }: CouponInputProps) => {
+export const CouponInput = ({ onApplyAction, disabled }: CouponInputProps) => {
   const [couponCode, setCouponCode] = useState<string>("")
   const [error, setError] = useState<string | null>(null)
 
@@ -19,22 +20,29 @@ export const CouponInput = ({ onApply }: CouponInputProps) => {
     }
 
     try {
-      const response = await fetch(`/api/coupons/validate`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ codigo: couponCode }),
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/cupones/validate`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ codigo: couponCode }),
+        }
+      )
 
       if (!response.ok) {
-        const data = await response.json()
-        setError(data.message || "Cupón no válido.")
+        try {
+          const data = await response.json()
+          setError(data.message || "Cupón no válido.")
+        } catch {
+          setError("Cupón no válido.")
+        }
         return
       }
 
       const { porcentajeDescuento } = await response.json()
-      onApply(porcentajeDescuento)
+      onApplyAction(porcentajeDescuento, couponCode)
       setCouponCode("") // Limpia el campo
       setError(null)
     } catch (error) {
@@ -44,8 +52,8 @@ export const CouponInput = ({ onApply }: CouponInputProps) => {
   }
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-gray-800">
+    <div className="space-y-2">
+      <h3 className="text-md font-semibold text-gray-800">
         Cupón de Descuento
       </h3>
       <div className="flex items-center space-x-2">
@@ -55,16 +63,21 @@ export const CouponInput = ({ onApply }: CouponInputProps) => {
           value={couponCode}
           onChange={(e) => setCouponCode(e.target.value)}
           className="flex-1"
+          disabled={disabled}
         />
         <Button
           variant="default"
           className="bg-black text-white"
           onClick={handleApply}
+          disabled={disabled}
         >
           Aplicar
         </Button>
       </div>
       {error && <p className="text-red-500 text-sm">{error}</p>}
+      <p className="text-sm text-gray-500">
+        * Los descuentos no son acumulables.
+      </p>
     </div>
   )
 }

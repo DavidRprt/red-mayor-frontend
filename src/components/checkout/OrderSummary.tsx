@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useRouter } from "next/navigation"
 import { useCartStore } from "@/store/cartStore"
 import { Textarea } from "@/components/ui/textarea"
-import { CouponInput } from "../products/CouponInput"
+import { CouponInput } from "./CouponInput"
 
 interface ValidatedProduct {
   id: string
@@ -34,8 +34,8 @@ interface OrderSummaryProps {
   totalPrice: number
   selectedAddress: number | null
   observaciones?: string
+  appliedCoupon?: string 
 }
-
 export const OrderSummary = ({
   validatedProducts,
   items,
@@ -45,13 +45,14 @@ export const OrderSummary = ({
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null)
   const [observaciones, setObservaciones] = useState<string>("")
   const [discountPercentage, setDiscountPercentage] = useState<number>(0)
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
 
-  const handleApplyDiscount = (percentage: number) => {
+  const handleApplyDiscount = (percentage: number, couponCode: string) => {
     setDiscountPercentage(percentage)
-
+    setAppliedCoupon(couponCode)
     // Aplicar descuento solo a productos sin descuento
     validatedProducts.forEach((product) => {
       if (product.discountedPrice === product.basePrice) {
@@ -74,6 +75,7 @@ export const OrderSummary = ({
         cantidad: product.stockInOrder,
       })),
       observaciones: observaciones,
+      cupon: appliedCoupon,
     }
 
     console.log(orderSummary)
@@ -108,7 +110,7 @@ export const OrderSummary = ({
   }
 
   return (
-    <div className="col-span-2 bg-white rounded-lg shadow p-6 space-y-6 w-full">
+    <div className="col-span-2 bg-white rounded-lg shadow p-6 space-y-2 w-full">
       <h2 className="text-xl font-semibold text-gray-800">Tu Pedido</h2>
       <div className="divide-y divide-gray-200">
         {validatedProducts.map((product) => {
@@ -174,31 +176,34 @@ export const OrderSummary = ({
           )
         })}
       </div>
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-gray-800">Método de Pago</h3>
-        <div className="space-y-2">
-          <div className="flex items-center space-x-3">
-            <Checkbox
-              id="transferencia"
-              checked={paymentMethod === "Transferencia"}
-              onCheckedChange={() => setPaymentMethod("Transferencia")}
-            />
-            <label htmlFor="transferencia" className="text-gray-700">
-              Transferencia
-            </label>
+      <div className="space-y-1 py-1">
+        <h3 className="text-md font-semibold text-gray-800">Método de Pago</h3>
+        <div className="">
+          <div className="flex flex-row gap-3">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="transferencia"
+                checked={paymentMethod === "Transferencia"}
+                onCheckedChange={() => setPaymentMethod("Transferencia")}
+              />
+              <label htmlFor="transferencia" className="text-gray-700">
+                Transferencia
+              </label>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="Convenir"
+                checked={paymentMethod === "Convenir"}
+                onCheckedChange={() => setPaymentMethod("Convenir")}
+              />
+              <label htmlFor="Convenir" className="text-gray-700">
+                A convenir
+              </label>
+            </div>
           </div>
-          <div className="flex items-center space-x-3">
-            <Checkbox
-              id="Convenir"
-              checked={paymentMethod === "Convenir"}
-              onCheckedChange={() => setPaymentMethod("Convenir")}
-            />
-            <label htmlFor="Convenir" className="text-gray-700">
-              A convenir
-            </label>
-          </div>
-          <div className="space-y-4 py-4">
-            <h3 className="text-lg font-semibold text-gray-800">
+
+          <div className="space-y-1 py-2">
+            <h3 className="text-md font-semibold text-gray-800">
               Observaciones
             </h3>
             <Textarea
@@ -211,6 +216,12 @@ export const OrderSummary = ({
         </div>
         {error && <p className="text-red-500 text-sm font-semibold">{error}</p>}
       </div>
+      <CouponInput
+        onApplyAction={(percentage, code) =>
+          handleApplyDiscount(percentage, code)
+        }
+        disabled={!!appliedCoupon}
+      />
       <div className="pt-4 border-t border-gray-200 flex justify-between items-center">
         <h3 className="text-lg font-semibold text-gray-800">Total:</h3>
         <p className="text-xl font-bold text-gray-900">
@@ -225,7 +236,6 @@ export const OrderSummary = ({
       >
         {isSubmitting ? "Procesando..." : "Continuar la Compra"}
       </Button>
-      <CouponInput onApply={handleApplyDiscount} />
     </div>
   )
 }

@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   try {
     // Parsear el cuerpo de la solicitud
     const body = await req.json()
-    const { metodoPago, direccion, productos, observaciones } = body
+    const { metodoPago, direccion, productos, observaciones, cupon } = body
 
     // Validar campos requeridos
     if (!metodoPago || !direccion || !productos || productos.length === 0) {
@@ -42,7 +42,8 @@ export async function POST(req: Request) {
         metodoPago,
         direccion,
         productos,
-        observaciones
+        observaciones,
+        cupon
       }),
     })
 

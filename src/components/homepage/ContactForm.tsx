@@ -3,12 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,15 +14,17 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-
-// Importa tu esquema de validación
 import contactFormSchema from "@/schemas/contactFormSchema"
+import { useState } from "react"
 
-// Define los tipos basados en el esquema
 type ContactFormValues = z.infer<typeof contactFormSchema>
 
 export function ContactForm() {
-  // Configuración del formulario con `useForm`
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
+    null
+  )
+
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -35,9 +35,34 @@ export function ContactForm() {
     },
   })
 
-  // Manejador de envío
-  const onSubmit = (values: ContactFormValues) => {
- 
+  const onSubmit = async (values: ContactFormValues) => {
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/formularios/submit`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error("Error al enviar el formulario")
+      }
+
+      setSubmitStatus("success")
+      form.reset()
+    } catch (error) {
+      console.error("Error enviando el formulario:", error)
+      setSubmitStatus("error")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -47,21 +72,18 @@ export function ContactForm() {
           ¿Tienes alguna pregunta?
         </h1>
         <p className="text-gray-600 leading-relaxed">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
-          voluptatibus at, minima esse atque deleniti. Cumque nihil atque,
-          placeat ut eaque fuga reprehenderit commodi in sit quaerat! Illum,
-          laborum libero!
+          Contáctanos con tus dudas o inquietudes. Nuestro equipo estará
+          encantado de ayudarte.
         </p>
         <p className="text-gray-600 leading-relaxed hidden sm:block">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
-          voluptatibus at, minima esse atque deleniti. Cumque nihil atque,
-          placeat ut eaque fuga reprehenderit commodi in sit quaerat! Illum
+          Complete el siguiente formulario y nos pondremos en contacto lo antes
+          posible.
         </p>
       </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 w-full px-6 "
+          className="space-y-4 w-full px-6"
         >
           <FormField
             control={form.control}
@@ -145,9 +167,22 @@ export function ContactForm() {
             type="submit"
             variant="outline"
             className="w-full py-4 dark text-white hover:text-gray-200 sm:h-12"
+            disabled={isSubmitting}
           >
-            Enviar
+            {isSubmitting ? "Enviando..." : "Enviar"}
           </Button>
+          {submitStatus === "success" && (
+            <p className="text-green-500 text-sm mt-2">
+              ¡Formulario enviado correctamente! Nos pondremos en contacto
+              contigo pronto.
+            </p>
+          )}
+          {submitStatus === "error" && (
+            <p className="text-red-500 text-sm mt-2">
+              Hubo un error al enviar el formulario. Por favor, intenta de
+              nuevo.
+            </p>
+          )}
         </form>
       </Form>
     </section>
