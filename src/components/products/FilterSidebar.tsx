@@ -146,7 +146,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
               {category.subcategorias && (
                 <ul className="pl-4 py-3">
                   {category.subcategorias.map((subcategory) => (
-                    <li key={subcategory.id}>
+                    <li key={subcategory.id} className="py-1">
                       <label className="flex items-center space-x-2">
                         <Checkbox
                           id={`subcategory-${subcategory.id}`}

@@ -57,7 +57,8 @@ const ProductView = ({ product }: ProductViewProps) => {
                       alt={`Imagen ${index + 1} de ${nombreProducto}`}
                       width={500}
                       height={500}
-                      className="object-cover rounded-lg"
+                      className="object-contain rounded-lg bg-white"
+                      style={{ aspectRatio: "1 / 1" }}
                     />
                   </div>
                 </CarouselItem>
@@ -70,7 +71,8 @@ const ProductView = ({ product }: ProductViewProps) => {
                     alt="Imagen por defecto"
                     width={500}
                     height={500}
-                    className="object-cover rounded-lg"
+                    className="object-contain rounded-lg bg-white"
+                    style={{ aspectRatio: "1 / 1" }}
                   />
                 </div>
               </CarouselItem>
@@ -90,9 +92,11 @@ const ProductView = ({ product }: ProductViewProps) => {
       {/* Información del Producto */}
       <div className="w-full sm:w-1/2 flex flex-col gap-6">
         <h1 className="text-4xl font-bold text-gray-900">{nombreProducto}</h1>
-        <h4 className="text-lg text-gray-500">
-          {subcategoria?.nombreSubcategoria}
-        </h4>
+        {subcategoria?.nombreSubcategoria && (
+          <h4 className="text-lg text-gray-500">
+            {subcategoria.nombreSubcategoria}
+          </h4>
+        )}
         <p className="text-gray-700 text-lg">{descripcion}</p>
 
         {/* Precio Unitario y Detalles por Caja */}

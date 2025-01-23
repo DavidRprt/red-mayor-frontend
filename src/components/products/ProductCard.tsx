@@ -49,10 +49,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
       : null
 
   return (
-    <Card className="sm:w-[280px] pt-3 w-full bg-white relative flex flex-col min-h-[400px]">
+    <Card className="sm:w-[280px] pt-3 w-full bg-white relative flex flex-col min-h-[550px] max-h-[550px]">
       {/* Descuento en la esquina superior */}
       {descuentoPorMayor?.activo && (
-        <div className="absolute top-3 right-3 bg-red-500 text-white rounded-full px-2 py-1 text-xs font-bold text-center">
+        <div className="absolute z-10 top-3 right-3 bg-red-500 text-white rounded-full px-2 py-1 text-xs font-bold text-center">
           <div>{descuentoPorMayor.porcentajeDescuento}% OFF</div>
           <div className="text-[10px] font-normal mt-0.5">
             Desde {descuentoPorMayor.cantidadMinima} unidades
@@ -60,41 +60,45 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       )}
 
-      <CardContent className="flex-1 flex items-center justify-center">
+      <CardContent className=" flex items-center justify-center">
         <Link href={`/productos/${slug}`} passHref>
-          <Image
-            src={imageUrl}
-            alt={altText}
-            width={300}
-            height={300}
-            className="rounded-lg cursor-pointer object-contain"
-          />
+          <div className="relative w-[250px] h-[250px] bg-white flex items-center justify-center">
+            <Image
+              src={imageUrl}
+              alt={altText}
+              layout="fill"
+              objectFit="contain"
+              className="p-2"
+            />
+          </div>
         </Link>
       </CardContent>
 
-      <CardHeader className="mt-2">
-        <CardTitle className="min-h-[60px] text-gray-900">
+      <CardHeader>
+        <CardTitle className="text-gray-900 text-sm font-semibold min-h-[50px] max-h-[60px] overflow-hidden">
           {nombreProducto}
         </CardTitle>
-        <p className="text-sm text-gray-700">
+        <p className="text-sm text-gray-700 min-h-[20px] max-h-[20px] overflow-hidden">
           {subcategoria?.nombreSubcategoria}
         </p>
 
         {/* Mostrar precio unitario y descripción por cantidad si estamos logueados */}
         {isLoggedIn && cantidadPorCaja && (
           <div>
-            <p className="text-sm text-gray-700">
-              Precio Unitario: ${precioUnitario}
+            <p className="text-xs text-gray-700">
+              PRECIO UNITARIO: ${precioUnitario}
             </p>
             {descripcionCantidad && (
-              <p className="text-sm text-gray-700">{descripcionCantidad}</p>
+              <p className="text-xs text-gray-700 min-h-[30px] max-h-[30px]">
+                {descripcionCantidad}
+              </p>
             )}
           </div>
         )}
         <p className="text-sm text-gray-700">SKU: {slug}</p>
       </CardHeader>
 
-      <CardFooter>
+      <CardFooter >
         {isLoggedIn ? (
           <AddToCart product={product} />
         ) : (
