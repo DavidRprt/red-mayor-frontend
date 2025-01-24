@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import {
   Card,
@@ -17,7 +17,17 @@ import { Button } from "@/components/ui/button"
 const ResetPasswordPage = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const code = searchParams.get("code") 
+  const [code, setCode] = useState<string | null>(null)
+
+  useEffect(() => {
+    const codeFromParams = searchParams.get("code")
+    if (!codeFromParams) {
+      setCode(null)
+      setError("Código no válido o faltante en la URL.")
+    } else {
+      setCode(codeFromParams)
+    }
+  }, [searchParams])
 
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
@@ -27,6 +37,11 @@ const ResetPasswordPage = () => {
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!code) {
+      setError("El código es inválido o está ausente.")
+      return
+    }
+
     setIsSubmitting(true)
     setMessage(null)
     setError(null)
@@ -40,7 +55,7 @@ const ResetPasswordPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            code, // Código del enlace
+            code,
             password,
             passwordConfirmation,
           }),
@@ -56,7 +71,7 @@ const ResetPasswordPage = () => {
 
       setMessage("Tu contraseña ha sido restablecida exitosamente.")
       setTimeout(() => {
-        router.push("/signin") // Redirige al inicio de sesión
+        router.push("/signin")
       }, 5000)
     } catch (error: any) {
       setError(error.message)
@@ -78,41 +93,47 @@ const ResetPasswordPage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="password">Nueva contraseña</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Ingresa tu nueva contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="passwordConfirmation">
-                Confirmar nueva contraseña
-              </Label>
-              <Input
-                id="passwordConfirmation"
-                type="password"
-                placeholder="Confirma tu nueva contraseña"
-                value={passwordConfirmation}
-                onChange={(e) => setPasswordConfirmation(e.target.value)}
-                required
-              />
-            </div>
-            {message && (
-              <p className="text-sm text-green-600 text-center">{message}</p>
-            )}
             {error && (
               <p className="text-sm text-red-600 text-center">{error}</p>
             )}
+            {message && (
+              <p className="text-sm text-green-600 text-center">{message}</p>
+            )}
+            {!error && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Nueva contraseña</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Ingresa tu nueva contraseña"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="passwordConfirmation">
+                    Confirmar nueva contraseña
+                  </Label>
+                  <Input
+                    id="passwordConfirmation"
+                    type="password"
+                    placeholder="Confirma tu nueva contraseña"
+                    value={passwordConfirmation}
+                    onChange={(e) => setPasswordConfirmation(e.target.value)}
+                    required
+                  />
+                </div>
+              </>
+            )}
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Restableciendo..." : "Restablecer contraseña"}
-            </Button>
+            {!error && (
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? "Restableciendo..." : "Restablecer contraseña"}
+              </Button>
+            )}
             <Button
               variant="outline"
               className="w-full"
