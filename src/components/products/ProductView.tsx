@@ -121,7 +121,7 @@ const ProductView = ({ product }: ProductViewProps) => {
         ) : (
           <button
             onClick={() => router.push("/signin")}
-            className="bg-blue-600 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-700 transition-all"
+            className="bg-black text-white py-3 px-6 rounded-lg shadow hover:bg-gray-900 transition-all"
           >
             Inicie sesión para ver el precio
           </button>

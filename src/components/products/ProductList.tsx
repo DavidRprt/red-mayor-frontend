@@ -57,7 +57,13 @@ const ProductList: React.FC<ProductListProps> = ({
       setCurrentPage(1)
     },
     []
+    
   )
+  useEffect(() => {
+    if (searchTerm.trim() !== "") {
+      setCurrentPage(1)
+    }
+  }, [searchTerm])
 
   const sortProducts = useCallback(
     (productsToSort: ProductType[], sortKey: string): ProductType[] => {

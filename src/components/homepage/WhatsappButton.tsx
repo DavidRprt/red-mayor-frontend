@@ -2,8 +2,8 @@ import React from "react"
 import { MessageCircle } from "lucide-react"
 
 const WhatsAppButton: React.FC = () => {
-  const phoneNumber = "5493413914938" // Reemplaza con tu número de WhatsApp en formato internacional
-  const message = "¡Hola! Me gustaría hacer una consulta." // Mensaje predeterminado
+  const phoneNumber = "5493418191010" 
+  const message = "¡Hola! Me gustaría hacer una consulta." 
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
     message
   )}`
