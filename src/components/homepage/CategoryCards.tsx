@@ -27,6 +27,22 @@ const categories = [
       image: "/images/sharpie-logo.svg.png",
     },
   },
+  {
+    id: 4,
+    attributes: {
+      name: "Elmer's",
+      slug: "elmers",
+      image: "/images/brand-logo.png",
+    },
+  },
+  {
+    id: 5,
+    attributes: {
+      name: "Paper-Mate",
+      slug: "paper-mate",
+      image: "/images/paper-mate6125.logowik.com.webp",
+    },
+  },
 ]
 
 const CategoryCards = () => {
