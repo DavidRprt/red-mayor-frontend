@@ -19,12 +19,12 @@ const Footer = () => {
           {/* Navegación y contacto */}
           <div className="flex flex-col items-center md:items-end space-y-4 md:space-y-0 md:space-x-8">
             <div className="flex flex-col md:flex-row md:space-x-6">
-              <Link
+              {/*  <Link
                 href="/quienes-somos"
                 className="text-muted-foreground hover:text-primary"
               >
                 Quiénes Somos
-              </Link>
+              </Link> */}
 
               <Link
                 href="/contacto"
@@ -32,12 +32,12 @@ const Footer = () => {
               >
                 Contáctanos
               </Link>
-              <Link
+              {/*     <Link
                 href="/terminos-y-condiciones"
                 className="text-muted-foreground hover:text-primary"
               >
                 Términos y Condiciones
-              </Link>
+              </Link> */}
             </div>
             {/* Email y teléfono */}
             <div className="text-sm text-muted-foreground text-center md:text-right py-3">
@@ -50,8 +50,8 @@ const Footer = () => {
                 </a>
               </p>
               <p>
-                <a href="tel:+5493418191010" className="hover:text-primary">
-                  Tel: +54 9 341 819 1010
+                <a href="tel:+5493416712802" className="hover:text-primary">
+                  Tel: +54 9 3416712802
                 </a>
               </p>
             </div>
