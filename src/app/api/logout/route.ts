@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 export async function GET() {
   const redirectUrl =
     process.env.NODE_ENV === "production"
-      ? "https://red-mayor-frontend.onrender.com"
+      ? "https://www.redxmayor.com"
       : "http://localhost:3000"
 
   const response = NextResponse.redirect(redirectUrl)
@@ -13,7 +13,7 @@ export async function GET() {
     path: "/",
     domain:
       process.env.NODE_ENV === "production"
-        ? "red-mayor-frontend.onrender.com"
+        ? "https://www.redxmayor.com"
         : "localhost",
     expires: new Date(0), // Expirar inmediatamente
     httpOnly: true,
@@ -22,7 +22,7 @@ export async function GET() {
     path: "/",
     domain:
       process.env.NODE_ENV === "production"
-        ? "red-mayor-frontend.onrender.com"
+        ? "https://www.redxmayor.com"
         : "localhost",
     expires: new Date(0),
   })
@@ -30,7 +30,7 @@ export async function GET() {
     path: "/",
     domain:
       process.env.NODE_ENV === "production"
-        ? "red-mayor-frontend.onrender.com"
+        ? "https://www.redxmayor.com"
         : "localhost",
     expires: new Date(0),
   })

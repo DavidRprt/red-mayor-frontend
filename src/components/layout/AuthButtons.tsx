@@ -12,13 +12,10 @@ const AuthButtons = () => {
   const router = useRouter()
 const handleLogout = async () => {
   try {
-    const response = await fetch(
-      "https://red-mayor-frontend.onrender.com/api/logout",
-      {
-        method: "GET",
-        credentials: "include", 
-      }
-    )
+    const response = await fetch("https://www.redxmayor.com", {
+      method: "GET",
+      credentials: "include",
+    })
 
     if (response.ok) {
       logout()
