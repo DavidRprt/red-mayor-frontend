@@ -78,6 +78,22 @@ const MenuList = () => {
           </Link>
         </NavigationMenuItem>
 
+        <NavigationMenuItem>
+          <Link href="/quienes-somos" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Quienes somos
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <Link href="/contacto" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Contactános
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+
         {/* Mostrar Logout si el usuario está logueado */}
       </NavigationMenuList>
     </NavigationMenu>

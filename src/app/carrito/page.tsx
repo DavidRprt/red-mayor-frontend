@@ -175,7 +175,12 @@ const CartPage = () => {
             </div>
             <div className="flex justify-between mb-6">
               <span className="text-gray-700">Envío:</span>
-              <span className="font-medium text-gray-900">Gratis</span>
+              <div className="flex flex-col items-end">
+                <span className="font-medium text-gray-900">A convenir </span>
+                <span className="font-medium text-xs text-gray-900">
+                  *Gratis en Santa Fe y Entre Rios
+                </span>
+              </div>
             </div>
             <div className="flex justify-between items-center mb-4 border-t pt-4">
               <span className="text-xl font-bold text-gray-900">Total:</span>
@@ -183,11 +188,8 @@ const CartPage = () => {
                 {formatPrice(totalPrice)}
               </span>
             </div>
-            <Button
-              onClick={handleCheckout}
-              className="w-full "
-            >
-              Finalizar Compra
+            <Button onClick={handleCheckout} className="w-full ">
+              Continuar con el pedido
             </Button>
           </div>
         </div>

@@ -234,7 +234,7 @@ export const OrderSummary = ({
         onClick={handleCheckout}
         disabled={isSubmitting}
       >
-        {isSubmitting ? "Procesando..." : "Continuar la Compra"}
+        {isSubmitting ? "Procesando..." : "Finalizar pedido"}
       </Button>
     </div>
   )

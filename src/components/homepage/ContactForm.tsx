@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
+import { Mail, Phone } from "lucide-react"
 import {
   Form,
   FormControl,
@@ -66,7 +67,8 @@ export function ContactForm() {
   }
 
   return (
-    <section className="flex-col flex sm:flex-row py-4 sm:py-8 sm:px-24 w-full items-start justify-between ">
+    <section className="flex-col flex sm:flex-row py-4 sm:py-8 sm:px-24 w-full items-start justify-between">
+      {/* Información de contacto */}
       <div className="flex flex-col px-6 space-y-4 p-6 max-w-1/2">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
           ¿Tienes alguna pregunta?
@@ -76,10 +78,23 @@ export function ContactForm() {
           encantado de ayudarte.
         </p>
         <p className="text-gray-600 leading-relaxed hidden sm:block">
-          Complete el siguiente formulario y nos pondremos en contacto lo antes
-          posible.
+          Completa el formulario o comunícate con nosotros directamente:
         </p>
+
+        {/* Correo electrónico y teléfono */}
+        <div className="text-gray-800 text-lg space-y-2 mt-4">
+          <p className="flex items-center space-x-2">
+            <Mail className="w-5 h-5 text-gray-700" />
+            <span>contacto@redxmayor.com</span>
+          </p>
+          <p className="flex items-center space-x-2">
+            <Phone className="w-5 h-5 text-gray-700" />
+            <span>+54 9 341 671 2802</span>
+          </p>
+        </div>
       </div>
+
+      {/* Formulario de contacto */}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

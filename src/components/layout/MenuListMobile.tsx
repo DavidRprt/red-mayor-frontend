@@ -14,7 +14,8 @@ const MenuListMobile = () => {
     { href: "/productos/categoria/contigo", title: "Contigo" },
     { href: "/categoria/sharpie", title: "Sharpie" },
     { href: "/productos/ofertas", title: "Ofertas" },
-    { href: "/productos", title: "Todos los productos" },
+    { href: "/quienes-somos", title: "Quienes somos" },
+    { href: "/contacto", title: "Contactános" },
   ]
 
   return (

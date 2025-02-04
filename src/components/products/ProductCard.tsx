@@ -55,7 +55,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="absolute z-10 top-3 right-3 bg-red-500 text-white rounded-full px-2 py-1 text-xs font-bold text-center">
           <div>{descuentoPorMayor.porcentajeDescuento}% OFF</div>
           <div className="text-[10px] font-normal mt-0.5">
-            Desde {descuentoPorMayor.cantidadMinima} unidades
+            Comprando desde {descuentoPorMayor.cantidadMinima}
           </div>
         </div>
       )}
@@ -66,8 +66,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <Image
               src={imageUrl}
               alt={altText}
-              layout="fill"
-              objectFit="contain"
+              fill
+              sizes="(max-width: 768px) 100vw, 
+                     (max-width: 1200px) 50vw, 
+                     33vw"
+              style={{ objectFit: "contain" }}
               className="p-2"
             />
           </div>
@@ -98,7 +101,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <p className="text-sm text-gray-700">SKU: {slug}</p>
       </CardHeader>
 
-      <CardFooter >
+      <CardFooter>
         {isLoggedIn ? (
           <AddToCart product={product} />
         ) : (

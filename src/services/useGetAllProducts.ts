@@ -8,7 +8,7 @@ export const useGetAllProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?populate=*`
+        const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?populate=*&pagination[pageSize]=9999`
         const res = await fetch(url)
         const json = await res.json()
 
@@ -16,6 +16,7 @@ export const useGetAllProducts = () => {
           throw new Error(json.error?.message || "Error en la solicitud")
         }
 
+        console.log(json)
         setProducts(json.data || [])
       } catch (error: any) {
         console.error("Error al obtener los productos:", error)

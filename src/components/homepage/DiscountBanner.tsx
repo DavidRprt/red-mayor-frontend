@@ -21,9 +21,6 @@ const DiscountBanner = () => {
             <Link href="/productos" className={buttonVariants()}>
               Comprar
             </Link>
-            <Link href="#" className={buttonVariants({ variant: "outline" })}>
-              Más información
-            </Link>
           </div>
         </>
       ) : (

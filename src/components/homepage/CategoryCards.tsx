@@ -1,6 +1,5 @@
 import Link from "next/link"
 import Image from "next/image"
-import { AspectRatio } from "@radix-ui/react-aspect-ratio"
 
 const categories = [
   {
@@ -40,7 +39,7 @@ const categories = [
     attributes: {
       name: "Paper-Mate",
       slug: "paper-mate",
-      image: "/images/paper-mate6125.logowik.com.webp",
+      image: "/images/paper-mate6125.logowik.com.jpg",
     },
   },
 ]
@@ -55,14 +54,17 @@ const CategoryCards = () => {
           <Link
             key={category.id}
             href={`/productos/categoria/${category.attributes.slug}`}
-            className="relative py-36 px-6 max-w-xs mx-auto overflow-hidden rounded-xl transform transition duration-300 hover:scale-105 shadow-lg border border-gray-300 hover:border-gray-500"
+            className="flex items-center justify-center w-[400px] h-[170px] bg-white mx-auto overflow-hidden rounded-lg transform transition duration-300 hover:scale-105 shadow-lg border border-gray-300 hover:border-gray-500"
           >
-            <div className="relative w-full flex items-center justify-center">
+            <div className="relative w-[300px] h-[140px]">
               <Image
                 src={category.attributes.image}
                 alt={category.attributes.name}
-                width={270}
-                height={300}
+                fill
+                sizes="(max-width: 768px) 100vw, 
+                       (max-width: 1200px) 50vw, 
+                       33vw"
+                style={{ objectFit: "contain" }}
                 priority
               />
             </div>

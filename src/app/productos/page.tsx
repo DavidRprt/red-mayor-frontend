@@ -6,6 +6,7 @@ import ProductList from "@/components/products/ProductList"
 
 const ProductsPage = () => {
   const { products, loading, error } = useGetAllProducts()
+
   const {
     categories,
     loading: categoriesLoading,

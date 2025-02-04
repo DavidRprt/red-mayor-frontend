@@ -6,7 +6,7 @@ export function useGetProviderProducts(providerSlug: string) {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>("")
 
-  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?filters[subcategoria][categoria][proveedor][slug][$eq]=${providerSlug}&populate=*`
+  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?filters[subcategoria][categoria][proveedor][slug][$eq]=${providerSlug}&populate=*&pagination[pageSize]=9999`
 
   useEffect(() => {
     ;(async () => {
