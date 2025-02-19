@@ -27,6 +27,13 @@ const Footer = () => {
               </Link> */}
 
               <Link
+                href="/vender"
+                className="text-muted-foreground hover:text-primary"
+              >
+                Trabaja con nosotros
+              </Link>
+
+              <Link
                 href="/contacto"
                 className="text-muted-foreground hover:text-primary"
               >

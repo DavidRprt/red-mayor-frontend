@@ -5,6 +5,7 @@ import HomepageProducts from "@/components/homepage/HomepageProducts"
 import Hero from "@/components/homepage/Hero"
 import { ContactForm } from "@/components/homepage/ContactForm"
 import WhatsAppButton from "@/components/homepage/WhatsappButton"
+import VendorBanner from "@/components/homepage/VenderBanner"
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <HomepageProducts />
       <DiscountBanner />
       <CategoryCards />
+      <VendorBanner />
       <ContactForm />
       <WhatsAppButton />
     </>
