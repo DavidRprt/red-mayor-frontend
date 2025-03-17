@@ -13,6 +13,8 @@ import AddToCart from "./AddToCart"
 import { useAuthStore } from "@/store/authStore"
 import { useRouter } from "next/navigation"
 import { Button } from "../ui/button"
+import { Tag, ShoppingCart, Package, Boxes, DollarSign } from "lucide-react"
+import DiscountBadge from "./DiscountBagde"
 
 interface ProductCardProps {
   product: ProductType
@@ -29,6 +31,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     descuentoPorMayor,
     cantidadPorCaja,
     descripcionCantidad,
+    marca,
   } = product
 
   const router = useRouter()
@@ -49,27 +52,26 @@ const ProductCard = ({ product }: ProductCardProps) => {
       : null
 
   return (
-    <Card className="sm:w-[280px] pt-3 w-full bg-white relative flex flex-col min-h-[550px] max-h-[550px]">
-      {/* Descuento en la esquina superior */}
-      {descuentoPorMayor?.activo && (
-        <div className="absolute z-10 top-3 right-3 bg-red-500 text-white rounded-full px-2 py-1 text-xs font-bold text-center">
-          <div>{descuentoPorMayor.porcentajeDescuento}% OFF</div>
-          <div className="text-[10px] font-normal mt-0.5">
-            Comprando desde {descuentoPorMayor.cantidadMinima}
-          </div>
-        </div>
-      )}
+    <Card className="sm:w-[280px] pt-2 w-full bg-white relative flex flex-col min-h-[600px] max-h-[600px] rounded-lg shadow-lg border border-gray-200">
+      <div className="absolute top-2 right-3 z-10">
+        {descuentoPorMayor?.activo && (
+          <DiscountBadge
+            porcentajeDescuento={descuentoPorMayor.porcentajeDescuento}
+            cantidadMinima={descuentoPorMayor.cantidadMinima}
+          />
+        )}
+      </div>
 
-      <CardContent className=" flex items-center justify-center">
+      <CardContent className="flex items-center justify-center">
         <Link href={`/productos/${slug}`} passHref>
-          <div className="relative w-[250px] h-[250px] bg-white flex items-center justify-center">
+          <div className="relative w-[250px] h-[250px] mt-5 bg-white flex items-center justify-center overflow-hidden  border-gray-200 ">
             <Image
               src={imageUrl}
               alt={altText}
               fill
               sizes="(max-width: 768px) 100vw, 
-                     (max-width: 1200px) 50vw, 
-                     33vw"
+                 (max-width: 1200px) 50vw, 
+                 33vw"
               style={{ objectFit: "contain" }}
               className="p-2"
             />
@@ -77,36 +79,63 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </Link>
       </CardContent>
 
-      <CardHeader>
-        <CardTitle className="text-gray-900 text-sm font-semibold min-h-[50px] max-h-[60px] overflow-hidden">
+      {/* Header con estructura mejorada */}
+      <CardHeader className="px-4 space-y-2">
+        <CardTitle className="text-gray-900 text-sm font-semibold min-h-[50px] max-h-[60px] overflow-hidden leading-tight">
           {nombreProducto}
         </CardTitle>
-        <p className="text-sm text-gray-700 min-h-[20px] max-h-[20px] overflow-hidden">
-          {subcategoria?.nombreSubcategoria}
-        </p>
 
-        {/* Mostrar precio unitario y descripción por cantidad si estamos logueados */}
-        {isLoggedIn && cantidadPorCaja && (
-          <div>
-            <p className="text-xs text-gray-700">
-              PRECIO UNITARIO: ${precioUnitario}
+        {/* Subcategoría */}
+        {subcategoria?.nombreSubcategoria && (
+          <div className="flex items-center text-sm text-gray-600">
+            <Boxes className="w-4 h-4 mr-2 text-gray-500" />
+            <p className="min-h-[20px] max-h-[20px] overflow-hidden">
+              {subcategoria.nombreSubcategoria}
             </p>
+          </div>
+        )}
+
+        {/* Marca */}
+        {marca && (
+          <div className="flex items-center text-sm text-gray-600">
+            <Package className="w-4 h-4 mr-2 text-gray-500" />
+            <p className="min-h-[20px] max-h-[20px] overflow-hidden">
+              {marca.nombreMarca}
+            </p>
+          </div>
+        )}
+
+        {/* Precio unitario si está logueado */}
+        {isLoggedIn && cantidadPorCaja && (
+          <div className=" text-sm text-gray-700 space-y-1">
+            <div className="flex items-center text-sm text-gray-600">
+              <DollarSign className="w-4 h-4 mr-2 text-gray-500" />
+              <p className="min-h-[20px] max-h-[20px] overflow-hidden">
+                Precio Unitario:{" "}
+                <span className="text-black font-bold">${precioUnitario}</span>
+              </p>
+            </div>
             {descripcionCantidad && (
-              <p className="text-xs text-gray-700 min-h-[30px] max-h-[30px]">
+              <p className="text-xs text-gray-600 min-h-[30px] max-h-[30px]">
                 {descripcionCantidad}
               </p>
             )}
           </div>
         )}
-        <p className="text-sm text-gray-700">SKU: {slug}</p>
+
+        {/* SKU */}
+        <div className="flex items-center text-xs text-gray-500">
+          <p>SKU: {slug}</p>
+        </div>
       </CardHeader>
 
-      <CardFooter>
+      {/* Footer con botón refinado */}
+      <CardFooter className="mt-auto px-4 pb-4">
         {isLoggedIn ? (
           <AddToCart product={product} />
         ) : (
           <Button
-            className="w-full mt-auto"
+            className="w-full bg-gray-900 text-white hover:bg-gray-700 transition-all duration-300"
             onClick={() => router.push("/signin")}
           >
             Inicie sesión para ver el precio

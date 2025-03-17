@@ -15,15 +15,20 @@ const HomepageProducts = () => {
   const { result, loading }: ResponseType = useGetHomepageItems()
 
   return (
-    <div className="w-full py-4 sm:py-8 sm:px-24 flex items-center flex-col md:items-start">
-      <h3 className="px-6 text-3xl sm:pb-2">Productos destacados</h3>
-      <Carousel className="w-full px-6 mt-3">
+    <section className="w-full py-6 sm:py-10 sm:px-24 flex flex-col items-center md:items-start">
+      {/* Título estilizado */}
+      <h3 className="px-6 text-3xl font-bold text-gray-900 sm:pb-4">
+        Productos Destacados
+      </h3>
+
+      {/* Contenedor del carrusel */}
+      <Carousel className="w-full px-6 mt-5">
         <CarouselContent className="md:-ml-4">
           {/* Skeleton mientras carga */}
-          <div className="hidden md:flex gap-3">
+          <div className="hidden md:flex gap-4 animate-pulse">
             {loading && <SkeletonSchema grid={4} />}
           </div>
-          <div className="block md:hidden w-full">
+          <div className="block md:hidden w-full animate-pulse">
             {loading && <SkeletonSchema grid={1} />}
           </div>
 
@@ -32,19 +37,25 @@ const HomepageProducts = () => {
             ? result.map((product: ProductType) => (
                 <CarouselItem
                   key={product.id}
-                  className="md:basis-1/2 lg:basis-1/4 group w-full"
+                  className="md:basis-1/2 lg:basis-1/4 w-full "
                 >
                   <ProductCard product={product} />
                 </CarouselItem>
               ))
-            : !loading && <p>No hay productos disponibles.</p>}
+            : !loading && (
+                <p className="text-gray-600 text-lg mt-6">
+                  No hay productos disponibles.
+                </p>
+              )}
         </CarouselContent>
-        <div className="hidden md:block">
+
+        {/* Botones de navegación visibles en pantallas grandes */}
+        <div className="hidden md:flex gap-4 mt-4 justify-center">
           <CarouselPrevious />
           <CarouselNext />
         </div>
       </Carousel>
-    </div>
+    </section>
   )
 }
 

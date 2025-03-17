@@ -17,16 +17,15 @@ const Navbar = () => {
   const closeNavbar = () => setNavbarOpen(false)
 
   return (
-    <nav className="mx-auto sticky left-0 right-0 top-0 z-30 bg-background dark text-foreground py-2 sm:py-0">
+    <nav className="mx-auto sticky left-0 right-0 top-0 z-30 bg-background dark text-foreground py-2 sm:py-0 md:h-80px]">
       <div className="flex px-4 py-2 md:py-4 md:px-6 items-center justify-between">
         {/* Logo */}
         <Link href="/">
           <Image
-            src="/images/logo-dark.png"
+            src="/red-mayor-logo-white.svg"
             alt="Logo"
-            width={120}
-            height={60}
-            style={{ height: "auto", width: "auto" }}
+            width={160}
+            height={80}
           />
         </Link>
 

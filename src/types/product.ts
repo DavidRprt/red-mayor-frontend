@@ -54,5 +54,6 @@ export type ProductType = {
     createdAt?: string // Fecha de creación de la subcategoría (opcional)
     updatedAt?: string // Fecha de última actualización de la subcategoría (opcional)
     publishedAt?: string // Fecha de publicación de la subcategoría (opcional)
-  } 
+  }
+  marca?: { id: number; nombreMarca: string; slug: string } | null
 }

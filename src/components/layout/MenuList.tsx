@@ -1,10 +1,5 @@
-"use client"
-
 import * as React from "react"
 import Link from "next/link"
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-
 import { cn } from "@/lib/utils"
 import {
   NavigationMenu,
@@ -15,86 +10,71 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-
-import { Button } from "@/components/ui/button"
-
-
+import { menuConfig } from "@/constants"
 
 const MenuList = () => {
-  const router = useRouter()
-
   return (
     <NavigationMenu>
       <NavigationMenuList>
+        {/* Sección de Categorías */}
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Nuestros productos</NavigationMenuTrigger>
+          <NavigationMenuTrigger>
+            {menuConfig.categories.title}
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
+              <li className="row-span-6">
                 <NavigationMenuLink asChild>
                   <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                    className="flex h-full w-full select-none flex-col justify-start rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     href="/"
                   >
                     <div className="mb-2 mt-4 text-lg font-medium">
                       Red X Mayor
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      Tu aliado en compras mayoristas. Ofrecemos productos de
-                      calidad a precios competitivos, ideales para abastecer tu
-                      negocio y maximizar tus ganancias.
+                      La mejor opción en compras mayoristas. Productos de
+                      calidad con precios competitivos para potenciar tu
+                      negocio.
                     </p>
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/productos/categoria/energizer" title="Energizer">
-                Productos confiables para mantener tus dispositivos cargados
-                siempre.
-              </ListItem>
-              <ListItem href="/productos/categoria/contigo" title="Contigo">
-                Mantén tus bebidas a la temperatura ideal.
-              </ListItem>
-              <ListItem href="/productos/categoria/sharpie" title="Sharpie">
-                Descubre cómo Sharpie transforma lo cotidiano en algo
-                extraordinario.
-              </ListItem>
+              {menuConfig.categories.items.map((item) => (
+                <ListItem key={item.href} href={item.href} title={item.title}>
+                  {item.description}
+                </ListItem>
+              ))}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
 
+        {/* Sección de Marcas */}
         <NavigationMenuItem>
-          <Link href="/productos/ofertas" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Ofertas
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuTrigger>
+            {menuConfig.brands.title}
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="flex flex-col gap-3 p-4 w-[300px] items-center justify-center">
+              {menuConfig.brands.items.map((item) => (
+                <ListItem key={item.href} href={item.href} title={item.title}>
+                  {item.description}
+                </ListItem>
+              ))}
+            </ul>
+          </NavigationMenuContent>
         </NavigationMenuItem>
 
-        <NavigationMenuItem>
-          <Link href="/productos" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Todos los productos
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <Link href="/quienes-somos" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Quienes somos
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <Link href="/contacto" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Contactános
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-
-        {/* Mostrar Logout si el usuario está logueado */}
+        {/* Otros enlaces */}
+        {menuConfig.otherLinks.map((link) => (
+          <NavigationMenuItem key={link.href}>
+            <Link href={link.href} legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                {link.title}
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        ))}
       </NavigationMenuList>
     </NavigationMenu>
   )
