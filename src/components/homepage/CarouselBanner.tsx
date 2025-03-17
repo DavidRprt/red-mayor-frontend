@@ -31,7 +31,7 @@ export const dataCarousel = [
 
 const CarouselBanner = () => {
   return (
-    <div className="bg-gray-200 dark:bg-primary">
+    <div className="bg-gray-200 dark:bg-primary md:h-[80px] flex items-center">
       <Carousel
         className="w-full max-w-4xl mx-auto"
         plugins={[

@@ -145,10 +145,10 @@ export const OrderSummary = ({
                   Precio:{" "}
                   {hasDiscount ? (
                     <>
-                      <span className="text-sm line-through text-red-400">
+                      <span className="text-sm line-through text-rose-700">
                         {formatPrice(product.basePrice)}
                       </span>{" "}
-                      <span className="text-base font-semibold text-green-600">
+                      <span className="text-base font-semibold text-emerald-700">
                         {formatPrice(product.discountedPrice)}
                       </span>
                     </>
@@ -162,12 +162,12 @@ export const OrderSummary = ({
                   Cantidad: {product.stockInOrder}
                 </p>
                 {hasDiscount && (
-                  <p className="text-sm text-green-500 mt-1">
+                  <p className="text-sm text-emerald-700-500 mt-1">
                     * Este producto tiene descuento aplicado.
                   </p>
                 )}
                 {stockChanged && (
-                  <p className="text-sm text-red-500 mt-1">
+                  <p className="text-sm text-rose-700 mt-1">
                     * El stock fue ajustado por disponibilidad.
                   </p>
                 )}
@@ -214,7 +214,7 @@ export const OrderSummary = ({
             />
           </div>
         </div>
-        {error && <p className="text-red-500 text-sm font-semibold">{error}</p>}
+        {error && <p className="text-ros7-500 text-sm font-semibold">{error}</p>}
       </div>
       <CouponInput
         onApplyAction={(percentage, code) =>

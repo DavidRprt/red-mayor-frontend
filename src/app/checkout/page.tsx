@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 import { BillingDetails } from "@/components/checkout/BillingDetails"
 import { OrderSummary } from "@/components/checkout/OrderSummary"
+import Button from "@/components/layout/Button"
 
 interface Address {
   id: number
@@ -138,7 +139,7 @@ const CheckoutPage = () => {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <p className="text-red-500 text-lg font-semibold">{error}</p>
+        <p className="text-rose-700 text-lg font-semibold">{error}</p>
       </div>
     )
   }
@@ -149,12 +150,14 @@ const CheckoutPage = () => {
         <p className="text-gray-500 text-lg font-semibold">
           Tu carrito está vacío.
         </p>
-        <button
-          onClick={() => router.push("/")}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
-        >
-          Volver a la tienda
-        </button>
+        <Button
+          label="Volver a la tienda"
+          href="/"
+          isOutline={false}
+          bgColor="bg-black"
+          textColor="text-white"
+          w="w-44"
+        />
       </div>
     )
   }
@@ -170,7 +173,7 @@ const CheckoutPage = () => {
   }
 
   return (
-    <div className="container mx-auto px-6 py-8 space-y-10">
+    <div className="container min-h-[calc(100vh-160px)] mx-auto px-6 py-8 space-y-10">
       <h1 className="text-4xl font-extrabold text-gray-900">Checkout</h1>
       <div className="flex flex-col sm:flex-row w-full justify-between gap-10">
         <BillingDetails

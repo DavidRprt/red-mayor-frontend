@@ -4,6 +4,7 @@ import ProductCard from "@/components/products/ProductCard"
 import FilterSidebar from "@/components/products/FilterSidebar"
 import FilterBox from "@/components/products/FilterBox"
 import { Button } from "@/components/ui/button"
+import NoResults from "./NoResults"
 import Head from "next/head"
 import { SlidersHorizontal, Search } from "lucide-react"
 import {
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/pagination"
 import { ProductType } from "@/types/product"
 import { CategoryType } from "@/types/category"
+import { useParams } from "next/navigation"
 
 interface ProductListProps {
   products: ProductType[]
@@ -39,31 +41,27 @@ const ProductList: React.FC<ProductListProps> = ({
   const [sortValue, setSortValue] = useState("")
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [filters, setFilters] = useState<{
-    categories: number[]
     subcategories: number[]
+    brands: string[]
   }>({
-    categories: [],
     subcategories: [],
+    brands: [],
   })
+
   const [searchTerm, setSearchTerm] = useState("")
-  const [visibleProducts, setVisibleProducts] = useState(products || [])
+  const [visibleProducts, setVisibleProducts] = useState<ProductType[]>([])
   const [currentPage, setCurrentPage] = useState(1)
+  const { slug } = useParams()
 
   const totalPages = Math.ceil(visibleProducts.length / ITEMS_PER_PAGE)
 
   const handleFilterChange = useCallback(
-    (selectedFilters: { categories: number[]; subcategories: number[] }) => {
+    (selectedFilters: { subcategories: number[]; brands: string[] }) => {
       setFilters(selectedFilters)
       setCurrentPage(1)
     },
     []
-    
   )
-  useEffect(() => {
-    if (searchTerm.trim() !== "") {
-      setCurrentPage(1)
-    }
-  }, [searchTerm])
 
   const sortProducts = useCallback(
     (productsToSort: ProductType[], sortKey: string): ProductType[] => {
@@ -97,11 +95,18 @@ const ProductList: React.FC<ProductListProps> = ({
         const matchesSubcategory =
           filters.subcategories.length === 0 ||
           filters.subcategories.includes(product.subcategoria?.id || 0)
+
         const matchesSearchTerm = product.nombreProducto
           .toLowerCase()
           .includes(searchTerm.toLowerCase())
-        return matchesSubcategory && matchesSearchTerm
+
+        const matchesBrand =
+          filters.brands.length === 0 ||
+          (product.marca && filters.brands.includes(product.marca.slug))
+
+        return matchesSubcategory && matchesSearchTerm && matchesBrand
       })
+
       setVisibleProducts(sortProducts(filtered, sortValue))
     }
   }, [filters, products, loading, sortValue, sortProducts, searchTerm])
@@ -116,6 +121,7 @@ const ProductList: React.FC<ProductListProps> = ({
       setCurrentPage(page)
     }
   }
+
   const productStructuredData = paginatedProducts.map((product) => ({
     "@type": "Product",
     name: product.nombreProducto,
@@ -143,9 +149,8 @@ const ProductList: React.FC<ProductListProps> = ({
     currentPage: currentPage,
   }
 
-
   return (
-    <div className="w-full">
+    <div className="w-full px-8 pb-6">
       <Head>
         <script
           type="application/ld+json"
@@ -156,7 +161,6 @@ const ProductList: React.FC<ProductListProps> = ({
       </Head>
       <div className="justify-between items-center hidden sm:flex py-4">
         <div className="flex items-center gap-40">
-          <h1 className="text-2xl font-bold">Productos</h1>
           <div className="relative">
             <input
               type="text"
@@ -171,7 +175,6 @@ const ProductList: React.FC<ProductListProps> = ({
 
         <FilterBox onSortChange={setSortValue} />
       </div>
-
       <div className="flex flex-col w-full items-start justify-start mb-4 border-b pb-2 gap-4 sm:hidden">
         <h1 className="text-2xl font-bold">Productos</h1>
 
@@ -204,26 +207,20 @@ const ProductList: React.FC<ProductListProps> = ({
           onClose={() => setIsSidebarOpen(false)}
           categories={categories}
           onFilterChange={handleFilterChange}
+          products={products}
         />
         <div className="flex-1">
           <div className="flex flex-wrap justify-between gap-4">
             {loading && <SkeletonSchema grid={12} />}
-            {!loading && error && (
-              <div className="text-center w-full">
-                <p>Error al cargar productos: {error}</p>
-                <Button onClick={onRetry} variant="outline">
-                  Reintentar
-                </Button>
-              </div>
-            )}
+            
             {!loading &&
               paginatedProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             {!loading && paginatedProducts.length === 0 && (
-              <p className="w-full text-center">
-                No hay productos disponibles para los filtros seleccionados.
-              </p>
+              <div className="flex items-center justify-center w-full">
+                <NoResults />
+              </div>
             )}
           </div>
 

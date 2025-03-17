@@ -15,13 +15,13 @@ const ProductPage = () => {
   if (!product) return <p>Producto no encontrado</p>
 
   return (
-    <>
+    <section>
       <ProductView product={product} />
       <SimilarProductsCarousel
         subcategorySlug={product.subcategoria.slug}
         currentProductSlug={product.slug}
       />
-    </>
+    </section>
   )
 }
 

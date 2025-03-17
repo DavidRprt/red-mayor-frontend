@@ -4,7 +4,7 @@ import { useCart } from "@/hooks/useCart"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { XCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Button from "@/components/layout/Button"
 
 const CartPage = () => {
   const {
@@ -38,23 +38,21 @@ const CartPage = () => {
     }
   }
 
-  const handleCheckout = () => {
-    router.push("/checkout")
-  }
-
   return (
-    <div className="container mx-auto px-6 py-8 min-h-screen flex flex-col">
+    <div className="container mx-auto px-6 py-8 h-[calc(100vh-160px)] flex flex-col">
       <h1 className="text-4xl font-extrabold mb-8 text-gray-900">Mi Orden</h1>
 
       {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center flex-grow">
+        <div className="flex flex-col items-center justify-center flex-grow gap-2">
           <p className="text-lg text-gray-500">Tu carrito está vacío.</p>
           <Button
-            onClick={() => router.push("/")}
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition-all"
-          >
-            Volver a la tienda
-          </Button>
+            label="← Volver a la tienda"
+            href="/"
+            isOutline={false}
+            bgColor="bg-black"
+            textColor="text-white"
+            w="w-52"
+          />
         </div>
       ) : (
         <div className="grid lg:grid-cols-3 gap-8 flex-grow">
@@ -91,12 +89,12 @@ const CartPage = () => {
                       <div className="mt-2">
                         {tieneDescuento ? (
                           <>
-                            <span className="text-sm line-through text-red-400">
+                            <span className="text-sm line-through text-rose-700">
                               {formatPrice(
                                 item.product.precioBase * item.cantidad
                               )}
                             </span>{" "}
-                            <span className="text-lg font-bold text-green-600">
+                            <span className="text-lg font-bold text-emerald-700">
                               {formatPrice(precioConDescuento * item.cantidad)}
                             </span>
                           </>
@@ -188,9 +186,15 @@ const CartPage = () => {
                 {formatPrice(totalPrice)}
               </span>
             </div>
-            <Button onClick={handleCheckout} className="w-full ">
-              Continuar con el pedido
-            </Button>
+
+            <Button
+              label="Continuar con el pedido"
+              href="/checkout"
+              isOutline={false}
+              bgColor="bg-black"
+              textColor="text-white"
+              w="w-70"
+            />
           </div>
         </div>
       )}

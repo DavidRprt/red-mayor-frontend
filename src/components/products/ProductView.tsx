@@ -13,6 +13,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import DiscountBadge from "@/components/products/DiscountBagde"
+import { Package, Boxes, DollarSign } from "lucide-react"
 
 interface ProductViewProps {
   product: ProductType
@@ -28,6 +30,8 @@ const ProductView = ({ product }: ProductViewProps) => {
     cantidadPorCaja,
     descripcionCantidad,
     detalles,
+    marca,
+    descuentoPorMayor,
   } = product
 
   const { isLoggedIn } = useAuthStore()
@@ -40,8 +44,19 @@ const ProductView = ({ product }: ProductViewProps) => {
       : null
 
   return (
-    <div className="container mx-auto px-6 py-16 flex flex-col sm:flex-row items-start gap-12">
-      {/* Imagen del Producto */}
+    <div className="container mx-auto px-6 py-8 md:py-16 flex flex-col sm:flex-row items-start gap-5 md:gap-12">
+      <div className="self-end md:hidden">
+        {descuentoPorMayor?.activo && (
+          <DiscountBadge
+            porcentajeDescuento={descuentoPorMayor.porcentajeDescuento}
+            cantidadMinima={descuentoPorMayor.cantidadMinima}
+          />
+        )}
+      </div>
+      <h1 className="text-4xl font-bold text-gray-900 md:hidden">
+        {nombreProducto}
+      </h1>
+
       <div className="w-full sm:w-1/2">
         <Carousel className="w-full rounded-lg overflow-hidden">
           <CarouselContent>
@@ -51,7 +66,7 @@ const ProductView = ({ product }: ProductViewProps) => {
                   key={imagen.id}
                   className="flex items-center justify-center"
                 >
-                  <div className="h-[500px] w-[500px] bg-white flex items-center justify-center">
+                  <div className="h-[350px] w-[350px] md:h-[500px] md:w-[500px] bg-white flex items-center justify-center">
                     <Image
                       src={imagen.url}
                       alt={`Imagen ${index + 1} de ${nombreProducto}`}
@@ -65,7 +80,7 @@ const ProductView = ({ product }: ProductViewProps) => {
               ))
             ) : (
               <CarouselItem>
-                <div className="h-[500px] w-[500px] bg-gray-100 flex items-center justify-center">
+                <div className="h-[350px] w-[350px] md:h-[500px] md:w-[500px] bg-gray-100 flex items-center justify-center">
                   <Image
                     src="/placeholder.jpg"
                     alt="Imagen por defecto"
@@ -91,21 +106,48 @@ const ProductView = ({ product }: ProductViewProps) => {
 
       {/* Información del Producto */}
       <div className="w-full sm:w-1/2 flex flex-col gap-6">
-        <h1 className="text-4xl font-bold text-gray-900">{nombreProducto}</h1>
+        <div className="self-end hidden md:block">
+          {descuentoPorMayor?.activo && (
+            <DiscountBadge
+              porcentajeDescuento={descuentoPorMayor.porcentajeDescuento}
+              cantidadMinima={descuentoPorMayor.cantidadMinima}
+            />
+          )}
+        </div>
+
+        <h1 className="text-4xl font-bold text-gray-900 hidden md:block">
+          {nombreProducto}
+        </h1>
+
+        {/* Subcategoría */}
         {subcategoria?.nombreSubcategoria && (
-          <h4 className="text-lg text-gray-500">
-            {subcategoria.nombreSubcategoria}
-          </h4>
+          <div className="flex items-center text-sm text-gray-600">
+            <Boxes className="w-5 h-5 mr-2 text-gray-500" />
+            <p>{subcategoria.nombreSubcategoria}</p>
+          </div>
         )}
+
+        {/* Marca */}
+        {marca && (
+          <div className="flex items-center text-sm text-gray-600">
+            <Package className="w-5 h-5 mr-2 text-gray-500" />
+            <p>{marca.nombreMarca}</p>
+          </div>
+        )}
+
+        {/* Descripción */}
         <p className="text-gray-700 text-lg">{descripcion}</p>
 
         {/* Precio Unitario y Detalles por Caja */}
         {isLoggedIn && cantidadPorCaja && (
           <div className="bg-gray-100 p-4 rounded-lg shadow">
-            <p className="text-gray-600">
-              <span className="font-semibold">Precio Unitario:</span> $
-              {precioUnitario}
-            </p>
+            <div className="flex items-center text-sm text-gray-700">
+              <DollarSign className="w-5 h-5 mr-2 text-gray-500" />
+              <p className="font-semibold">
+                Precio Unitario:{" "}
+                <span className="text-black">${precioUnitario}</span>
+              </p>
+            </div>
             {descripcionCantidad && (
               <p className="text-gray-500 text-sm mt-1">
                 {descripcionCantidad}
@@ -113,6 +155,7 @@ const ProductView = ({ product }: ProductViewProps) => {
             )}
           </div>
         )}
+
         <p className="text-gray-500 text-sm">SKU: {slug}</p>
 
         {/* Botón AddToCart */}
