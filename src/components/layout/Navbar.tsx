@@ -70,10 +70,11 @@ const Navbar = () => {
             : "opacity-0 translate-y-[-20px] invisible"
         }`}
       >
-        <MenuListMobile />
+        <MenuListMobile closeNavbar={closeNavbar} />
       </div>
     </nav>
   )
 }
 
 export default Navbar
+
