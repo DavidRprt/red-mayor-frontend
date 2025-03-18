@@ -15,7 +15,7 @@ const ProductsPage = () => {
 
   console.log("Productos cargados:", products)
   return (
-    <section className="container mx-auto px-4 py-8">
+    <section className="flex items-center flex-col justify-center">
       <h1 className="text-3xl font-bold text-gray-900 px-8 py-6">
         Todos los Productos
       </h1>
@@ -32,3 +32,4 @@ const ProductsPage = () => {
 }
 
 export default ProductsPage
+
