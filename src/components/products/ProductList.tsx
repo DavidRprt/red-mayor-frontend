@@ -176,7 +176,7 @@ const ProductList: React.FC<ProductListProps> = ({
         <FilterBox onSortChange={setSortValue} />
       </div>
       <div className="flex flex-col w-full items-start justify-start mb-4 border-b pb-2 gap-4 sm:hidden">
-        <h1 className="text-2xl font-bold">Productos</h1>
+ 
 
         <div className="flex flex-row items-start justify-start gap-2 w-full">
           <FilterBox onSortChange={setSortValue} />
