@@ -5,11 +5,13 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import AuthButtons from "./AuthButtons"
-import { menuConfig } from "@/constants" // Importa el objeto de configuración
+import { menuConfig } from "@/constants"
 
-const MenuListMobile = () => {
-  const router = useRouter()
+interface MenuListMobileProps {
+  closeNavbar: () => void
+}
 
+const MenuListMobile: React.FC<MenuListMobileProps> = ({ closeNavbar }) => {
   return (
     <div className="w-full flex flex-col gap-4 bg-background text-foreground p-4">
       {/* Links de navegación - Solo categorías */}
@@ -18,26 +20,26 @@ const MenuListMobile = () => {
           key={item.href}
           href={item.href}
           className="text-lg font-medium hover:text-primary transition-colors"
+          onClick={closeNavbar} // Cierra el menú al hacer clic
         >
           {item.title}
         </Link>
       ))}
 
-      {/* Enlaces adicionales (Ofertas, Quienes Somos, Contacto) */}
+      {/* Enlaces adicionales */}
       {menuConfig.otherLinks.map((item) => (
         <Link
           key={item.href}
           href={item.href}
           className="text-lg font-medium hover:text-primary transition-colors"
+          onClick={closeNavbar}
         >
           {item.title}
         </Link>
       ))}
 
-      {/* Separator */}
       <div className="border-t border-border my-4 w-full"></div>
 
-      {/* Botones de sesión */}
       <div className="flex flex-col gap-4">
         <AuthButtons />
       </div>
@@ -46,3 +48,5 @@ const MenuListMobile = () => {
 }
 
 export default MenuListMobile
+
+
