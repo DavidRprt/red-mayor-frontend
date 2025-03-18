@@ -74,3 +74,4 @@ const BrandProductsPage = () => {
 }
 
 export default BrandProductsPage
+
