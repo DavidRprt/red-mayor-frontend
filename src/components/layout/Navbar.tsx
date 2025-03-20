@@ -24,8 +24,8 @@ const Navbar = () => {
           <Image
             src="/red-mayor-logo-white.svg"
             alt="Logo"
-            width={160}
-            height={80}
+            width={220}
+            height={110}
           />
         </Link>
 
