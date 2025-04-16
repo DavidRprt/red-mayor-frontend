@@ -4,10 +4,17 @@ import { useParams } from "next/navigation"
 import { useGetProductsByBrand } from "@/services/useGetProductsByBrand"
 import ProductList from "@/components/products/ProductList"
 import Image from "next/image"
+import useGetAllCategories from "@/services/useGetAllCategories"
 import { featuredBrands } from "@/constants"
 
 const BrandProductsPage = () => {
 
+    const {
+      categories,
+      loading: categoriesLoading,
+      error: categoriesError,
+    } = useGetAllCategories()
+  
   const { slug } = useParams()
   const { products, loading, error } = useGetProductsByBrand(slug as string)
   const currentBrand = featuredBrands.find((brand) => brand.slug === slug)
@@ -41,7 +48,7 @@ const BrandProductsPage = () => {
         {currentBrand && (
           <div className="relative z-10">
             <h1 className="text-3xl font-bold text-white drop-shadow-md">
-              {`Productos de ${currentBrand.title}`}
+              {`Productos de ${currentBrand.title.replace(/-/g, " ")}`}
             </h1>
             <p className="text-lg text-white mt-2 max-w-2xl">
               {currentBrand.description}
@@ -53,7 +60,7 @@ const BrandProductsPage = () => {
           <h1 className="text-3xl font-bold text-gray-900 px-8 py-6">
             {`Productos de ${
               typeof slug === "string" && slug.length > 0
-                ? slug.charAt(0).toUpperCase() + slug.slice(1)
+                ? slug.replace(/-/g, " ")
                 : "Productos"
             }`}
           </h1>
@@ -65,7 +72,7 @@ const BrandProductsPage = () => {
         products={products || []}
         loading={loading}
         error={error}
-        categories={[]}
+        categories={categories || []}
         categoriesLoading={false}
         onRetry={() => window.location.reload()}
       />

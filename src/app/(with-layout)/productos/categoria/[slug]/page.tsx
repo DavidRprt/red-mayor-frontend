@@ -24,7 +24,8 @@ const ProviderPage = () => {
       <h1 className="text-3xl font-bold text-gray-900 px-8 py-6">
         Productos de{" "}
         {typeof slug === "string" && slug.length > 0
-          ? slug.charAt(0).toUpperCase() + slug.slice(1)
+          ? slug
+              .replace(/-/g, " ")
           : "Productos"}
       </h1>
       <ProductList

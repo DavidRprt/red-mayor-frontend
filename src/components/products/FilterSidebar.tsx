@@ -65,12 +65,29 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
       if (!category.subcategorias || category.subcategorias.length === 0) {
         return null
       }
-
       const filteredSubcategories = category.subcategorias.filter(
-        (subcategory) =>
-          products.some(
-            (product) => product.subcategoria?.id === subcategory.id
-          )
+        (subcategory) => {
+          const matches = products.some((product) => {
+            const productSubcatId =
+              typeof product.subcategoria === "object"
+                ? product.subcategoria?.id
+                : product.subcategoria
+
+            return String(productSubcatId) === String(subcategory.id)
+          })
+
+          if (!matches) {
+            console.log(
+              `[IGNORADA] Subcategoría '${subcategory.nombreSubcategoria}' (ID: ${subcategory.id}) no tiene productos asociados`
+            )
+          } else {
+            console.log(
+              `[INCLUIDA] Subcategoría '${subcategory.nombreSubcategoria}' (ID: ${subcategory.id}) con productos`
+            )
+          }
+
+          return matches
+        }
       )
 
       return filteredSubcategories.length > 0
