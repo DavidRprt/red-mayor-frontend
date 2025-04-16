@@ -11,6 +11,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { menuConfig } from "@/constants"
+import { LOCAL_BRANDS } from "@/constants/brands"
 
 const MenuList = () => {
   return (
@@ -55,10 +56,15 @@ const MenuList = () => {
             {menuConfig.brands.title}
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="flex flex-col gap-3 p-4 w-[300px] items-center justify-center">
-              {menuConfig.brands.items.map((item) => (
-                <ListItem key={item.href} href={item.href} title={item.title}>
-                  {item.description}
+            <ul className="flex flex-col p-2 w-[300px] items-start justify-center">
+              {LOCAL_BRANDS.map((brand) => (
+                <ListItem
+                  key={brand.slug}
+                  href={`/productos/marca/${brand.slug}`}
+                  title={brand.nombreMarca}
+                  className="w-[280px]"
+                >
+                  Ver productos de {brand.nombreMarca}
                 </ListItem>
               ))}
             </ul>

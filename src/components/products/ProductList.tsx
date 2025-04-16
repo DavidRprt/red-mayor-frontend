@@ -54,6 +54,38 @@ const ProductList: React.FC<ProductListProps> = ({
   const { slug } = useParams()
 
   const totalPages = Math.ceil(visibleProducts.length / ITEMS_PER_PAGE)
+  const getPaginationRange = (current: number, total: number) => {
+    const delta = 1
+    const range: (number | string)[] = []
+    const rangeWithDots: (number | string)[] = []
+let l: number | null = null
+
+    for (let i = 1; i <= total; i++) {
+      if (
+        i === 1 ||
+        i === 2 ||
+        i === total ||
+        i === total - 1 ||
+        (i >= current - delta && i <= current + delta)
+      ) {
+        range.push(i)
+      }
+    }
+
+    for (let i of range) {
+      if (l) {
+        if (Number(i) - l === 2) {
+          rangeWithDots.push(l + 1)
+        } else if (Number(i) - l > 2) {
+          rangeWithDots.push("…")
+        }
+      }
+      rangeWithDots.push(i)
+      l = Number(i)
+    }
+
+    return rangeWithDots
+  }
 
   const handleFilterChange = useCallback(
     (selectedFilters: { subcategories: number[]; brands: string[] }) => {
@@ -176,8 +208,6 @@ const ProductList: React.FC<ProductListProps> = ({
         <FilterBox onSortChange={setSortValue} />
       </div>
       <div className="flex flex-col w-full items-start justify-start mb-4 border-b pb-2 gap-4 sm:hidden">
- 
-
         <div className="flex flex-row items-start justify-start gap-2 w-full">
           <FilterBox onSortChange={setSortValue} />
           <Button
@@ -212,7 +242,7 @@ const ProductList: React.FC<ProductListProps> = ({
         <div className="flex-1">
           <div className="flex flex-wrap justify-between gap-4">
             {loading && <SkeletonSchema grid={12} />}
-            
+
             {!loading &&
               paginatedProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
@@ -237,17 +267,23 @@ const ProductList: React.FC<ProductListProps> = ({
                     }
                   />
                 </PaginationItem>
-                {Array.from({ length: totalPages }).map((_, index) => (
-                  <PaginationItem key={index}>
-                    <PaginationLink
-                      href="#"
-                      isActive={currentPage === index + 1}
-                      onClick={() => handlePageChange(index + 1)}
-                    >
-                      {index + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
+                {getPaginationRange(currentPage, totalPages).map(
+                  (page, index) => (
+                    <PaginationItem key={index}>
+                      {page === "..." ? (
+                        <span className="px-2 text-gray-400">...</span>
+                      ) : (
+                        <PaginationLink
+                          href="#"
+                          isActive={currentPage === page}
+                          onClick={() => handlePageChange(Number(page))}
+                        >
+                          {page}
+                        </PaginationLink>
+                      )}
+                    </PaginationItem>
+                  )
+                )}
                 <PaginationItem>
                   <PaginationNext
                     href="#"

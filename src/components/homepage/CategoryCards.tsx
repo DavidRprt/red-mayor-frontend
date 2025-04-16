@@ -1,7 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { brands } from "@/constants"
-
+import { LOCAL_BRANDS } from "@/constants/brands"
 
 const CategoryCards = () => {
   return (
@@ -11,19 +10,19 @@ const CategoryCards = () => {
       </h3>
 
       <div className="grid gap-5 px-6 sm:grid-cols-2 lg:grid-cols-3 w-full mt-3">
-        {brands.map((brand) => (
+        {LOCAL_BRANDS.map((brand) => (
           <Link
-            key={brand.id}
-            href={`/productos/marca/${brand.attributes.slug}`}
+            key={brand.slug}
+            href={`/productos/marca/${brand.slug}`}
             className="flex items-center justify-center w-full h-[170px] bg-white overflow-hidden rounded-lg transform transition duration-300 hover:scale-105 shadow-lg border border-gray-300 hover:border-gray-500"
           >
             <div className="flex items-center justify-center w-full h-[140px]">
               <Image
-                src={brand.attributes.image}
-                alt={brand.attributes.name}
+                src={brand.logo}
+                alt={brand.nombreMarca}
                 height={120}
                 width={300}
-                className="px-5 max-md:py-3"
+                className="px-5 max-md:py-3 object-contain"
               />
             </div>
           </Link>

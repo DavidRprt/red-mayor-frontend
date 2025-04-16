@@ -5,6 +5,7 @@ import { ProductType } from "@/types/product"
 import { useAuthStore } from "@/store/authStore"
 import ProductDetails from "@/components/products/ProductDetails"
 import AddToCart from "@/components/products/AddToCart"
+import { Ban } from "lucide-react"
 import { useRouter } from "next/navigation"
 import {
   Carousel,
@@ -60,7 +61,7 @@ const ProductView = ({ product }: ProductViewProps) => {
       <div className="w-full sm:w-1/2">
         <Carousel className="w-full rounded-lg overflow-hidden">
           <CarouselContent>
-            {imagenes.length > 0 ? (
+            {Array.isArray(imagenes) && imagenes.length > 0 ? (
               imagenes.map((imagen, index) => (
                 <CarouselItem
                   key={imagen.id}
@@ -81,21 +82,17 @@ const ProductView = ({ product }: ProductViewProps) => {
             ) : (
               <CarouselItem>
                 <div className="h-[350px] w-[350px] md:h-[500px] md:w-[500px] bg-gray-100 flex items-center justify-center">
-                  <Image
-                    src="/placeholder.jpg"
-                    alt="Imagen por defecto"
-                    width={500}
-                    height={500}
-                    className="object-contain rounded-lg bg-white"
-                    style={{ aspectRatio: "1 / 1" }}
-                  />
+                  <Ban className="w-12 h-12 text-gray-400" />
+                  <span className="ml-2 text-sm text-gray-500">
+                    Imagen no disponible
+                  </span>
                 </div>
               </CarouselItem>
             )}
           </CarouselContent>
 
           {/* Botones de navegación */}
-          {imagenes.length > 1 && (
+          {Array.isArray(imagenes) && imagenes.length > 1 && (
             <>
               <CarouselPrevious className="absolute left-2 sm:left-4 md:left-8 top-1/2 transform -translate-y-1/2 bg-black text-white rounded-full p-2 hover:bg-gray-800 transition-all" />
               <CarouselNext className="absolute right-2 sm:right-4 md:right-8 top-1/2 transform -translate-y-1/2 bg-black text-white rounded-full p-2 hover:bg-gray-800 transition-all" />
@@ -120,15 +117,15 @@ const ProductView = ({ product }: ProductViewProps) => {
         </h1>
 
         {/* Subcategoría */}
-        {subcategoria?.nombreSubcategoria && (
-          <div className="flex items-center text-sm text-gray-600">
-            <Boxes className="w-5 h-5 mr-2 text-gray-500" />
-            <p>{subcategoria.nombreSubcategoria}</p>
-          </div>
-        )}
+        {subcategoria?.nombreSubcategoria &&
+          typeof subcategoria.nombreSubcategoria === "string" && (
+            <div className="flex items-center text-sm text-gray-600">
+              <Boxes className="w-5 h-5 mr-2 text-gray-500" />
+              <p>{subcategoria.nombreSubcategoria}</p>
+            </div>
+          )}
 
-        {/* Marca */}
-        {marca && (
+        {marca?.nombreMarca && typeof marca.nombreMarca === "string" && (
           <div className="flex items-center text-sm text-gray-600">
             <Package className="w-5 h-5 mr-2 text-gray-500" />
             <p>{marca.nombreMarca}</p>

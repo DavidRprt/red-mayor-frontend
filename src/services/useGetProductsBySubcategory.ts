@@ -6,22 +6,32 @@ export function useGetProductsBySubcategory(subcategorySlug: string) {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>("")
 
-  // Construcción del endpoint con filtro por subcategoría
-  const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?filters[subcategoria][slug][$eq]=${subcategorySlug}&populate=*`
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true)
-        const res = await fetch(url)
-        const json = await res.json()
+        const allProducts: ProductType[] = []
+        let page = 1
+        let hasMore = true
 
-        if (!res.ok) {
-          throw new Error(json.error?.message || "Error en la solicitud")
+        while (hasMore) {
+          const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?filters[subcategoria][slug][$eq]=${subcategorySlug}&populate=*&pagination[page]=${page}&pagination[pageSize]=100`
+          const res = await fetch(url)
+          const json = await res.json()
+
+          if (!res.ok) {
+            throw new Error(json.error?.message || "Error en la solicitud")
+          }
+
+          const data = json.data || []
+          allProducts.push(...data)
+
+          const meta = json.meta?.pagination
+          hasMore = meta && meta.page < meta.pageCount
+          page++
         }
 
-        // Asignar productos obtenidos de la respuesta
-        setProducts(json.data || [])
+        setProducts(allProducts)
       } catch (err: any) {
         setError(err.message || "Error desconocido")
       } finally {
@@ -32,9 +42,7 @@ export function useGetProductsBySubcategory(subcategorySlug: string) {
     if (subcategorySlug) {
       fetchProducts()
     }
-  }, [subcategorySlug, url])
+  }, [subcategorySlug])
 
   return { products, loading, error }
 }
-
-export default useGetProductsBySubcategory

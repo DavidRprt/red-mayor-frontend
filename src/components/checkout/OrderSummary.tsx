@@ -78,7 +78,6 @@ export const OrderSummary = ({
       cupon: appliedCoupon,
     }
 
-    console.log(orderSummary)
     try {
       setIsSubmitting(true)
       const response = await fetch("/api/ordenes/create", {
@@ -96,7 +95,6 @@ export const OrderSummary = ({
         return
       }
       useCartStore.getState().clearCart()
-      console.log("Orden creada con éxito")
       setError(null)
 
       // Redirigir a la página de compra exitosa

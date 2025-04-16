@@ -23,7 +23,7 @@ export function useGetAllBrands() {
         if (!res.ok) {
           throw new Error(json.error?.message || "Error en la solicitud")
         }
-        console.log(json.data)
+   
 
         setBrands(
           json.data.map((item: any) => ({

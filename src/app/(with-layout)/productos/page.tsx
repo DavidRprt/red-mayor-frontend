@@ -13,7 +13,6 @@ const ProductsPage = () => {
     error: categoriesError,
   } = useGetAllCategories()
 
-  console.log("Productos cargados:", products)
   return (
     <section className="flex items-center flex-col justify-center">
       <h1 className="text-3xl font-bold text-gray-900 px-8 py-6">

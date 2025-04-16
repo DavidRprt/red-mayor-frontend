@@ -4,7 +4,7 @@ import { CategoryType } from "@/types/category"
 import { ProductType } from "@/types/product"
 import { Button } from "../ui/button"
 import { Checkbox } from "../ui/checkbox"
-import useGetAllBrands from "@/services/useGetAllBrands"
+import { LOCAL_BRANDS } from "@/constants/brands"
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -28,7 +28,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     []
   )
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
-  const { brands, loading } = useGetAllBrands()
+  const brands = LOCAL_BRANDS
   const [isMobile, setIsMobile] = useState<boolean>(false)
 
   // 🔹 Detectar si es móvil
@@ -83,7 +83,6 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
   const availableBrands = brands.filter((brand) =>
     products.some((product) => product.marca?.slug === brand.slug)
   )
-
   const handleBrandChange = (brandSlug: string) => {
     setSelectedBrands((prev) =>
       prev.includes(brandSlug)
@@ -182,26 +181,22 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
         )}
         {/* 🔹 Filtro por Marcas */}
         <h3 className="text-md font-semibold mb-2 mt-4">Marcas</h3>
-        {loading ? (
-          <p></p>
-        ) : (
-          <ul>
-            {availableBrands.map((brand) => (
-              <li key={brand.id} className="mb-2 pl-4">
-                <label className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`brand-${brand.slug}`}
-                    checked={selectedBrands.includes(brand.slug)}
-                    onCheckedChange={() => handleBrandChange(brand.slug)}
-                  />
-                  <span className="text-sm font-semibold text-gray-700">
-                    {brand.nombreMarca}
-                  </span>
-                </label>
-              </li>
-            ))}
-          </ul>
-        )}
+        <ul>
+          {availableBrands.map((brand) => (
+            <li key={brand.slug} className="mb-2 pl-4">
+              <label className="flex items-center space-x-2">
+                <Checkbox
+                  id={`brand-${brand.slug}`}
+                  checked={selectedBrands.includes(brand.slug)}
+                  onCheckedChange={() => handleBrandChange(brand.slug)}
+                />
+                <span className="text-sm font-semibold text-gray-700">
+                  {brand.nombreMarca}
+                </span>
+              </label>
+            </li>
+          ))}
+        </ul>
         {/* 🔹 Botones en móviles */}
         {isMobile && (
           <div className="flex sm:hidden gap-3 w-full mx-auto py-6">

@@ -16,7 +16,9 @@ export const useGetDiscountedProducts = () => {
           throw new Error(json.error?.message || "Error en la solicitud")
         }
 
-        setProducts(json.data || [])
+     setProducts(
+       (json.data || []).filter((item: any) => item.attributes.activo === true)
+     )
       } catch (error: any) {
         console.error("Error al obtener los productos con descuento:", error)
         setError(error.message || "Error desconocido")

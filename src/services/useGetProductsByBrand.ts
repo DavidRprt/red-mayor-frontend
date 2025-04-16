@@ -11,15 +11,28 @@ export const useGetProductsByBrand = (brandSlug?: string) => {
     const fetchProductsByBrand = async () => {
       try {
         setLoading(true)
-        const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?filters[marca][slug][$eq]=${brandSlug}&populate=*`
-        const res = await fetch(url)
-        const json = await res.json()
+        const allProducts: any[] = []
+        let page = 1
+        let hasMore = true
 
-        if (!res.ok) {
-          throw new Error(json.error?.message || "Error en la solicitud")
+        while (hasMore) {
+          const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?filters[marca][slug][$eq]=${brandSlug}&populate=*&pagination[page]=${page}&pagination[pageSize]=100`
+          const res = await fetch(url)
+          const json = await res.json()
+
+          if (!res.ok) {
+            throw new Error(json.error?.message || "Error en la solicitud")
+          }
+
+          const data = json.data || []
+          allProducts.push(...data)
+
+          const meta = json.meta?.pagination
+          hasMore = meta && meta.page < meta.pageCount
+          page++
         }
 
-        setProducts(json.data || [])
+        setProducts(allProducts)
       } catch (error: any) {
         console.error("Error al obtener los productos de la marca:", error)
         setError(error.message || "Error desconocido")

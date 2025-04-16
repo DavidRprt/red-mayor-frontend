@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "../ui/button"
 import { Tag, ShoppingCart, Package, Boxes, DollarSign } from "lucide-react"
 import DiscountBadge from "./DiscountBagde"
+import { Ban } from "lucide-react"
 
 interface ProductCardProps {
   product: ProductType
@@ -27,7 +28,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     descripcion = "Sin descripción",
     precioBase,
     subcategoria,
-    imagenes,
+    imagenes = [],
     descuentoPorMayor,
     cantidadPorCaja,
     descripcionCantidad,
@@ -37,7 +38,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const router = useRouter()
   const { isLoggedIn } = useAuthStore()
 
-  const imageUrl = imagenes?.[0]?.url
+const imageUrl =
+  Array.isArray(imagenes) && imagenes[0]?.url
     ? imagenes[0].url.startsWith("http")
       ? imagenes[0].url
       : `${process.env.NEXT_PUBLIC_API_BASE_URL}${imagenes[0].url}`
@@ -64,17 +66,24 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
       <CardContent className="flex items-center justify-center">
         <Link href={`/productos/${slug}`} passHref>
-          <div className="relative w-[250px] h-[250px] mt-5 bg-white flex items-center justify-center overflow-hidden  border-gray-200 ">
-            <Image
-              src={imageUrl}
-              alt={altText}
-              fill
-              sizes="(max-width: 768px) 100vw, 
-                 (max-width: 1200px) 50vw, 
-                 33vw"
-              style={{ objectFit: "contain" }}
-              className="p-2"
-            />
+          <div className="relative w-[250px] h-[250px] mt-5 bg-white flex items-center justify-center overflow-hidden border border-gray-200">
+            {imageUrl === "/placeholder.jpg" ? (
+              <div className="flex flex-col items-center justify-center text-gray-400">
+                <Ban className="w-12 h-12 mb-2" />
+                <p className="text-sm">Imagen no disponible</p>
+              </div>
+            ) : (
+              <Image
+                src={imageUrl}
+                alt={altText}
+                fill
+                sizes="(max-width: 768px) 100vw, 
+             (max-width: 1200px) 50vw, 
+             33vw"
+                style={{ objectFit: "contain" }}
+                className="p-2"
+              />
+            )}
           </div>
         </Link>
       </CardContent>
@@ -96,7 +105,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         )}
 
         {/* Marca */}
-        {marca && (
+        {marca?.nombreMarca && (
           <div className="flex items-center text-sm text-gray-600">
             <Package className="w-4 h-4 mr-2 text-gray-500" />
             <p className="min-h-[20px] max-h-[20px] overflow-hidden">
