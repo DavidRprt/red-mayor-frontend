@@ -15,7 +15,7 @@ const HomepageProducts = () => {
   const { result, loading }: ResponseType = useGetHomepageItems()
 
   return (
-    <section className="w-full py-6 sm:py-10 sm:px-24 flex flex-col items-center md:items-start">
+    <section className="w-full py-6 sm:py-10 sm:px-24 flex flex-col items-center md:items-start max-sm:justify-center">
       {/* Título estilizado */}
       <h3 className="px-6 text-3xl font-bold text-gray-900 sm:pb-4">
         Productos Destacados
@@ -37,7 +37,7 @@ const HomepageProducts = () => {
             ? result.map((product: ProductType) => (
                 <CarouselItem
                   key={product.id}
-                  className="md:basis-1/2 lg:basis-1/4 w-full "
+                  className="md:basis-1/2 lg:basis-1/3 w-full "
                 >
                   <ProductCard product={product} />
                 </CarouselItem>

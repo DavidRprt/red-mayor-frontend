@@ -182,7 +182,7 @@ let l: number | null = null
   }
 
   return (
-    <div className="w-full px-8 pb-6">
+    <div className="w-screen px-8 pb-6">
       <Head>
         <script
           type="application/ld+json"
@@ -239,7 +239,7 @@ let l: number | null = null
           onFilterChange={handleFilterChange}
           products={products}
         />
-        <div className="flex-1">
+        <div className="flex-1 ">
           <div className="flex flex-wrap justify-between gap-4">
             {loading && <SkeletonSchema grid={12} />}
 

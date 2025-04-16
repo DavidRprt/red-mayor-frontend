@@ -39,7 +39,7 @@ const CartPage = () => {
   }
 
   return (
-    <div className="container mx-auto px-6 py-8 h-[calc(100vh-160px)] flex flex-col">
+    <div className="container mx-auto px-6 py-8 min-h-[calc(100vh-160px)] flex flex-col">
       <h1 className="text-4xl font-extrabold mb-8 text-gray-900">Mi Orden</h1>
 
       {items.length === 0 ? (
@@ -66,9 +66,10 @@ const CartPage = () => {
               return (
                 <div
                   key={item.product.id}
-                  className="flex items-center justify-between bg-white shadow-md rounded-lg p-4"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white shadow-md rounded-lg p-4 gap-4"
                 >
-                  <div className="flex items-center space-x-4">
+                  {/* Imagen + info */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center w-full sm:w-auto space-x-0 sm:space-x-4 gap-4 sm:gap-0">
                     <Image
                       src={
                         item.product.imagenes?.[0]?.url || "/placeholder.jpg"
@@ -79,7 +80,7 @@ const CartPage = () => {
                       className="rounded-lg object-cover"
                     />
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900">
+                      <h3 className="text-base sm:text-lg font-bold text-gray-900">
                         {item.product.nombreProducto}
                       </h3>
                       <p className="text-sm text-gray-500">
@@ -108,7 +109,9 @@ const CartPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4">
+
+                  {/* Controles de cantidad + eliminar */}
+                  <div className="flex flex-row items-center justify-between sm:justify-end w-full sm:w-auto gap-4">
                     <div className="flex items-center border rounded-lg">
                       <button
                         onClick={() =>

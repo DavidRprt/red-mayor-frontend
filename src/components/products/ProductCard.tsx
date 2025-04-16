@@ -54,7 +54,7 @@ const imageUrl =
       : null
 
   return (
-    <Card className="sm:w-[280px] pt-2 w-full bg-white relative flex flex-col min-h-[600px] max-h-[600px] rounded-lg shadow-lg border border-gray-200">
+    <Card className="w-[330px] pt-2 bg-white relative flex flex-col min-h-[600px] max-h-[600px] rounded-lg shadow-lg border border-gray-200">
       <div className="absolute top-2 right-3 z-10">
         {descuentoPorMayor?.activo && (
           <DiscountBadge

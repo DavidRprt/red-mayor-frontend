@@ -48,7 +48,8 @@ const AddToCart = ({ product }: AddToCartProps) => {
     }
   }
 
-    const isOutOfStock = product.stock === 0
+  const isOutOfStock =
+    product.stock === 0 || product.stock === null || product.stock === undefined
 
   return (
     <div className="flex items-center gap-2">
