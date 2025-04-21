@@ -13,6 +13,7 @@ const WhatsAppButton: React.FC = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label="Abrir chat de WhatsApp"
       className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 p-4 bg-green-500 rounded-full shadow-lg hover:bg-green-600 transition-transform transform hover:scale-110 z-20"
     >
       <MessageCircle className="w-6 h-6 text-white" />

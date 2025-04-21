@@ -47,6 +47,7 @@ const Navbar = () => {
               onClick={() => setNavbarOpen(true)}
               variant="outline"
               size="icon"
+              aria-label="Abrir menú"
             >
               <Bars3Icon className="h-[1.2rem] w-[1.2rem] dark:text-white" />
             </Button>
@@ -55,6 +56,7 @@ const Navbar = () => {
               onClick={() => setNavbarOpen(false)}
               variant="outline"
               size="icon"
+              aria-label="Cerrar menú"
             >
               <XMarkIcon className="h-[1.2rem] w-[1.2rem] dark:text-white" />
             </Button>

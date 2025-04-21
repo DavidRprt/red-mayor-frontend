@@ -212,7 +212,11 @@ export const OrderSummary = ({
             />
           </div>
         </div>
-        {error && <p className="text-ros7-500 text-sm font-semibold">{error}</p>}
+        {error && (
+          <p className="text-ros7-500 text-sm font-semibold text-red-500">
+            {error}
+          </p>
+        )}
       </div>
       <CouponInput
         onApplyAction={(percentage, code) =>

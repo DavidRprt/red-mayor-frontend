@@ -10,10 +10,13 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Button from "../layout/Button"
-
+import { useAuthStore } from "@/store/authStore"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
+
 
 const Hero = () => {
+  const { isLoggedIn } = useAuthStore()
   const router = useRouter()
   const categories = [
     {
@@ -65,9 +68,16 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative w-full h-[calc(100vh-160px)] flex flex-col justify-between mad-md:items-start px-2 md:px-12 bg-cover bg-center"
-      style={{ backgroundImage: "url('/hero.jpg')" }}
+      className="relative w-full h-[calc(100vh-160px)] flex flex-col justify-between mad-md:items-start px-2 md:px-12 overflow-hidden"
     >
+      {/* Imagen de fondo */}
+      <Image
+        src="/hero.jpg"
+        alt="Hero Background"
+        fill
+        className="object-cover object-[center_100%] z-0"
+        priority
+      />
       {/* Gradiente Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/80"></div>
 
@@ -83,15 +93,18 @@ const Hero = () => {
             con las mejores condiciones del mercado.
           </p>
           <div className="flex gap-4 max-md:flex-col">
-            {/* Botón Blanco que se vuelve Negro */}
-
-            <Button label="Registrate" href="/signup" />
-
-            <Button
-              label="Explorar Productos"
-              href="/productos"
-              isOutline
-            />
+            {!isLoggedIn && <Button label="Registrate" href="/signup" />}
+            {isLoggedIn && (
+              <Button label="Explorar Productos" href="/productos" />
+            )}
+            {isLoggedIn && (
+              <Button
+                label="Promos Especiales"
+                href="/productos/ofertas"
+                aria-label="Redireccionar a promos"
+                isOutline
+              />
+            )}
           </div>
         </div>
         <div className="flex self-start py-8 mt-6 justify-between items-center mb-6 md:mb-10">
@@ -107,9 +120,9 @@ const Hero = () => {
       </div>
       <div className="w-full flex flex-wrap justify-center items-center gap-8 md:gap-12 mb-20 px-6 max-md:hidden">
         {categories.map((category) => (
-          <a
+          <Link
             key={category.id}
-            onClick={() => router.push(category.href)}
+            href={category.href}
             className="group flex flex-col cursor-pointer items-center justify-center w-40 h-40 md:w-44 md:h-44 rounded-full border border-white/20 bg-white/10 backdrop-blur-md shadow-xl transition-all duration-300 transform hover:bg-white/20 hover:scale-110"
           >
             <div className="w-14 h-14 flex items-center justify-center text-gray-200 transition-all duration-300">
@@ -118,12 +131,13 @@ const Hero = () => {
             <p className="mt-3 text-md font-semibold text-gray-200 text-center leading-tight group-hover:scale-105 transition-all duration-300">
               {category.name}
             </p>
-          </a>
+          </Link>
         ))}
       </div>
       <button
         onClick={scrollToNextSection}
         className="absolute bottom-1 md:bottom-5 left-1/2 transform -translate-x-1/2 text-white opacity-70 hover:opacity-100 transition-opacity duration-300"
+        aria-label="Scrollear a homepage"
       >
         <ChevronDown className="w-10 h-10" />
       </button>

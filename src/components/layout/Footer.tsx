@@ -51,13 +51,16 @@ const Footer = () => {
               <p>
                 <a
                   href="mailto:contacto@redxmayor.com"
-                  className="hover:text-primary"
+                  className="block py-2 hover:text-primary"
                 >
                   contacto@redxmayor.com
                 </a>
               </p>
               <p>
-                <a href="tel:+5493416712802" className="hover:text-primary">
+                <a
+                  href="tel:+5493416712802"
+                  className="block py-2 hover:text-primary"
+                >
                   Tel: +54 9 3416712802
                 </a>
               </p>

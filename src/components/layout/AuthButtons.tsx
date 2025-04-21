@@ -10,23 +10,23 @@ import UserCartButtons from "./UserCartButtons"
 const AuthButtons = () => {
   const { username, isLoggedIn, logout } = useAuthStore()
   const router = useRouter()
-const handleLogout = async () => {
-  try {
-    const response = await fetch("https://www.redxmayor.com", {
-      method: "GET",
-      credentials: "include",
-    })
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("https://www.redxmayor.com", {
+        method: "GET",
+        credentials: "include",
+      })
 
-    if (response.ok) {
-      logout()
-      router.refresh() 
-    } else {
-      console.error("Error al cerrar sesión:", response.statusText)
+      if (response.ok) {
+        logout()
+        router.refresh()
+      } else {
+        console.error("Error al cerrar sesión:", response.statusText)
+      }
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error)
     }
-  } catch (error) {
-    console.error("Error al cerrar sesión:", error)
   }
-}
 
   return (
     <>

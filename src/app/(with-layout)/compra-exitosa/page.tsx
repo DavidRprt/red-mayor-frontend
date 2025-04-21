@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 const CompraExitosa = () => {
   const router = useRouter()
   return (
-    <div className="flex flex-col items-center justify-center sm:min-h-[68vh] bg-gray-50 text-center px-6 max-h-[calc(100vh-160px)]">
+    <div className="flex flex-col items-center justify-center sm:min-h-[68vh] bg-gray-50 text-center px-6 max-h-[calc(100vh-160px)] py-8">
       <CheckCircle className=" mb-6" size={80} />
       <h1 className="text-2xl font-bold text-gray-800 mb-4">
         ¡Gracias por tu compra!
