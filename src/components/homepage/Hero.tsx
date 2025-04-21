@@ -74,9 +74,10 @@ const Hero = () => {
       <Image
         src="/hero.jpg"
         alt="Hero Background"
-        fill
-        className="object-cover object-[center_100%] z-0"
+        width={1920}
+        height={1080}
         priority
+        className="absolute inset-0 w-full h-full object-cover object-[center_100%] z-0"
       />
       {/* Gradiente Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/80"></div>

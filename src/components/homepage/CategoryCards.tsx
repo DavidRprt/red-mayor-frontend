@@ -22,6 +22,7 @@ const CategoryCards = () => {
                 alt={brand.nombreMarca}
                 height={120}
                 width={300}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
                 className="px-5 max-md:py-3 object-contain"
               />
             </div>

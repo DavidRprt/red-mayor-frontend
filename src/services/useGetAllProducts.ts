@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-const DEBUG = true
+const DEBUG = false
 
 export const useGetAllProducts = () => {
   const [products, setProducts] = useState<any[]>([])

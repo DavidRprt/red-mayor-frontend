@@ -76,15 +76,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             return String(productSubcatId) === String(subcategory.id)
           })
 
-          if (!matches) {
-            console.log(
-              `[IGNORADA] Subcategoría '${subcategory.nombreSubcategoria}' (ID: ${subcategory.id}) no tiene productos asociados`
-            )
-          } else {
-            console.log(
-              `[INCLUIDA] Subcategoría '${subcategory.nombreSubcategoria}' (ID: ${subcategory.id}) con productos`
-            )
-          }
+     
 
           return matches
         }

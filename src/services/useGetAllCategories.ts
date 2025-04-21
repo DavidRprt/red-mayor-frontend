@@ -9,14 +9,13 @@ export function useGetAllCategories() {
   useEffect(() => {
     const fetchCategories = async () => {
       const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/categories?populate[subcategorias][populate]=*`
-      console.log("➡️ Fetching categories from:", url)
 
       try {
         setLoading(true)
         const res = await fetch(url)
         const json = await res.json()
 
-        console.log("📦 Raw JSON response from categories:", json)
+
 
         if (!res.ok) {
           console.error("❌ Error status in response:", res.status)
@@ -48,8 +47,6 @@ export function useGetAllCategories() {
             subcategorias,
           }
         })
-
-        console.log("✅ Parsed categories:", categories)
 
         setCategories(categories)
       } catch (err: any) {
