@@ -8,7 +8,7 @@ export const useGetDiscountedProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?filters[descuentoPorMayor][activo][$eq]=true&populate=*`
+        const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products?filters[descuentoPorMayor][activo][$eq]=true&filters[activo][$eq]=true&populate=*`
         const res = await fetch(url)
         const json = await res.json()
 

@@ -32,7 +32,7 @@ export const useGetProductsByBrand = (brandSlug?: string) => {
           page++
         }
 
-        setProducts(allProducts)
+        setProducts(allProducts.filter((p) => p.activo === true))
       } catch (error: any) {
         console.error("Error al obtener los productos de la marca:", error)
         setError(error.message || "Error desconocido")

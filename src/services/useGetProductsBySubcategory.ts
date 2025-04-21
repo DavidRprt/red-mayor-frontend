@@ -31,7 +31,7 @@ export function useGetProductsBySubcategory(subcategorySlug: string) {
           page++
         }
 
-        setProducts(allProducts)
+        setProducts(allProducts.filter((p) => p.activo === true))
       } catch (err: any) {
         setError(err.message || "Error desconocido")
       } finally {
