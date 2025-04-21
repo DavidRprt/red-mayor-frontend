@@ -72,11 +72,12 @@ const Hero = () => {
     >
       {/* Imagen de fondo */}
       <Image
-        src="/hero.jpg"
+        src="/hero.webp"
         alt="Hero Background"
         width={1920}
         height={1080}
         priority
+        sizes="(max-width: 768px) 100vw, 100vw"
         className="absolute inset-0 w-full h-full object-cover object-[center_100%] z-0"
       />
       {/* Gradiente Overlay */}
