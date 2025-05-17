@@ -1,4 +1,6 @@
 "use client"
+
+import PromoPopup from "@/components/homepage/PromoPopup"
 import CategoryCards from "@/components/homepage/CategoryCards"
 import DiscountBanner from "@/components/homepage/DiscountBanner"
 import HomepageProducts from "@/components/homepage/HomepageProducts"
@@ -17,6 +19,7 @@ export default function Home() {
       <SellWithUsBanner />
       <ContactForm />
       <WhatsAppButton />
+      <PromoPopup />
     </>
   )
 }
