@@ -58,10 +58,10 @@ const Footer = () => {
               </p>
               <p>
                 <a
-                  href="tel:+5493416712802"
+                  href="tel:+5493418191010"
                   className="block py-2 hover:text-primary"
                 >
-                  Tel: +54 9 3416712802
+                  Tel: +54 9 3418 19-1010
                 </a>
               </p>
             </div>
