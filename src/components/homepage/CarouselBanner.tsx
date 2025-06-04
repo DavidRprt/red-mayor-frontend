@@ -13,7 +13,7 @@ export const dataCarousel = [
   {
     id: "2",
     title: "Descuentos por Mayor",
-    description: "Compra en grandes cantidades y obtén precios especiales.",
+    description: "Compra por cantidad y obtén precios especiales.",
   },
   {
     id: "3",

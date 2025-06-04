@@ -16,11 +16,11 @@ const DiscountBanner = () => {
       {isLoggedIn ? (
         <>
           <h2 className="uppercase font-black text-2xl text-primary">
-            Consigue 10% de descuento
+            Consigue 5% de descuento
           </h2>
           <h3 className="mt-3 text-gray-700 md:text-lg">
             Disfruta de descuentos exclusivos en productos seleccionados al
-            comprar en grandes cantidades.
+            comprar por cantidad.
           </h3>
           <p className="mt-2 text-sm text-gray-500">
             Accede a beneficios exclusivos como ofertas especiales y envíos más

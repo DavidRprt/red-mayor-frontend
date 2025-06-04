@@ -72,10 +72,10 @@ export default function PromoPopup() {
                 <span className="text-primary">!</span>
               </p>
               <h2 className="text-3xl font-bold mb-4">
-                10% OFF en tu primera compra
+                5% OFF en tu primera compra
               </h2>
               <p className="text-gray-700 mb-6">
-                Registrate y usá el código <strong>FIRST10</strong> en tu compra
+                Registrate y usá el código <strong>FIRST5</strong> en tu compra
                 inicial.
               </p>
               <Link

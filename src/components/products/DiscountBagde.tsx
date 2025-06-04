@@ -17,7 +17,7 @@ const DiscountBadge: React.FC<DiscountBadgeProps> = ({
       <Tag className="w-4 h-4" />
       <span>{porcentajeDescuento}% OFF</span>
       <span className="text-[10px] font-normal">
-        Comprando {cantidadMinima} {cantidadMinima > 1 ? "unidades" : "unidad"}
+        Comprando {cantidadMinima} {cantidadMinima > 1 ? "cajas" : "caja"}
       </span>
     </div>
   )
