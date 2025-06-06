@@ -41,7 +41,7 @@ const MenuListMobile: React.FC<MenuListMobileProps> = ({ closeNavbar }) => {
       <div className="border-t border-border my-4 w-full"></div>
 
       <div className="flex flex-col gap-4">
-        <AuthButtons />
+        <AuthButtons onAction={closeNavbar} />
       </div>
     </div>
   )

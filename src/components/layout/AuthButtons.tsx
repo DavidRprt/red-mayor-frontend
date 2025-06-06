@@ -7,7 +7,11 @@ import { ShoppingCart } from "lucide-react"
 import { User } from "lucide-react"
 import UserCartButtons from "./UserCartButtons"
 
-const AuthButtons = () => {
+interface AuthButtonsProps {
+  onAction?: () => void
+}
+
+const AuthButtons: React.FC<AuthButtonsProps> = ({ onAction }) => {
   const { username, isLoggedIn, logout } = useAuthStore()
   const router = useRouter()
   const handleLogout = async () => {
@@ -20,6 +24,7 @@ const AuthButtons = () => {
       if (response.ok) {
         logout()
         router.refresh()
+        onAction?.()
       } else {
         console.error("Error al cerrar sesión:", response.statusText)
       }
@@ -28,14 +33,26 @@ const AuthButtons = () => {
     }
   }
 
+
   return (
     <>
       {!isLoggedIn && (
         <div className="flex flex-col sm:flex-row w-full gap-4">
-          <Button variant="default" onClick={() => router.push("/signin")}>
+          <Button
+            onClick={() => {
+              router.push("/signin")
+              onAction?.()
+            }}
+          >
             Iniciar sesión
           </Button>
-          <Button variant="secondary" onClick={() => router.push("/signup")}>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              router.push("/signup")
+              onAction?.()
+            }}
+          >
             Registrarse
           </Button>
         </div>
