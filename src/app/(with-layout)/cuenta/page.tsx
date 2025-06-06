@@ -30,18 +30,25 @@ const Page = () => {
 
   useEffect(() => {
     fetchUserDetails()
-    fetchOrdenProductos()
   }, [])
+
+  useEffect(() => {
+    if (userDetails?.documentId) {
+      fetchOrdenProductos(userDetails.documentId)
+    }
+  }, [userDetails])
 
   const fetchUserDetails = async () => {
     try {
       const res = await fetch("/api/get-user-details")
       const json = await res.json()
       const userData = json?.data?.data
+      console.log(userData, "USER")
 
       if (!userData) throw new Error("Estructura inválida")
 
       const transformed = {
+        documentId: userData.documentId,
         type: userData.tipoUsuario || "",
         cuit: userData.CUIT || "",
         email: userData.email || "",
@@ -61,19 +68,21 @@ const Page = () => {
       }
 
       setUserDetails(transformed)
+
     } catch (err) {
       console.error("Error usuario:", err)
       setError("Error al obtener datos del usuario")
     }
   }
 
-  const fetchOrdenProductos = async () => {
+  const fetchOrdenProductos = async (userDocumentId: string) => {
     try {
       const resOrden = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orden-productos?populate=orden&pagination[pageSize]=100`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/orden-productos?populate=orden.user&filters[orden][user][documentId][$eq]=${userDocumentId}&pagination[pageSize]=100`
       )
       const ordenJson = await resOrden.json()
       const ordenesArray = ordenJson.data || []
+      console.log(ordenesArray)
 
       let allProductos: any[] = []
       let page = 1
@@ -95,8 +104,6 @@ const Page = () => {
         page++
       } while (page <= totalPages)
 
-
-
       const productosMap = new Map<string, any>()
       for (const p of allProductos) {
         const docId = p.documentId
@@ -112,7 +119,6 @@ const Page = () => {
         })
       }
 
-
       const enriched = ordenesArray.map((item: any) => {
         const productoDetails = productosMap.get(item.producto)
 
@@ -122,7 +128,6 @@ const Page = () => {
             item.producto
           )
         } else {
-         
         }
 
         return {
