@@ -13,7 +13,7 @@ import AddToCart from "./AddToCart"
 import { useAuthStore } from "@/store/authStore"
 import { useRouter } from "next/navigation"
 import { Button } from "../ui/button"
-import { Tag, ShoppingCart, Package, Boxes, DollarSign } from "lucide-react"
+import { ShoppingCart, Package, Boxes, DollarSign } from "lucide-react"
 import DiscountBadge from "./DiscountBagde"
 import { Ban } from "lucide-react"
 
@@ -25,7 +25,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const {
     nombreProducto,
     slug,
-    descripcion = "Sin descripción",
     precioBase,
     subcategoria,
     imagenes = [],
@@ -54,7 +53,7 @@ const imageUrl =
       : null
 
   return (
-    <Card className="w-[330px] pt-2 bg-white relative flex flex-col min-h-[600px] max-h-[600px] rounded-lg shadow-lg border border-gray-200">
+    <Card className="w-[330px] pt-2 bg-white relative flex flex-col min-h-[600px] max-h-[600px] rounded-lg shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
       <div className="absolute top-2 right-3 z-10">
         {descuentoPorMayor?.activo && (
           <DiscountBadge
@@ -66,7 +65,7 @@ const imageUrl =
 
       <CardContent className="flex items-center justify-center">
         <Link href={`/productos/${slug}`} passHref>
-          <div className="relative w-[250px] h-[250px] mt-5 bg-white flex items-center justify-center overflow-hidden border border-gray-200">
+          <div className="relative w-[250px] h-[250px] mt-5 bg-white flex items-center justify-center overflow-hidden border border-gray-200 rounded-lg hover:border-gray-300 transition-colors duration-200">
             {imageUrl === "/placeholder.jpg" ? (
               <div className="flex flex-col items-center justify-center text-gray-400">
                 <Ban className="w-12 h-12 mb-2" />
@@ -90,13 +89,13 @@ const imageUrl =
 
       {/* Header con estructura mejorada */}
       <CardHeader className="px-4 space-y-2">
-        <CardTitle className="text-gray-900 text-sm font-semibold min-h-[50px] max-h-[60px] overflow-hidden leading-tight">
+        <CardTitle className="text-gray-900 text-sm font-semibold min-h-[50px] max-h-[60px] overflow-hidden leading-tight hover:text-blue-600 transition-colors duration-200">
           {nombreProducto}
         </CardTitle>
 
         {/* Subcategoría */}
         {subcategoria?.nombreSubcategoria && (
-          <div className="flex items-center text-sm text-gray-600">
+          <div className="flex items-center text-sm text-gray-600 hover:text-gray-800 transition-colors duration-200">
             <Boxes className="w-4 h-4 mr-2 text-gray-500" />
             <p className="min-h-[20px] max-h-[20px] overflow-hidden">
               {subcategoria.nombreSubcategoria}
@@ -106,7 +105,7 @@ const imageUrl =
 
         {/* Marca */}
         {marca?.nombreMarca && (
-          <div className="flex items-center text-sm text-gray-600">
+          <div className="flex items-center text-sm text-gray-600 hover:text-gray-800 transition-colors duration-200">
             <Package className="w-4 h-4 mr-2 text-gray-500" />
             <p className="min-h-[20px] max-h-[20px] overflow-hidden">
               {marca.nombreMarca}
@@ -116,12 +115,12 @@ const imageUrl =
 
         {/* Precio unitario si está logueado */}
         {isLoggedIn && cantidadPorCaja && (
-          <div className=" text-sm text-gray-700 space-y-1">
-            <div className="flex items-center text-sm text-gray-600">
+          <div className="text-sm text-gray-700 space-y-1 bg-gray-50 p-2 rounded-md">
+            <div className="flex items-center text-sm text-gray-600 hover:text-gray-800 transition-colors duration-200">
               <DollarSign className="w-4 h-4 mr-2 text-gray-500" />
               <p className="min-h-[20px] max-h-[20px] overflow-hidden">
                 Precio Unitario:{" "}
-                <span className="text-black font-bold">${precioUnitario}</span>
+                <span className="text-green-600 font-bold">${precioUnitario}</span>
               </p>
             </div>
             {descripcionCantidad && (
@@ -133,7 +132,7 @@ const imageUrl =
         )}
 
         {/* SKU */}
-        <div className="flex items-center text-xs text-gray-500">
+        <div className="flex items-center text-xs text-gray-400">
           <p>SKU: {slug}</p>
         </div>
       </CardHeader>
@@ -144,7 +143,7 @@ const imageUrl =
           <AddToCart product={product} />
         ) : (
           <Button
-            className="w-full bg-gray-900 text-white hover:bg-gray-700 transition-all duration-300"
+            className="w-full bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:from-gray-700 hover:to-gray-800 transition-all duration-300 shadow-md hover:shadow-lg"
             onClick={() => router.push("/signin")}
           >
             Inicie sesión para ver el precio

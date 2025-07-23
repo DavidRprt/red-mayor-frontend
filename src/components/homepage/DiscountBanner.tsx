@@ -31,7 +31,8 @@ const DiscountBanner = () => {
               label="Comprar"
               href="/productos"
               isOutline={false}
-              bgColor="bg-black"
+              bgColor="bg-gradient-to-r from-green-600 to-green-700"
+              hoverColor="hover:from-green-700 hover:to-green-800"
               textColor="text-white"
             />
           </div>
@@ -54,7 +55,8 @@ const DiscountBanner = () => {
               label="Registrate"
               href="/signup"
               isOutline={false}
-              bgColor="bg-black"
+              bgColor="bg-gradient-to-r from-blue-600 to-blue-700"
+              hoverColor="hover:from-blue-700 hover:to-blue-800"
               textColor="text-white"
             />
           </div>

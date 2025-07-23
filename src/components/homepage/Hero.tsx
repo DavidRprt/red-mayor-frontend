@@ -97,7 +97,12 @@ const Hero = () => {
           <div className="flex gap-4 max-md:flex-col">
             {!isLoggedIn && <Button label="Registrate" href="/signup" />}
             {isLoggedIn && (
-              <Button label="Explorar Productos" href="/productos" />
+              <Button 
+                label="Explorar Productos" 
+                href="/productos"
+                bgColor="bg-gradient-to-r from-blue-600 to-blue-700"
+                hoverColor="hover:from-blue-700 hover:to-blue-800"
+              />
             )}
             {isLoggedIn && (
               <Button
@@ -105,6 +110,8 @@ const Hero = () => {
                 href="/productos/ofertas"
                 aria-label="Redireccionar a promos"
                 isOutline
+                borderColor="border-white"
+                hoverColor="hover:bg-white hover:text-gray-900"
               />
             )}
           </div>
@@ -125,12 +132,12 @@ const Hero = () => {
           <Link
             key={category.id}
             href={category.href}
-            className="group flex flex-col cursor-pointer items-center justify-center w-40 h-40 md:w-44 md:h-44 rounded-full border border-white/20 bg-white/10 backdrop-blur-md shadow-xl transition-all duration-300 transform hover:bg-white/20 hover:scale-110"
+            className="group flex flex-col cursor-pointer items-center justify-center w-40 h-40 md:w-44 md:h-44 rounded-full border border-white/30 bg-white/10 backdrop-blur-md shadow-xl transition-all duration-500 transform hover:bg-white/25 hover:scale-110 hover:shadow-2xl hover:border-white/50"
           >
-            <div className="w-14 h-14 flex items-center justify-center text-gray-200 transition-all duration-300">
+            <div className="w-14 h-14 flex items-center justify-center text-gray-200 transition-all duration-500 group-hover:text-white group-hover:scale-110">
               <category.icon className="w-14 h-14" />
             </div>
-            <p className="mt-3 text-md font-semibold text-gray-200 text-center leading-tight group-hover:scale-105 transition-all duration-300">
+            <p className="mt-3 text-md font-semibold text-gray-200 text-center leading-tight group-hover:scale-105 group-hover:text-white transition-all duration-500">
               {category.name}
             </p>
           </Link>
@@ -138,7 +145,7 @@ const Hero = () => {
       </div>
       <button
         onClick={scrollToNextSection}
-        className="absolute bottom-1 md:bottom-5 left-1/2 transform -translate-x-1/2 text-white opacity-70 hover:opacity-100 transition-opacity duration-300"
+        className="absolute bottom-1 md:bottom-5 left-1/2 transform -translate-x-1/2 text-white opacity-70 hover:opacity-100 transition-all duration-300 hover:scale-110 animate-bounce"
         aria-label="Scrollear a homepage"
       >
         <ChevronDown className="w-10 h-10" />

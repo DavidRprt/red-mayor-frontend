@@ -31,7 +31,7 @@ export const dataCarousel = [
 
 const CarouselBanner = () => {
   return (
-    <div className="bg-gray-200 dark:bg-primary md:h-[80px] flex items-center">
+    <div className="bg-gradient-to-r from-gray-100 to-gray-200 dark:bg-primary md:h-[80px] flex items-center shadow-inner">
       <Carousel
         className="w-full max-w-4xl mx-auto"
         plugins={[
@@ -44,12 +44,12 @@ const CarouselBanner = () => {
           {dataCarousel.map((item) => (
             <CarouselItem key={item.id} className="px-4 py-1">
               <div>
-                <Card className="shadow-none border-none bg-transparent">
+                <Card className="shadow-none border-none bg-transparent hover:bg-white/20 transition-colors duration-300 rounded-lg">
                   <CardContent className="flex flex-col justify-center p-2 items-center text-center">
-                    <p className="sm:text-lg text-wrap dark:text-secondary">
+                    <p className="sm:text-lg text-wrap dark:text-secondary font-semibold">
                       {item.title}
                     </p>
-                    <p className="text-xs sm:text-sm text-wrap dark:text-secondary">
+                    <p className="text-xs sm:text-sm text-wrap dark:text-secondary opacity-90">
                       {item.description}
                     </p>
                   </CardContent>

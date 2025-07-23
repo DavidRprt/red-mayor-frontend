@@ -13,7 +13,7 @@ const DiscountBadge: React.FC<DiscountBadgeProps> = ({
   if (!porcentajeDescuento || cantidadMinima < 1) return null
 
   return (
-    <div className="  bg-gradient-to-r from-blue-500 to-blue-900 text-white px-3 py-1 text-xs font-bold flex items-center gap-2 rounded-md shadow-md">
+    <div className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 text-xs font-bold flex items-center gap-2 rounded-md shadow-lg hover:shadow-xl transition-all duration-300 animate-pulse">
       <Tag className="w-4 h-4" />
       <span>{porcentajeDescuento}% OFF</span>
       <span className="text-[10px] font-normal">

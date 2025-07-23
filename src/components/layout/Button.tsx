@@ -22,15 +22,15 @@ const Button: React.FC<ButtonProps> = ({
   bgColor = "bg-white",
   textColor = "text-black",
   borderColor = "border-white",
-  hoverColor = "hover:bg-slate-900",
+  hoverColor = "hover:bg-gray-900",
   w="w-52",
   className = "",
   onClick,
 }) => {
-  const baseStyles = `rounded-md font-semibold px-6 py-3 max-sm:w-full ${w} shadow-md transition-all duration-300 flex items-center justify-center`
+  const baseStyles = `rounded-lg font-semibold px-6 py-3 max-sm:w-full ${w} shadow-lg transition-all duration-300 flex items-center justify-center hover:shadow-xl transform hover:scale-105`
 
-  const solidStyles = `${bgColor} ${textColor} ${hoverColor} hover:text-white`
-  const outlineStyles = `border ${borderColor} text-white hover:bg-white hover:text-black`
+  const solidStyles = `${bgColor} ${textColor} ${hoverColor} hover:text-white font-medium`
+  const outlineStyles = `border-2 ${borderColor} text-white hover:bg-white hover:text-black font-medium`
 
   const buttonClass = cn(
     baseStyles,

@@ -19,7 +19,8 @@ const SellWithUsBanner = () => {
           label="Contacto para Proveedores"
           href="/vender"
           isOutline={false}
-          bgColor="bg-black"
+          bgColor="bg-gradient-to-r from-purple-600 to-purple-700"
+          hoverColor="hover:from-purple-700 hover:to-purple-800"
           textColor="text-white"
           w="w-70"
         />

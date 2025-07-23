@@ -52,11 +52,11 @@ const AddToCart = ({ product }: AddToCartProps) => {
     product.stock === 0 || product.stock === null || product.stock === undefined
 
   return (
-    <div className="flex items-center gap-2">
-      <div className="flex items-center border rounded-lg">
+    <div className="flex items-center gap-3">
+      <div className="flex items-center border rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
         <button
           onClick={decrementQuantity}
-          className="px-2 py-1 bg-gray-200 text-gray-700 rounded-l-lg hover:bg-gray-300 transition-all"
+          className="px-3 py-2 bg-gray-100 text-gray-700 rounded-l-lg hover:bg-gray-200 transition-all duration-200 font-medium"
         >
           -
         </button>
@@ -66,11 +66,11 @@ const AddToCart = ({ product }: AddToCartProps) => {
           onChange={handleQuantityChange}
           min={1}
           max={product.stock}
-          className="w-12 text-center border-0 focus:ring-0 focus:outline-none"
+          className="w-12 text-center border-0 focus:ring-0 focus:outline-none font-medium bg-white"
         />
         <button
           onClick={incrementQuantity}
-          className="px-2 py-1 bg-gray-200 text-gray-700 rounded-r-lg hover:bg-gray-300 transition-all"
+          className="px-3 py-2 bg-gray-100 text-gray-700 rounded-r-lg hover:bg-gray-200 transition-all duration-200 font-medium"
         >
           +
         </button>
@@ -78,16 +78,18 @@ const AddToCart = ({ product }: AddToCartProps) => {
       <Button
         onClick={handleAddToCart}
         disabled={isOutOfStock}
-        className={`flex-1 ${
-          isOutOfStock ? "bg-gray-400 text-gray-700 cursor-not-allowed" : ""
+        className={`flex-1 transition-all duration-300 shadow-md hover:shadow-lg ${
+          isOutOfStock 
+            ? "bg-gray-400 text-gray-700 cursor-not-allowed" 
+            : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium"
         }`}
       >
         {isOutOfStock ? (
           "No disponible"
         ) : (
-          <>
+          <div className="flex items-center justify-center gap-2">
             {formatPrice(product.precioBase)} <ShoppingCart className="ml-2" />
-          </>
+          </div>
         )}
       </Button>
     </div>

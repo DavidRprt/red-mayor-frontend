@@ -14,16 +14,16 @@ const CategoryCards = () => {
           <Link
             key={brand.slug}
             href={`/productos/marca/${brand.slug}`}
-            className="flex items-center justify-center w-full h-[170px] bg-white overflow-hidden rounded-lg transform transition duration-300 hover:scale-105 shadow-lg border border-gray-300 hover:border-gray-500"
+            className="flex items-center justify-center w-full h-[170px] bg-white overflow-hidden rounded-xl transform transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-2xl border border-gray-200 hover:border-gray-400 group"
           >
-            <div className="flex items-center justify-center w-full h-[140px]">
+            <div className="flex items-center justify-center w-full h-[140px] group-hover:scale-110 transition-transform duration-300">
               <Image
                 src={brand.logo}
                 alt={brand.nombreMarca}
                 height={120}
                 width={300}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-                className="px-5 max-md:py-3 object-contain"
+                className="px-5 max-md:py-3 object-contain filter group-hover:brightness-110 transition-all duration-300"
               />
             </div>
           </Link>
